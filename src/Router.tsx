@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "./pages/Layout";
 import HomePage from "./pages/HomePage";
 import SchoolYearCreateForm from "./pages/schoolYears/SchoolYearCreateForm";
+import SchoolYearList from "./pages/schoolYears/SchoolYearList";
 
 const router = createBrowserRouter([
     {
@@ -9,7 +10,7 @@ const router = createBrowserRouter([
         element: <Layout />,
         children:[
             {index: true, element: <HomePage />},
-            {path: 'school-year-create-form', element: <SchoolYearCreateForm/>}
+            {path: 'school-years', element: <SchoolYearList/>}
         ]
     }
 ]);

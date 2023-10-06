@@ -1,7 +1,18 @@
-import { Link } from "react-router-dom";
+import { HStack, List, ListItem } from "@chakra-ui/react";
+import useSchoolYear from "../../hooks/useSchoolYears";
 
 const SchoolYearList = () => {
-  return <Link to="/school-year-create-form">create school year</Link>;
+  const { data } = useSchoolYear();
+
+  return (
+    <HStack>
+      <List>
+        {data?.map((data) => (
+          <ListItem _hover={{cursor: 'pointer', borderBottom: '2px'}} fontSize={30} key={data.id}>{data.year}</ListItem>
+        ))}
+      </List>
+    </HStack>
+  );
 };
 
 export default SchoolYearList;
