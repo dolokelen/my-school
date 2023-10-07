@@ -1,18 +1,18 @@
-import { Box, Button, HStack, Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Input, Stack, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { z } from "zod";
 import { useEditSchoolYear, useSchoolYear } from "../../hooks/useSchoolYears";
-import { useEffect } from "react";
 import SchoolYearDeletePage from "./SchoolYearDeletePage";
 
 const schema = z.object({
   id: z.number().optional(),
   year: z
     .number({ invalid_type_error: "The school year is required." })
-    .min(2000, { message: "School year must be 4 digits." })
+    .min(2000, { message: "School year must be 4 digits." }),
 });
 
 export type SchoolYearEditFormData = z.infer<typeof schema>;
@@ -30,7 +30,6 @@ const SchoolYearEditForm = () => {
 
   const { id } = useParams();
   const { data } = useSchoolYear(parseInt(id!));
-  console.log(data);
 
   const editSchoolYear = useEditSchoolYear(onCreate, () => reset());
   const onSubmit = (year: SchoolYearEditFormData) => {
@@ -39,7 +38,7 @@ const SchoolYearEditForm = () => {
 
   useEffect(() => {
     if (data) {
-      setValue("year", data.year); // Set the 'year' field with the existing data
+      setValue("year", data.year); 
     }
   }, [data, setValue]);
 
@@ -61,7 +60,7 @@ const SchoolYearEditForm = () => {
           Update School Year
         </Button>
       </form>
-      <SchoolYearDeletePage schoolYearId={data?.id!} />
+      <SchoolYearDeletePage schoolYearId={data?.id!} schoolYear={data?.year!} />
       <ToastContainer />
     </>
   );

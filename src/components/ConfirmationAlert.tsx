@@ -1,31 +1,27 @@
-import { useRef } from "react";
-import { useDeleteSchoolYear } from "../../hooks/useSchoolYears";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  Button,
-  Heading,
   useDisclosure,
+  Button,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  Heading,
 } from "@chakra-ui/react";
+import { useRef } from "react";
 
 interface Props {
-  schoolYearId: number;
   schoolYear: number;
 }
 
-const ConfirmationAlert = ({ schoolYearId, schoolYear }: Props) => {
-  const deleteSchoolYear = useDeleteSchoolYear();
-
+const ConfirmationAlert = ({ schoolYear }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
 
   return (
     <>
-      <Button marginTop={12} colorScheme="red" onClick={onOpen}>
+      <Button colorScheme="red" onClick={onOpen}>
         Delete School Year
       </Button>
 
@@ -48,12 +44,7 @@ const ConfirmationAlert = ({ schoolYearId, schoolYear }: Props) => {
               <Button ref={cancelRef} onClick={onClose}>
                 Cancel
               </Button>
-              <Button
-                type="submit"
-                onClick={() => deleteSchoolYear.mutate(schoolYearId)}
-                colorScheme="red"
-                ml={3}
-              >
+              <Button colorScheme="red" onClick={() => console.log("Delete!")} ml={3}>
                 Delete
               </Button>
             </AlertDialogFooter>
