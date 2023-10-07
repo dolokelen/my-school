@@ -1,4 +1,4 @@
-import { Grid, GridItem, Show } from '@chakra-ui/react'
+import { Grid, GridItem, Show } from "@chakra-ui/react";
 
 const HomePage = () => {
   return (
@@ -13,15 +13,11 @@ const HomePage = () => {
       }}
     >
       <Show above="sm">
-        <GridItem area="aside">
-          Aside
-        </GridItem>
+        <GridItem area="aside">Aside</GridItem>
       </Show>
-      <GridItem area="main">
-        Main
-      </GridItem>
+      <GridItem area="main">Main</GridItem>
     </Grid>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

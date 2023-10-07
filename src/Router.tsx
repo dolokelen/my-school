@@ -10,7 +10,8 @@ const router = createBrowserRouter([
         element: <Layout />,
         children:[
             {index: true, element: <HomePage />},
-            {path: 'school-years', element: <SchoolYearList/>}
+            {path: 'school-years', element: <SchoolYearList/>},
+            // {path: 'school-years-creation-form', element: <SchoolYearCreateForm />}
         ]
     }
 ]);

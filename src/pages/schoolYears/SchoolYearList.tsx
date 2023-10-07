@@ -1,10 +1,15 @@
-import { HStack, List, ListItem } from "@chakra-ui/react";
-import useSchoolYear from "../../hooks/useSchoolYears";
+import { Box, HStack, List, ListItem } from "@chakra-ui/react";
+import {useSchoolYear} from "../../hooks/useSchoolYears";
+import SchoolYearCreateForm from "./SchoolYearCreateForm";
 
 const SchoolYearList = () => {
   const { data } = useSchoolYear();
 
   return (
+    <>
+    <Box marginY={6}>
+      <SchoolYearCreateForm />
+    </Box>
     <HStack>
       <List>
         {data?.map((data) => (
@@ -12,6 +17,7 @@ const SchoolYearList = () => {
         ))}
       </List>
     </HStack>
+    </>
   );
 };
 
