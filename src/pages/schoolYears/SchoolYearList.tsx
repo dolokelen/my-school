@@ -1,11 +1,12 @@
-import { Box, HStack, List, ListItem } from "@chakra-ui/react";
+import { Box, HStack, List, ListItem, Spinner, Text } from "@chakra-ui/react";
 import { useSchoolYears } from "../../hooks/useSchoolYears";
 import SchoolYearCreateForm from "./SchoolYearCreateForm";
 import { Link } from "react-router-dom";
 
 const SchoolYearList = () => {
-  const { data } = useSchoolYears();
-
+  const { data, isLoading, error } = useSchoolYears();
+  if (isLoading) return <Spinner />
+  if (error) return <Text color="red">{error.message}</Text>
   return (
     <>
       <Box marginY={6}>
