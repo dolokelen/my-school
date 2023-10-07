@@ -12,7 +12,7 @@ const schema = z.object({
     .min(2000, { message: "School year must be 4 digits." }),
 });
 
-export type SchoolYearFormData = z.infer<typeof schema>;
+export type SchoolYearCreateFormData = z.infer<typeof schema>;
 
 const SchoolYearCreateForm = () => {
   const onCreate = () => toast.success("Created!");
@@ -22,10 +22,10 @@ const SchoolYearCreateForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<SchoolYearFormData>({ resolver: zodResolver(schema) });
+  } = useForm<SchoolYearCreateFormData>({ resolver: zodResolver(schema) });
 
   const createSchoolYear = useCreateSchoolYear(onCreate, () => reset());
-  const onSubmit = (data: SchoolYearFormData) => {
+  const onSubmit = (data: SchoolYearCreateFormData) => {
     createSchoolYear.mutate(data);
   };
 

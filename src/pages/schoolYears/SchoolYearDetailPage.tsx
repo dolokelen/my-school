@@ -1,6 +1,6 @@
 import { Box, Heading, Spinner, Text } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { useSchoolYear } from "../../hooks/useSchoolYear";
+import { useSchoolYear } from "../../hooks/useSchoolYears";
 import SchoolYearEditForm from "./SchoolYearEditForm";
 
 const SchoolYearDetailPage = () => {
