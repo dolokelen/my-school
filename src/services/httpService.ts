@@ -50,4 +50,6 @@ class APIClient<T> {
   };
 }
 
-export default APIClient;
+const apiClient = <T>(endpoint: string) => new APIClient<T>(endpoint);
+
+export default apiClient;

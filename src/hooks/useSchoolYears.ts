@@ -3,12 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { CACHE_KEY_SCHOOL_YEAR } from "../data/constants";
 import { SchoolYearCreateFormData } from "../pages/schoolYears/SchoolYearCreateForm";
 import { SchoolYearEditFormData } from "../pages/schoolYears/SchoolYearEditForm";
-import APIClient from "../services/apiClient";
+import apiClient from "../services/httpService";
 
-const apiClient = new APIClient<SchoolYear>("school/years");
-interface CreateSchoolYearContext {
-  previousSchoolYear: SchoolYear[];
-}
+const apiClients = apiClient<SchoolYear>("school/years");
 
 export interface SchoolYear {
   id?: number;
@@ -18,14 +15,14 @@ export interface SchoolYear {
 export const useSchoolYears = () =>
   useQuery<SchoolYear[], Error>({
     queryKey: [CACHE_KEY_SCHOOL_YEAR],
-    queryFn: apiClient.getAll,
+    queryFn: apiClients.getAll,
     staleTime: 24 * 60 * 60 * 1000, //24hrs
   });
 
 export const useSchoolYear = (schoolYearId: number) => {
   return useQuery<SchoolYear, Error>({
     queryKey: [CACHE_KEY_SCHOOL_YEAR, schoolYearId],
-    queryFn: () => apiClient.get(schoolYearId),
+    queryFn: () => apiClients.get(schoolYearId),
   });
 };
 
@@ -36,7 +33,7 @@ export const useCreateSchoolYear = (
   const queryClient = useQueryClient();
   return useMutation<SchoolYearCreateFormData, Error, SchoolYearCreateFormData>(
     {
-      mutationFn: (data: SchoolYearCreateFormData) => apiClient.post(data),
+      mutationFn: (data: SchoolYearCreateFormData) => apiClients.post(data),
 
       onSuccess: (existingData, newData) => {
         onCreate();
@@ -59,7 +56,7 @@ export const useEditSchoolYear = (onCreate: () => void, reset: () => void) => {
 
   return useMutation<SchoolYearEditFormData, Error, SchoolYearEditFormData>({
     mutationFn: (data: SchoolYearEditFormData) =>
-      apiClient.patch<SchoolYearEditFormData>(data),
+      apiClients.patch<SchoolYearEditFormData>(data),
 
     onSuccess: (existingData, newData) => {
       onCreate();
@@ -82,7 +79,7 @@ export const useDeleteSchoolYear = () => {
 
   const queryClient = useQueryClient();
   return useMutation<number, Error, number>({
-    mutationFn: (id: number) => apiClient.delete(id),
+    mutationFn: (id: number) => apiClients.delete(id),
 
     onSuccess: (existingData, newData) => {
       navigate("/school-years");
