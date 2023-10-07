@@ -3,6 +3,7 @@ import Layout from "./pages/Layout";
 import HomePage from "./pages/HomePage";
 import SchoolYearCreateForm from "./pages/schoolYears/SchoolYearCreateForm";
 import SchoolYearList from "./pages/schoolYears/SchoolYearList";
+import SchoolYearDetailPage from "./pages/schoolYears/SchoolYearDetailPage";
 
 const router = createBrowserRouter([
     {
@@ -11,7 +12,7 @@ const router = createBrowserRouter([
         children:[
             {index: true, element: <HomePage />},
             {path: 'school-years', element: <SchoolYearList/>},
-            // {path: 'school-years-creation-form', element: <SchoolYearCreateForm />}
+            {path: 'school-years/:id', element: <SchoolYearDetailPage />}
         ]
     }
 ]);

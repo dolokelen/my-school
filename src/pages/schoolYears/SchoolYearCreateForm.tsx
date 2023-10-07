@@ -16,16 +16,17 @@ export type SchoolYearFormData = z.infer<typeof schema>;
 
 const SchoolYearCreateForm = () => {
   const onCreate = () => toast.success("Created!");
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<SchoolYearFormData>({ resolver: zodResolver(schema) });
-  const createSchoolYear = useCreateSchoolYear(onCreate);
+
+  const createSchoolYear = useCreateSchoolYear(onCreate, () => reset());
   const onSubmit = (data: SchoolYearFormData) => {
     createSchoolYear.mutate(data);
-    reset();
   };
 
   return (
