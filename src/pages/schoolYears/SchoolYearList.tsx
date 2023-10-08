@@ -15,11 +15,20 @@ const SchoolYearList = () => {
       params.delete('updated');
       setParams(params);
     }
+    const deletedParam = params.get('deleted');
+    if (deletedParam) {
+      params.delete('deleted');
+      setParams(params);
+    }
   };
 
   useEffect(() => {
     if (params.get('updated')) {
       toast.success("School year updated successfully!");
+      removeUpdatedQueryParam();
+    }
+    if (params.get('deleted')) {
+      toast.success("School year deleted successfully!");
       removeUpdatedQueryParam();
     }
   }, [params]);
@@ -29,8 +38,6 @@ const SchoolYearList = () => {
 
   return (
     <>
-    {/* {params.get('updated') && toast.success("School year updated successfully!")}
-    {params.get('deleted') && toast.success("School year deleted successfully!")} */}
       <Box marginY={6}>
         <SchoolYearCreateForm />
       </Box>

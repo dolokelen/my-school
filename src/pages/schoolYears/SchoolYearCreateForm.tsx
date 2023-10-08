@@ -14,7 +14,7 @@ const schema = z.object({
 export type SchoolYearCreateFormData = z.infer<typeof schema>;
 
 const SchoolYearCreateForm = () => {
-  const onCreate = () => toast.success("Created!");
+  const onCreate = () => toast.success("School year Created Successfully!");
 
   const {
     register,
