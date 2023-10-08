@@ -10,31 +10,31 @@ const SchoolYearList = () => {
   const { data, isLoading, error } = useSchoolYears();
 
   const removeUpdatedQueryParam = () => {
-    const updatedParam = params.get('updated');
+    const updatedParam = params.get("updated");
     if (updatedParam) {
-      params.delete('updated');
+      params.delete("updated");
       setParams(params);
     }
-    const deletedParam = params.get('deleted');
+    const deletedParam = params.get("deleted");
     if (deletedParam) {
-      params.delete('deleted');
+      params.delete("deleted");
       setParams(params);
     }
   };
 
   useEffect(() => {
-    if (params.get('updated')) {
+    if (params.get("updated")) {
       toast.success("School year updated successfully!");
       removeUpdatedQueryParam();
     }
-    if (params.get('deleted')) {
+    if (params.get("deleted")) {
       toast.success("School year deleted successfully!");
       removeUpdatedQueryParam();
     }
   }, [params]);
-  
-  if (isLoading) return <Spinner />
-  if (error) return <Text color="red">{error.message}</Text>
+
+  if (isLoading) return <Spinner />;
+  if (error) return <Text color="red">{error.message}</Text>;
 
   return (
     <>
