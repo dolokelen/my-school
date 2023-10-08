@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useSchoolYears } from "../../hooks/useSchoolYears";
 import SchoolYearCreateForm from "./SchoolYearCreateForm";
 import { useEffect } from "react";
+import { SCH_YEAR_LIST_ROUTE } from "../../data/constants";
 
 const SchoolYearList = () => {
   const [params, setParams] = useSearchParams();
@@ -49,7 +50,7 @@ const SchoolYearList = () => {
               fontSize={30}
               key={data.id}
             >
-              <Link to={`/school-years/${data.id}`}>{data.year}</Link>
+              <Link to={`${SCH_YEAR_LIST_ROUTE}/${data.id}`}>{data.year}</Link>
             </ListItem>
           ))}
         </List>

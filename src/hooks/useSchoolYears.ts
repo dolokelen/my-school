@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { CACHE_KEY_SCHOOL_YEAR } from "../data/constants";
+import { useNavigate } from "react-router-dom";
+import { CACHE_KEY_SCHOOL_YEAR, SCH_YEAR_LIST_ROUTE } from "../data/constants";
 import { SchoolYearCreateFormData } from "../pages/schoolYears/SchoolYearCreateForm";
 import { SchoolYearEditFormData } from "../pages/schoolYears/SchoolYearEditForm";
 import apiClient from "../services/httpService";
@@ -59,7 +59,7 @@ export const useEditSchoolYear = () => {
       apiClients.patch<SchoolYearEditFormData>(data),
 
     onSuccess: (existingData, newData) => {
-      navigate("/school-years?updated=true");
+      navigate(`${SCH_YEAR_LIST_ROUTE}?updated=true`);
 
       return queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_SCHOOL_YEAR],
@@ -80,7 +80,7 @@ export const useDeleteSchoolYear = () => {
     mutationFn: (id: number) => apiClients.delete(id),
 
     onSuccess: (existingData, newData) => {
-      navigate("/school-years?deleted=true");
+      navigate(`${SCH_YEAR_LIST_ROUTE}?deleted=true`);
 
       return queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_SCHOOL_YEAR],
