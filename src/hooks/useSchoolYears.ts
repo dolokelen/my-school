@@ -42,10 +42,6 @@ export const useCreateSchoolYear = (
           queryKey: [CACHE_KEY_SCHOOL_YEAR],
         });
       },
-
-      onError: (error, newData, context) => {
-        throw error;
-      },
     }
   );
 };
@@ -65,10 +61,6 @@ export const useEditSchoolYear = () => {
         queryKey: [CACHE_KEY_SCHOOL_YEAR],
       });
     },
-
-    onError: (error, newData, context) => {
-      throw error;
-    },
   });
 };
 
@@ -85,10 +77,6 @@ export const useDeleteSchoolYear = () => {
       return queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_SCHOOL_YEAR],
       });
-    },
-
-    onError: (error, newData, context) => {
-      throw error;
     },
   });
 };

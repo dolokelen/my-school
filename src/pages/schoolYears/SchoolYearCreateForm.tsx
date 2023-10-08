@@ -28,6 +28,9 @@ const SchoolYearCreateForm = () => {
     createSchoolYear.mutate(data);
   };
 
+  if (createSchoolYear.isError)
+    return <Text color="red">{createSchoolYear.error.message}</Text>;
+    
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>

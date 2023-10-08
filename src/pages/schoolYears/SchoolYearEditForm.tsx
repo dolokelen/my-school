@@ -17,7 +17,6 @@ const schema = z.object({
 export type SchoolYearEditFormData = z.infer<typeof schema>;
 
 const SchoolYearEditForm = () => {
-
   const {
     register,
     handleSubmit,
@@ -35,11 +34,14 @@ const SchoolYearEditForm = () => {
 
   useEffect(() => {
     if (data) {
-      setValue("year", data.year); 
+      setValue("year", data.year);
     }
   }, [data, setValue]);
 
-  return (
+  if (editSchoolYear.isError)
+    return <Text color="red">{editSchoolYear.error.message}</Text>;
+  
+    return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack marginBottom={2}>
