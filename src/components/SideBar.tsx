@@ -1,6 +1,7 @@
-import { Avatar, Divider, Flex } from "@chakra-ui/react";
+import { Avatar, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { HOME_ROUTE, SCH_YEAR_LIST_ROUTE } from "../data/constants";
+import { HOME_ROUTE } from "../data/constants";
+import DashBoard from "./DashBoard";
 
 const SideBar = () => {
   return (
@@ -12,13 +13,13 @@ const SideBar = () => {
       flexDir="column"
       justifyContent="space-between"
     >
-      <Flex w="50%">Here is an other Flex Box</Flex>
+      <Flex mx={3}>
+        <DashBoard />
+      </Flex>
 
       <Flex p="5%" flexDir="column" w="100%" alignItems="flex-start" mb={4}>
-        <Divider />
         <Flex>
-          {" "}
-          <Avatar /> <Link to={SCH_YEAR_LIST_ROUTE}>Sch Yrd List</Link>
+          <Avatar />
         </Flex>
         <Flex>
           <Link to={HOME_ROUTE}>Home</Link>

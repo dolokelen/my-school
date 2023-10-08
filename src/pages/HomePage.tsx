@@ -22,7 +22,7 @@ const HomePage = () => {
       <Show above="sm">
         <GridItem area="aside"><SideBar /></GridItem>
       </Show>
-      <GridItem area="main">
+      <GridItem mx={10} area="main">
         <Outlet />
       </GridItem>
     </Grid>

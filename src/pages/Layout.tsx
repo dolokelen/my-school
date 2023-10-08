@@ -1,12 +1,7 @@
-import { Box } from '@chakra-ui/react'
-import HomePage from './HomePage'
+import HomePage from "./HomePage";
 
 const Layout = () => {
-  return (
-    <Box margin={6}>
-    <HomePage />
-    </Box>
-  )
-}
+  return <HomePage />;
+};
 
-export default Layout
+export default Layout;
