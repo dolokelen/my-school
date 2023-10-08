@@ -12,7 +12,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         element: <Layout />,
         children:[
-            {index: true, element: <HomePage />},
+            // {index: true, element: <HomePage />},
             {path: SCH_YEAR_LIST_ROUTE, element: <SchoolYearList/>},
             {path: `${SCH_YEAR_LIST_ROUTE}/:id`, element: <SchoolYearDetailPage />}
         ]

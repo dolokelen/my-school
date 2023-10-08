@@ -54,7 +54,7 @@ const SchoolYearEditForm = () => {
           {errors.year && <Text color="red">{errors.year.message}</Text>}
         </Box>
         <HStack marginTop={8}>
-          <Button type="submit" colorScheme="blue">
+          <Button  marginRight={6} type="submit" colorScheme="blue">
             Update School Year
           </Button>
           <SchoolYearDeletePage

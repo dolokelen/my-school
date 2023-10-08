@@ -1,4 +1,6 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Outlet } from "react-router-dom";
+import SideBar from "../components/SideBar";
 
 const HomePage = () => {
   return (
@@ -13,9 +15,11 @@ const HomePage = () => {
       }}
     >
       <Show above="sm">
-        <GridItem area="aside">Aside</GridItem>
+        <GridItem area="aside" bg="blue"><SideBar /></GridItem>
       </Show>
-      <GridItem area="main">Main</GridItem>
+      <GridItem area="main">
+        <Outlet />
+      </GridItem>
     </Grid>
   );
 };

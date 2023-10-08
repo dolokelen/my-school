@@ -25,7 +25,7 @@ const ConfirmationAlert = ({ schoolYearId, schoolYear }: Props) => {
 
   return (
     <>
-      <Button marginLeft={6} colorScheme="red" onClick={onOpen}>
+      <Button colorScheme="red" onClick={onOpen}>
         Delete School Year
       </Button>
 
