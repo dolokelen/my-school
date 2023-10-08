@@ -1,14 +1,36 @@
 import { Box, HStack, List, ListItem, Spinner, Text } from "@chakra-ui/react";
+import { Link, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useSchoolYears } from "../../hooks/useSchoolYears";
 import SchoolYearCreateForm from "./SchoolYearCreateForm";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const SchoolYearList = () => {
+  const [params, setParams] = useSearchParams();
   const { data, isLoading, error } = useSchoolYears();
+
+  const removeUpdatedQueryParam = () => {
+    const updatedParam = params.get('updated');
+    if (updatedParam) {
+      params.delete('updated');
+      setParams(params);
+    }
+  };
+
+  useEffect(() => {
+    if (params.get('updated')) {
+      toast.success("School year updated successfully!");
+      removeUpdatedQueryParam();
+    }
+  }, [params]);
+  
   if (isLoading) return <Spinner />
   if (error) return <Text color="red">{error.message}</Text>
+
   return (
     <>
+    {/* {params.get('updated') && toast.success("School year updated successfully!")}
+    {params.get('deleted') && toast.success("School year deleted successfully!")} */}
       <Box marginY={6}>
         <SchoolYearCreateForm />
       </Box>

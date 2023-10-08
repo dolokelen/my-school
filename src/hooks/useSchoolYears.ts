@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { CACHE_KEY_SCHOOL_YEAR } from "../data/constants";
 import { SchoolYearCreateFormData } from "../pages/schoolYears/SchoolYearCreateForm";
 import { SchoolYearEditFormData } from "../pages/schoolYears/SchoolYearEditForm";
@@ -50,7 +50,7 @@ export const useCreateSchoolYear = (
   );
 };
 
-export const useEditSchoolYear = (onCreate: () => void, reset: () => void) => {
+export const useEditSchoolYear = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -59,9 +59,7 @@ export const useEditSchoolYear = (onCreate: () => void, reset: () => void) => {
       apiClients.patch<SchoolYearEditFormData>(data),
 
     onSuccess: (existingData, newData) => {
-      onCreate();
-      reset();
-      navigate("/school-years");
+      navigate("/school-years?updated=true");
 
       return queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_SCHOOL_YEAR],
@@ -82,7 +80,7 @@ export const useDeleteSchoolYear = () => {
     mutationFn: (id: number) => apiClients.delete(id),
 
     onSuccess: (existingData, newData) => {
-      navigate("/school-years");
+      navigate("/school-years?deleted=true");
 
       return queryClient.invalidateQueries({
         queryKey: [CACHE_KEY_SCHOOL_YEAR],

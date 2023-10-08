@@ -1,10 +1,9 @@
 import { Box, Button, Input, Stack, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 import { useCreateSchoolYear } from "../../hooks/useSchoolYears";
-import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
 
 const schema = z.object({
   year: z
@@ -47,7 +46,6 @@ const SchoolYearCreateForm = () => {
           Create School Year
         </Button>
       </form>
-      <ToastContainer />
     </>
   );
 };
