@@ -1,4 +1,4 @@
-import { Box, Button, Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Input, Stack, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -40,26 +40,29 @@ const SchoolYearEditForm = () => {
 
   if (editSchoolYear.isError)
     return <Text color="red">{editSchoolYear.error.message}</Text>;
-  
-    return (
+
+  return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack marginBottom={2}>
-          <Box>
-            <Input
-              {...register("year", { valueAsNumber: true })}
-              type="number"
-              size="md"
-              placeholder="Enter school year"
-            />
-            {errors.year && <Text color="red">{errors.year.message}</Text>}
-          </Box>
-        </Stack>
-        <Button type="submit" colorScheme="blue">
-          Update School Year
-        </Button>
+        <Box marginBottom={2}>
+          <Input
+            {...register("year", { valueAsNumber: true })}
+            type="number"
+            size="md"
+            placeholder="Enter school year"
+          />
+          {errors.year && <Text color="red">{errors.year.message}</Text>}
+        </Box>
+        <HStack marginTop={8}>
+          <Button type="submit" colorScheme="blue">
+            Update School Year
+          </Button>
+          <SchoolYearDeletePage
+            schoolYearId={data?.id!}
+            schoolYear={data?.year!}
+          />
+        </HStack>
       </form>
-      <SchoolYearDeletePage schoolYearId={data?.id!} schoolYear={data?.year!} />
     </>
   );
 };
