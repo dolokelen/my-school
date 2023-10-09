@@ -1,3 +1,11 @@
+import {
+  Box,
+  Button,
+  FormLabel,
+  Heading,
+  Input,
+  Text
+} from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -57,106 +65,88 @@ const RegistrationPage = () => {
   const registration = useRegistration(onCreate, () => reset());
   const onSubmit = (data: RegistrationFormData) => registration.mutate(data);
 
-  if (registration.isError) return <p className="text-danger">{registration.error.message}</p>
+  if (registration.isError)
+    return <Text colorScheme="red">{registration.error.message}</Text>;
+
+  const marginButton = 3;
+  const errMessageColor = "red";
 
   return (
     <>
-      <h1>Registration Form</h1>
+      <Heading mb={5}>Registration Form</Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-3">
-          <label htmlFor="userName" className="form-label">
-            Username
-          </label>
-          <input
+        <Box mb={marginButton}>
+          <FormLabel htmlFor="username">Username</FormLabel>
+          <Input
             {...register("username")}
             name="username"
             type="text"
-            className="form-control"
-            id="userName"
+            id="username"
           />
           {errors.username && (
-            <p className="text-danger">{errors.username.message}</p>
+            <Text color={errMessageColor}>{errors.username.message}</Text>
           )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            Email address
-          </label>
-          <input
-            {...register("email")}
-            name="email"
-            type="email"
-            className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-          />
+        </Box>
+        <Box mb={marginButton}>
+          <FormLabel htmlFor="email">Email address</FormLabel>
+          <Input {...register("email")} name="email" type="email" id="email" />
           {errors.email && (
-            <p className="text-danger">{errors.email.message}</p>
+            <Text color={errMessageColor}>{errors.email.message}</Text>
           )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="firstName" className="form-label">
-            First Name
-          </label>
-          <input
+        </Box>
+        <Box mb={marginButton}>
+          <FormLabel htmlFor="first_name">First Name</FormLabel>
+          <Input
             {...register("first_name")}
             name="first_name"
             type="text"
-            className="form-control"
-            id="firstName"
+            id="first_name"
           />
           {errors.first_name && (
-            <p className="text-danger">{errors.first_name.message}</p>
+            <Text color={errMessageColor}>{errors.first_name.message}</Text>
           )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="lastName" className="form-label">
-            Last Name
-          </label>
-          <input
+        </Box>
+        <Box mb={marginButton}>
+          <FormLabel htmlFor="last_name">Last Name</FormLabel>
+          <Input
             {...register("last_name")}
             name="last_name"
             type="text"
-            className="form-control"
-            id="lastName"
+            id="last_name"
           />
           {errors.last_name && (
-            <p className="text-danger">{errors.last_name.message}</p>
+            <Text color={errMessageColor}>{errors.last_name.message}</Text>
           )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
-            Password
-          </label>
-          <input
+        </Box>
+        <Box mb={marginButton}>
+          <FormLabel htmlFor="password">Password</FormLabel>
+          <Input
             {...register("password")}
             name="password"
             type="password"
-            className="form-control"
-            id="exampleInputPassword1"
+            id="password"
           />
           {errors.password && (
-            <p className="text-danger">{errors.password.message}</p>
+            <Text color={errMessageColor}>{errors.password.message}</Text>
           )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="exampleInputPassword2" className="form-label">
-            Confirm Password
-          </label>
-          <input
+        </Box>
+        <Box mb={marginButton}>
+          <FormLabel htmlFor="confirm_password">Confirm Password</FormLabel>
+          <Input
             {...register("confirm_password")}
             name="confirm_password"
             type="password"
-            className="form-control"
-            id="exampleInputPassword2"
+            id="confirm_password"
           />
           {errors.confirm_password && (
-            <p className="text-danger">{errors.confirm_password.message}</p>
+            <Text color={errMessageColor}>
+              {errors.confirm_password.message}
+            </Text>
           )}
-        </div>
-        <button type="submit" className="btn btn-primary">
+        </Box>
+        <Button type="submit" colorScheme="blue">
           Register A User
-        </button>
+        </Button>
       </form>
     </>
   );

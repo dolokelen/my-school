@@ -3,7 +3,7 @@ import { RegistrationFormData } from "../accounts/RegistrationPage";
 import { CACHE_KEY_REGISTER } from "../data/constants";
 import apiClient from "../services/httpService";
 
-const apiClients = apiClient<RegistrationFormData>("auth/users/");
+const apiClients = apiClient<RegistrationFormData>("auth/users");
 
 export const useRegistration = (onCreate: () => void, reset: () => void) => {
   const queryClient = useQueryClient();
