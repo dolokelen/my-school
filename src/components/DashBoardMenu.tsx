@@ -2,14 +2,10 @@ import {
     Button,
     Menu,
     MenuButton,
-    MenuItem,
-    MenuList,
-    Stack,
-  } from "@chakra-ui/react";
-  import { FaChevronDown } from "react-icons/fa";
-  import { Link } from "react-router-dom";
-  import { SCH_YEAR_LIST_ROUTE } from "../data/constants";
+    MenuList
+} from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { FaChevronDown } from "react-icons/fa";
   
   interface Props {
     label: string;

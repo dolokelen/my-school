@@ -1,7 +1,4 @@
-import {
-    MenuItem,
-    Stack
-} from "@chakra-ui/react";
+import { MenuItem, Stack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { SCH_YEAR_LIST_ROUTE } from "../data/constants";
 import DashBoardMenu from "./DashBoardMenu";
@@ -16,9 +13,8 @@ const DashBoard = () => {
       </DashBoardMenu>
 
       <DashBoardMenu label="All Pages">
-        <MenuItem>
-          {<Link to={SCH_YEAR_LIST_ROUTE}>School</Link>}
-        </MenuItem>
+        <MenuItem>{<Link to={SCH_YEAR_LIST_ROUTE}>School</Link>}</MenuItem>
+
         <MenuItem>
           {<Link to={SCH_YEAR_LIST_ROUTE}>School years</Link>}
         </MenuItem>
