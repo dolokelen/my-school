@@ -12,7 +12,7 @@ const HomePage = () => {
       }}
       templateColumns={{
         base: `1fr`,
-        sm: `200px 1fr`,
+        sm: `225px 1fr`,
       }}
     >
       <GridItem area="nav">

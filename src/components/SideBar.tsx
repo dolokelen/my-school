@@ -13,7 +13,7 @@ const SideBar = () => {
       flexDir="column"
       justifyContent="space-between"
     >
-      <Flex mx={3}>
+      <Flex>
         <DashBoard />
       </Flex>
 

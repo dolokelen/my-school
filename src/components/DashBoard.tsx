@@ -1,31 +1,29 @@
 import {
-  Box,
-  Button,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
+    MenuItem,
+    Stack
 } from "@chakra-ui/react";
-import { FaChevronDown } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { SCH_YEAR_LIST_ROUTE } from "../data/constants";
-import SchoolYearDashBoard from "../pages/schoolYears/SchoolYearDashBoard";
+import DashBoardMenu from "./DashBoardMenu";
 
 const DashBoard = () => {
   return (
-    <Menu closeOnSelect={false}>
-      <MenuButton as={Button} rightIcon={<FaChevronDown />}>
-        Pages
-      </MenuButton>
-      <MenuList>
+    <Stack w="auto">
+      <DashBoardMenu label="Dashboards">
         <MenuItem>
-          <SchoolYearDashBoard />
+          {<Link to={SCH_YEAR_LIST_ROUTE}>School years</Link>}
+        </MenuItem>
+      </DashBoardMenu>
+
+      <DashBoardMenu label="All Pages">
+        <MenuItem>
+          {<Link to={SCH_YEAR_LIST_ROUTE}>School</Link>}
         </MenuItem>
         <MenuItem>
-          <SchoolYearDashBoard />
+          {<Link to={SCH_YEAR_LIST_ROUTE}>School years</Link>}
         </MenuItem>
-      </MenuList>
-    </Menu>
+      </DashBoardMenu>
+    </Stack>
   );
 };
 
