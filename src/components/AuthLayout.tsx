@@ -22,7 +22,7 @@ const AuthLayout = () => {
   //     removeUserIdQueryParam();
   //   }
   // }, [params]);
-  if (0) 
+  if (4) 
   return (
     <Grid
       templateAreas={{

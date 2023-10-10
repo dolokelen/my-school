@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import PrivateRoutes from "./PrivateRoutes";
 import LoginPage from "./accounts/LoginPage";
 import RegistrationPage from "./accounts/RegistrationPage";
 import AuthLayout from "./components/AuthLayout";
@@ -37,14 +36,7 @@ const router = createBrowserRouter([
       { path: LOGIN_ROUTE, element: <LoginPage /> },
     ],
   },
-
-  {
-    element: <PrivateRoutes />,
-    children: [
-      // { path: SCH_YEAR_LIST_ROUTE, element: <SchoolYearList /> },
-      // { path: `${SCH_YEAR_LIST_ROUTE}/:id`, element: <SchoolYearDetailPage /> },
-    ],
-  },
+  
 ]);
 
 export default router;
