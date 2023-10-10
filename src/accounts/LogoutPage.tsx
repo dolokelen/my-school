@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { LOGIN_ROUTE } from "../data/constants";
+import { HOME_ROUTE } from "../data/constants";
 
 const LogoutPage = () => {
   const accessToken = localStorage.getItem("access_token");
@@ -8,7 +8,7 @@ const LogoutPage = () => {
   if (accessToken) localStorage.removeItem("access_token");
   if (refreshToken) localStorage.removeItem("refresh_token");
   
-  return <Navigate to={LOGIN_ROUTE} />
+  return <Navigate to={HOME_ROUTE} />
 };
 
 export default LogoutPage;

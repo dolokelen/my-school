@@ -1,11 +1,11 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import AuthLayout from "./components/AuthLayout";
 import { HOME_ROUTE } from "./data/constants";
-import HomePage from "./pages/HomePage";
 
 const PrivateRoutes = () => {
   const user = false;
   const user1 = { id: 1, username: "Dolokelen" };
-  if (user1) return <HomePage />;
+  if (user1) return <AuthLayout />;
 
   return <Navigate to={HOME_ROUTE} />;
 };

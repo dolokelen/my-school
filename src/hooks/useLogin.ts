@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginFormData } from "../accounts/LoginPage";
-import { HOME_ROUTE } from "../data/constants";
+import { AUTH_LAYOUT_ROUTE } from "../data/constants";
 import getUserId from "../data/getUserId";
 import { axiosInstance } from "../services/httpService";
 
@@ -19,7 +19,7 @@ export const useLogin = () => {
         axiosInstance.defaults.headers["Authorization"] =
           "JWT " + localStorage.getItem("access_token");
         const userId = getUserId();
-        navigate(`${HOME_ROUTE}?userId=${userId}`);
+        navigate(`${AUTH_LAYOUT_ROUTE}?userId=${userId}`);
         console.log("useLogin Id", userId);
       } else {
         setError("An unknown error has occured.");
