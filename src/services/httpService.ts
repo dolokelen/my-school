@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: "http://127.0.0.1:8000/",
   timeout: 5000, //5 sec
   headers: {
@@ -8,6 +8,69 @@ const axiosInstance = axios.create({
     accept: "application/json",
   },
 });
+
+const access_token = localStorage.getItem("access_token");
+if (access_token) {
+  axiosInstance.defaults.headers.common[
+    "Authorization"
+  ] = `JWT ${access_token}`;
+}
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const access_token = localStorage.getItem("access_token");
+    if (access_token) {
+      config.headers.Authorization = `JWT ${access_token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async function (error) {
+    const originalRequest = error.config;
+
+    if (error.response === undefined) {
+      // Network error or other issues
+      return Promise.reject(error);
+    }
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const refresh_token = localStorage.getItem("refresh_token");
+
+      if (refresh_token) {
+        try {
+          // Attempt to refresh the access token using the refresh token
+          const refreshResponse = await axiosInstance.post(
+            "/api/token/refresh/",
+            {
+              refresh: refresh_token,
+            }
+          );
+
+          // If the token refresh is successful, update the access token and reattempt the original request
+          const new_access_token = refreshResponse.data.access;
+          localStorage.setItem("access_token", new_access_token);
+          originalRequest.headers.Authorization = `JWT ${new_access_token}`;
+          return axiosInstance(originalRequest);
+        } catch (refreshError) {
+          // If token refresh fails, log the user out or handle the error as needed
+          console.error("Token refresh failed:", refreshError);
+          // Perform logout or other error handling here if necessary
+          return Promise.reject(refreshError);
+        }
+      }
+    }
+
+    // Handle other response errors
+    return Promise.reject(error);
+  }
+);
 
 interface Data {
   id?: number;
@@ -33,7 +96,9 @@ class APIClient<T> {
   };
 
   post = (data: T) => {
-    return axiosInstance.post<T>(`${this.endpoint}/`, data).then((res) => res.data);
+    return axiosInstance
+      .post<T>(`${this.endpoint}/`, data)
+      .then((res) => res.data);
   };
 
   put = <T extends Data>(data: T) => {

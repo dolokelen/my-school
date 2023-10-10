@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Checkbox,
   FormLabel,
   HStack,
   Heading,
@@ -15,6 +16,7 @@ import { useRegistration } from "../hooks/useRegistration";
 import { LOGIN_ROUTE, REGISTER_ROUTE } from "../data/constants";
 import { Link } from "react-router-dom";
 // import jwtDecode from "jwt-decode";
+import { useLogin } from "./../hooks/useLogin";
 
 interface jwtPlayLoad {
   user_id: string;
@@ -27,7 +29,7 @@ const schema = z.object({
     .min(8, { message: "Password cannot be less than 8 characters." }),
 });
 
-export type RegistrationFormData = z.infer<typeof schema>;
+export type LoginFormData = z.infer<typeof schema>;
 
 const LoginPage = () => {
   // const token = localStorage.getItem("access_token");
@@ -41,13 +43,15 @@ const LoginPage = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<RegistrationFormData>({
+  } = useForm<LoginFormData>({
     resolver: zodResolver(schema),
   });
 
+  const { handleLogin } = useLogin();
+  const onSubmit = (data: LoginFormData) => handleLogin(data);
   //   const onCreate = () => toast.success("Registration Executed Successfully!");
   //   const registration = useRegistration(onCreate, () => reset());
-  //   const onSubmit = (data: RegistrationFormData) => registration.mutate(data);
+  //   const onSubmit = (data: LoginFormData) => registration.mutate(data);
 
   //   if (registration.isError)
   //     return <Text colorScheme="red">{registration.error.message}</Text>;
@@ -58,7 +62,7 @@ const LoginPage = () => {
   return (
     <>
       <Heading mb={5}>Registration Form</Heading>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Box mb={marginButton}>
           <FormLabel htmlFor="username">Username</FormLabel>
           <Input
@@ -83,6 +87,10 @@ const LoginPage = () => {
           {errors.password && (
             <Text color={errMessageColor}>{errors.password.message}</Text>
           )}
+        </Box>
+
+        <Box mb={marginButton}>
+        <Checkbox defaultChecked>Remeber me</Checkbox>
         </Box>
 
         <HStack>
