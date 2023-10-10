@@ -3,25 +3,26 @@ import { useEffect } from "react";
 import { Outlet, useSearchParams } from "react-router-dom";
 import AuthNavBar from "./AuthNavBar";
 import SideBar from "./SideBar";
+import LoginPage from "../accounts/LoginPage";
 
 const AuthLayout = () => {
-  const [params, setParams] = useSearchParams();
-  const userId = params.get("userId");
+  // const [params, setParams] = useSearchParams();
+  // const userId = params.get("userId");
 
-  const removeUserIdQueryParam = () => {
-    if (userId) {
-      params.delete(userId);
-      setParams(params);
-    }
-  };
+  // const removeUserIdQueryParam = () => {
+  //   if (userId) {
+  //     params.delete(userId);
+  //     setParams(params);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (userId) {
-      console.log("HomePage", userId);
-      removeUserIdQueryParam();
-    }
-  }, [params]);
-
+  // useEffect(() => {
+  //   if (userId) {
+  //     console.log("HomePage", userId);
+  //     removeUserIdQueryParam();
+  //   }
+  // }, [params]);
+  if (0) 
   return (
     <Grid
       templateAreas={{
@@ -47,6 +48,7 @@ const AuthLayout = () => {
       </GridItem>
     </Grid>
   );
+  return <LoginPage />
 };
 
 export default AuthLayout;

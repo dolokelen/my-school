@@ -23,7 +23,9 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     element: <AuthLayout />,
     children: [
-      { path: REGISTER_ROUTE, element: <RegistrationPage /> },
+      { path: REGISTER_ROUTE, element: <RegistrationPage /> }, 
+      { path: SCH_YEAR_LIST_ROUTE, element: <SchoolYearList /> },
+      { path: `${SCH_YEAR_LIST_ROUTE}/:id`, element: <SchoolYearDetailPage /> },
     ],
   },
 
@@ -39,8 +41,8 @@ const router = createBrowserRouter([
   {
     element: <PrivateRoutes />,
     children: [
-      { path: SCH_YEAR_LIST_ROUTE, element: <SchoolYearList /> },
-      { path: `${SCH_YEAR_LIST_ROUTE}/:id`, element: <SchoolYearDetailPage /> },
+      // { path: SCH_YEAR_LIST_ROUTE, element: <SchoolYearList /> },
+      // { path: `${SCH_YEAR_LIST_ROUTE}/:id`, element: <SchoolYearDetailPage /> },
     ],
   },
 ]);

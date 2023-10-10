@@ -1,13 +1,15 @@
-import { Navigate } from "react-router-dom";
+import LoginPage from "./accounts/LoginPage";
 import AuthLayout from "./components/AuthLayout";
-import { HOME_ROUTE } from "./data/constants";
+import getUserId from "./data/getUserId";
 
 const PrivateRoutes = () => {
-  const user = false;
-  const user1 = { id: 1, username: "Dolokelen" };
-  if (user1) return <AuthLayout />;
+  const authUserId = getUserId();
+  console.log("PrivateRoutes", authUserId)
+  const authUserIdd = undefined;
+  if (authUserIdd) return <AuthLayout />;
 
-  return <Navigate to={HOME_ROUTE} />;
+  return <LoginPage />;
+  // return <Navigate to={HOME_ROUTE} />;
 };
 
 export default PrivateRoutes;

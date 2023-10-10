@@ -10,7 +10,7 @@ import {
 const AuthNavBar = () => {
   return (
     <>
-      <HStack bg="gray.200" h={9} mb={1} justifyContent="center">
+      <HStack bg="gray.200" h={9} mb={1} justifyContent="space-evenly">
         <Link to={HOME_ROUTE}>Home</Link>
         <Link to={LOGIN_ROUTE}>Login</Link>
         <Link to={HOME_ROUTE}>Logout</Link>
