@@ -2,15 +2,18 @@ import {
   Box,
   Button,
   FormLabel,
+  HStack,
   Heading,
   Input,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { LOGIN_ROUTE } from "../data/constants";
 import { useRegistration } from "../hooks/useRegistration";
+import { Link } from "react-router-dom";
 // import jwtDecode from "jwt-decode";
 
 interface jwtPlayLoad {
@@ -144,9 +147,12 @@ const RegistrationPage = () => {
             </Text>
           )}
         </Box>
-        <Button type="submit" colorScheme="blue">
-          Register A User
-        </Button>
+        <HStack>
+          <Button type="submit" colorScheme="blue">
+            Register A User
+          </Button>
+          <Link to={LOGIN_ROUTE}>Already have an account?</Link> 
+        </HStack>
       </form>
     </>
   );
