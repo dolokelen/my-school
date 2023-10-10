@@ -1,28 +1,30 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { Outlet, useSearchParams } from "react-router-dom";
+import LoginPage from "../accounts/LoginPage";
+import getUserId from "../data/getUserId";
 import AuthNavBar from "./AuthNavBar";
 import SideBar from "./SideBar";
-import LoginPage from "../accounts/LoginPage";
+import { useEffect } from "react";
 
 const AuthLayout = () => {
-  // const [params, setParams] = useSearchParams();
-  // const userId = params.get("userId");
+  const [params, setParams] = useSearchParams();
+  const userId = params.get("userId");
 
-  // const removeUserIdQueryParam = () => {
-  //   if (userId) {
-  //     params.delete(userId);
-  //     setParams(params);
-  //   }
-  // };
+  const removeUserIdQueryParam = () => {
+    if (userId) {
+      params.delete(userId);
+      setParams(params);
+    }
+  };
 
-  // useEffect(() => {
-  //   if (userId) {
-  //     console.log("HomePage", userId);
-  //     removeUserIdQueryParam();
-  //   }
-  // }, [params]);
-  if (4) 
+  useEffect(() => {
+    if (userId) {
+      console.log("HomePage", userId);
+      removeUserIdQueryParam();
+    }
+  }, [params]);
+  
+  if (getUserId()) 
   return (
     <Grid
       templateAreas={{

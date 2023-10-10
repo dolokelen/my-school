@@ -45,7 +45,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Heading mb={5}>Registration Form</Heading>
+      <Heading mb={5}>Login Form</Heading>
       {error === HTTP_401_UNAUTHORIZED ? (
         <Heading mb={5} color="red">
           {HTTP_401_RESPONSE}
