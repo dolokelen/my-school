@@ -1,9 +1,27 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useSearchParams } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 
 const HomePage = () => {
+  const [params, setParams] = useSearchParams();
+  const userId = params.get("userId");
+
+  const removeUserIdQueryParam = () => {
+    if (userId) {
+      params.delete(userId);
+      setParams(params);
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      console.log("HomePage", userId);
+      removeUserIdQueryParam();
+    }
+  }, [params]);
+
   return (
     <Grid
       templateAreas={{
@@ -20,7 +38,9 @@ const HomePage = () => {
       </GridItem>
 
       <Show above="sm">
-        <GridItem area="aside"><SideBar /></GridItem>
+        <GridItem area="aside">
+          <SideBar />
+        </GridItem>
       </Show>
       <GridItem mx={10} area="main">
         <Outlet />

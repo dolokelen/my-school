@@ -1,26 +1,19 @@
 import {
-  Box,
-  Button,
-  Checkbox,
-  FormLabel,
-  HStack,
-  Heading,
-  Input,
-  Text,
+    Box,
+    Button,
+    Checkbox,
+    FormLabel,
+    HStack,
+    Heading,
+    Input,
+    Text,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { z } from "zod";
-import { useRegistration } from "../hooks/useRegistration";
-import { LOGIN_ROUTE, REGISTER_ROUTE } from "../data/constants";
 import { Link } from "react-router-dom";
-// import jwtDecode from "jwt-decode";
+import { z } from "zod";
+import { REGISTER_ROUTE } from "../data/constants";
 import { useLogin } from "./../hooks/useLogin";
-
-interface jwtPlayLoad {
-  user_id: string;
-}
 
 const schema = z.object({
   username: z.string().min(1, { message: "Username is required." }),
@@ -32,36 +25,37 @@ const schema = z.object({
 export type LoginFormData = z.infer<typeof schema>;
 
 const LoginPage = () => {
-  // const token = localStorage.getItem("access_token");
-  // if (token) {
-  //   const decodeToken = jwtDecode(token) as jwtPlayLoad;
-  //   console.log(decodeToken.user_id, "Executed.");
-  // }
-
+  
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(schema),
   });
 
-  const { handleLogin } = useLogin();
+  const { handleLogin, error } = useLogin();
   const onSubmit = (data: LoginFormData) => handleLogin(data);
-  //   const onCreate = () => toast.success("Registration Executed Successfully!");
-  //   const registration = useRegistration(onCreate, () => reset());
-  //   const onSubmit = (data: LoginFormData) => registration.mutate(data);
-
-  //   if (registration.isError)
-  //     return <Text colorScheme="red">{registration.error.message}</Text>;
 
   const marginButton = 5;
   const errMessageColor = "red";
+  const HTTP_401_UNAUTHORIZED = "Request failed with status code 401";
+  const HTTP_401_RESPONSE =
+    "No active account found with the given credentials";
 
   return (
     <>
       <Heading mb={5}>Registration Form</Heading>
+      {error === HTTP_401_UNAUTHORIZED ? (
+        <Heading mb={5} color="red">
+          {HTTP_401_RESPONSE}
+        </Heading>
+      ) : (
+        <Heading mb={5} color="red">
+          {error}
+        </Heading>
+      )}
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box mb={marginButton}>
           <FormLabel htmlFor="username">Username</FormLabel>
@@ -90,9 +84,8 @@ const LoginPage = () => {
         </Box>
 
         <Box mb={marginButton}>
-        <Checkbox defaultChecked>Remeber me</Checkbox>
+          <Checkbox defaultChecked>Remeber me</Checkbox>
         </Box>
-
         <HStack>
           <Button type="submit" colorScheme="blue">
             Login
