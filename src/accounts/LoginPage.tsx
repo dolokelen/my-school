@@ -1,18 +1,15 @@
 import {
-    Box,
-    Button,
-    Checkbox,
-    FormLabel,
-    HStack,
-    Heading,
-    Input,
-    Text,
+  Box,
+  Button,
+  Checkbox,
+  FormLabel,
+  Heading,
+  Input,
+  Text
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import { z } from "zod";
-import { REGISTER_ROUTE } from "../data/constants";
 import { useLogin } from "./../hooks/useLogin";
 
 const schema = z.object({
@@ -25,7 +22,6 @@ const schema = z.object({
 export type LoginFormData = z.infer<typeof schema>;
 
 const LoginPage = () => {
-  
   const {
     register,
     handleSubmit,
@@ -42,7 +38,7 @@ const LoginPage = () => {
   const HTTP_401_UNAUTHORIZED = "Request failed with status code 401";
   const HTTP_401_RESPONSE =
     "No active account found with the given credentials";
-
+  console.log("AuthLayout UserId: Renders the LoginPage");
   return (
     <>
       <Heading mb={5}>Login Form</Heading>
@@ -86,12 +82,9 @@ const LoginPage = () => {
         <Box mb={marginButton}>
           <Checkbox defaultChecked>Remeber me</Checkbox>
         </Box>
-        <HStack>
-          <Button type="submit" colorScheme="blue">
-            Login
-          </Button>
-          <Link to={REGISTER_ROUTE}>Need an account?</Link>
-        </HStack>
+        <Button type="submit" colorScheme="blue">
+          Login
+        </Button>
       </form>
     </>
   );

@@ -20,7 +20,6 @@ export const useLogin = () => {
           "JWT " + localStorage.getItem("access_token");
         const userId = getUserId();
         navigate(`${AUTH_LAYOUT_ROUTE}?userId=${userId}`);
-        console.log("useLogin Id", userId);
       } else {
         setError("An unknown error has occured.");
       }

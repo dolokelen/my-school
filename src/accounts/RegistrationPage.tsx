@@ -1,24 +1,9 @@
-import {
-  Box,
-  Button,
-  FormLabel,
-  HStack,
-  Heading,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { LOGIN_ROUTE } from "../data/constants";
 import { useRegistration } from "../hooks/useRegistration";
-import { Link } from "react-router-dom";
-// import jwtDecode from "jwt-decode";
-
-interface jwtPlayLoad {
-  user_id: string;
-}
 
 const schema = z
   .object({
@@ -49,12 +34,6 @@ const schema = z
 export type RegistrationFormData = z.infer<typeof schema>;
 
 const RegistrationPage = () => {
-  // const token = localStorage.getItem("access_token");
-  // if (token) {
-  //   const decodeToken = jwtDecode(token) as jwtPlayLoad;
-  //   console.log(decodeToken.user_id, "Executed.");
-  // }
-
   const {
     register,
     handleSubmit,
@@ -73,7 +52,6 @@ const RegistrationPage = () => {
 
   const marginButton = 3;
   const errMessageColor = "red";
-
   return (
     <>
       <Heading mb={5}>Registration Form</Heading>
@@ -147,12 +125,9 @@ const RegistrationPage = () => {
             </Text>
           )}
         </Box>
-        <HStack>
-          <Button type="submit" colorScheme="blue">
-            Register A User
-          </Button>
-          <Link to={LOGIN_ROUTE}>Already have an account?</Link> 
-        </HStack>
+        <Button type="submit" colorScheme="blue">
+          Register A User
+        </Button>
       </form>
     </>
   );
