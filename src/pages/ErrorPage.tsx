@@ -4,8 +4,8 @@ import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 const ErrorPage = () => {
   const error = useRouteError();
   return (
-    <Box marginLeft={20}>
-      <Heading>Oops! Something has gone wrong.</Heading>
+    <Box mx="40%" my="10%">
+      <Heading>Oops!</Heading>
       {isRouteErrorResponse(error) ? (
         <Text fontSize={40} color='red'>Page Does Not Exist.</Text>
       ) : (
