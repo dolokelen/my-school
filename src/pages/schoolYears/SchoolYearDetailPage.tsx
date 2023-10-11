@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSchoolYear } from "../../hooks/useSchoolYears";
 import SchoolYearEditForm from "./SchoolYearEditForm";
 
-const SchoolYearDetailPage = () => {
+const SchoolYearDetailPage = () => {  
   const { id } = useParams();
   const schId = parseInt(id!);
   const { data, isLoading, error } = useSchoolYear(schId);
@@ -13,7 +13,9 @@ const SchoolYearDetailPage = () => {
 
   return (
     <>
-      <Heading marginY={4} as="h3">Edit Academic year: {data.year}</Heading>
+      <Heading marginY={4} as="h3">
+        Edit Academic year: {data.year}
+      </Heading>
       <SchoolYearEditForm />
     </>
   );

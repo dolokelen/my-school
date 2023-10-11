@@ -1,15 +1,14 @@
 import { Box, HStack, List, ListItem, Spinner, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { AUTH_LAYOUT_ROUTE, SCH_YEAR_LIST_ROUTE } from "../../data/constants";
 import { useSchoolYears } from "../../hooks/useSchoolYears";
 import SchoolYearCreateForm from "./SchoolYearCreateForm";
-import { useEffect } from "react";
-import { AUTH_LAYOUT_ROUTE, SCH_YEAR_LIST_ROUTE } from "../../data/constants";
 
 const SchoolYearList = () => {
   const [params, setParams] = useSearchParams();
   const { data, isLoading, error } = useSchoolYears();
-
   const removeUpdatedQueryParam = () => {
     const updatedParam = params.get("updated");
     if (updatedParam) {
@@ -50,7 +49,11 @@ const SchoolYearList = () => {
               fontSize={30}
               key={data.id}
             >
-              <Link to={`${AUTH_LAYOUT_ROUTE}/${SCH_YEAR_LIST_ROUTE}/${data.id}`}>{data.year}</Link>
+              <Link
+                to={`${AUTH_LAYOUT_ROUTE}/${SCH_YEAR_LIST_ROUTE}/${data.id}`}
+              >
+                {data.year}
+              </Link>
             </ListItem>
           ))}
         </List>
