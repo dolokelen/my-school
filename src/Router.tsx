@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import LoginPage from "./accounts/LoginPage";
 import RegistrationPage from "./accounts/RegistrationPage";
 import AuthLayout from "./components/AuthLayout";
-import Layout from "./components/Layout";
+import UnAuthLayout from "./components/UnAuthLayout";
 import {
   AUTH_LAYOUT_ROUTE,
   HOME_ROUTE,
@@ -29,8 +29,8 @@ const router = createBrowserRouter([
 
   {
     path: HOME_ROUTE,
-    errorElement: <ErrorPage />,
-    element: <Layout />,
+    errorElement: <UnAuthLayout children={<ErrorPage />} />,
+    element: <UnAuthLayout />,
     children: [
       { path: HOME_ROUTE, element: <HomePage /> },
       { path: LOGIN_ROUTE, element: <LoginPage /> },

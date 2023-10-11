@@ -1,9 +1,14 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
-import Footer from "../components/Footer";
-import NavBar from "../components/NavBar";
+import Footer from "./Footer";
+import NavBar from "./NavBar";
+import { ReactNode } from "react";
 
-const Layout = () => {
+interface Props {
+  children?: ReactNode;
+}
+
+const UnAuthLayout = ({ children }: Props) => {
   return (
     <Grid
       templateAreas={{
@@ -20,7 +25,7 @@ const Layout = () => {
       </GridItem>
 
       <GridItem area="main" bg="tomato">
-        <Outlet />
+        {children ? children : <Outlet />}
       </GridItem>
 
       <GridItem area="footer" bg="gray" py={10}>
@@ -30,4 +35,4 @@ const Layout = () => {
   );
 };
 
-export default Layout;
+export default UnAuthLayout;

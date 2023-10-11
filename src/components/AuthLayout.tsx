@@ -5,6 +5,7 @@ import LoginPage from "../accounts/LoginPage";
 import getUserId from "../data/getUserId";
 import AuthNavBar from "./AuthNavBar";
 import SideBar from "./SideBar";
+import UnAuthLayout from "./UnAuthLayout";
 
 const AuthLayout = () => {
   const [params, setParams] = useSearchParams();
@@ -49,7 +50,7 @@ const AuthLayout = () => {
         </GridItem>
       </Grid>
     );
-  return <LoginPage />;
+  return <UnAuthLayout children={<LoginPage />} />;
 };
 
 export default AuthLayout;

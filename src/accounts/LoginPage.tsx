@@ -5,7 +5,7 @@ import {
   FormLabel,
   Heading,
   Input,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -38,7 +38,6 @@ const LoginPage = () => {
   const HTTP_401_UNAUTHORIZED = "Request failed with status code 401";
   const HTTP_401_RESPONSE =
     "No active account found with the given credentials";
-  console.log("AuthLayout UserId: Renders the LoginPage");
   return (
     <>
       <Heading mb={5}>Login Form</Heading>
