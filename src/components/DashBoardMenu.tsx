@@ -13,6 +13,7 @@ import { FaChevronDown } from "react-icons/fa";
   }
 
   const DashBoardMenu = ({label, children}: Props) => {
+    const cusSty = {width: "2px"}
     return (
         <Menu>
           <MenuButton as={Button} rightIcon={<FaChevronDown />}>

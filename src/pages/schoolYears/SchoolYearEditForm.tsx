@@ -1,11 +1,15 @@
-import { Box, Button, HStack, Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Input, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
-import { useEditSchoolYear, useSchoolYear } from "../../hooks/useSchoolYears";
-import SchoolYearDeletePage from "./SchoolYearDeletePage";
+import DeletionConfirmation from "../../components/DeletionConfirmation";
+import {
+  useDeleteSchoolYear,
+  useEditSchoolYear,
+  useSchoolYear,
+} from "../../hooks/useSchoolYears";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -17,6 +21,7 @@ const schema = z.object({
 export type SchoolYearEditFormData = z.infer<typeof schema>;
 
 const SchoolYearEditForm = () => {
+  const mutation = useDeleteSchoolYear();
   const {
     register,
     handleSubmit,
@@ -54,12 +59,14 @@ const SchoolYearEditForm = () => {
           {errors.year && <Text color="red">{errors.year.message}</Text>}
         </Box>
         <HStack marginTop={8}>
-          <Button  marginRight={6} type="submit" colorScheme="blue">
+          <Button marginRight={6} type="submit" colorScheme="blue">
             Update School Year
           </Button>
-          <SchoolYearDeletePage
-            schoolYearId={data?.id!}
-            schoolYear={data?.year!}
+          <DeletionConfirmation
+            entityId={data?.id!}
+            entityName={data?.year!}
+            label="Delete School Year"
+            useEntity={()=>mutation.mutate(data?.id!)}
           />
         </HStack>
       </form>
