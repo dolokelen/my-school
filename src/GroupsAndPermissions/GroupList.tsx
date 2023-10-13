@@ -7,50 +7,22 @@ import {
   List,
   ListItem,
   Spinner,
-  Stack,
   Text,
-  flexbox,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useGroups } from "../hooks/useGroups";
-import {
-  AUTH_LAYOUT_ROUTE,
-  GROUP_ROUTE,
-  SCH_YEAR_LIST_ROUTE,
-} from "../data/constants";
+import { AUTH_LAYOUT_ROUTE, GROUP_ROUTE } from "../data/constants";
+import { useDeleteAllGroup, useGroups } from "../hooks/useGroups";
 import GroupCreateForm from "./GroupCreateForm";
-import GroupDeleteButton from "./GroupDeleteButton";
+import MultipleDeletionsConfirmation from "../components/MutipleDeletionsConfirmation";
 
 const GroupListPage = () => {
-  //   const [params, setParams] = useSearchParams();
   const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
+  const handleDeleteAll = useDeleteAllGroup(selectedGroups, () =>
+    toast.success("Deletes everything successfully!")
+  );
   const { data: groups, isLoading, error } = useGroups();
-
-  //   const removeUpdatedQueryParam = () => {
-  //     const updatedParam = params.get("updated");
-  //     if (updatedParam) {
-  //       params.delete("updated");
-  //       setParams(params);
-  //     }
-  //     const deletedParam = params.get("deleted");
-  //     if (deletedParam) {
-  //       params.delete("deleted");
-  //       setParams(params);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     if (params.get("updated")) {
-  //       toast.success("School year updated successfully!");
-  //       removeUpdatedQueryParam();
-  //     }
-  //     if (params.get("deleted")) {
-  //       toast.success("School year deleted successfully!");
-  //       removeUpdatedQueryParam();
-  //     }
-  //   }, [params]);
 
   if (isLoading) return <Spinner />;
   if (error) return <Text color="red">{error.message}</Text>;
@@ -62,6 +34,7 @@ const GroupListPage = () => {
       setSelectedGroups([...selectedGroups, groupId]);
     }
   };
+
   return (
     <>
       <Box marginY={6}>
@@ -69,12 +42,13 @@ const GroupListPage = () => {
       </Box>
       <HStack justifyContent="space-evenly">
         <Heading>Groups</Heading>
-        {selectedGroups.length === 0 ? (
-          <Button isDisabled colorScheme="red">
-            Delete Group
-          </Button>
+        {selectedGroups.length < 2 ? (
+          <Button isDisabled colorScheme="red">Delete All</Button>
         ) : (
-            <GroupDeleteButton />
+          <MultipleDeletionsConfirmation
+            label="Delete All"
+            onDelete={handleDeleteAll}
+          />
         )}
       </HStack>
       <HStack justifyContent="space-around">

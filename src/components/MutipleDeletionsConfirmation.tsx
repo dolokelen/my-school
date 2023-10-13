@@ -12,19 +12,16 @@ import {
 } from "@chakra-ui/react";
 
 interface Props {
-  entityId: number;
-  entityName: number | string;
+  onDelete: () => void;
+  entityName?: string;
   label: string;
-  onMutate: (entityId: number) => void;
 }
 
-const DeletionConfirmation = ({
-  entityId,
-  entityName,
+const MultipleDeletionsConfirmation = ({
   label,
-  onMutate,
+  entityName,
+  onDelete,
 }: Props) => {
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
 
@@ -42,23 +39,20 @@ const DeletionConfirmation = ({
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              <Heading as="h4">{entityName}</Heading>
+              <Heading as="h4">
+                {entityName ? entityName : "Recursive Deletion"}
+              </Heading>
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure you want to permanently delete {entityName}?
+              Are you sure you want to permanently delete all?
             </AlertDialogBody>
 
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={onClose}>
                 No
               </Button>
-              <Button
-                type="submit"
-                onClick={() => onMutate(entityId)}
-                colorScheme="red"
-                ml={3}
-              >
+              <Button type="submit" onClick={onDelete} colorScheme="red" ml={3}>
                 Yes
               </Button>
             </AlertDialogFooter>
@@ -69,4 +63,4 @@ const DeletionConfirmation = ({
   );
 };
 
-export default DeletionConfirmation;
+export default MultipleDeletionsConfirmation;

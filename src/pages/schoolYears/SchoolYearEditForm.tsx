@@ -66,7 +66,7 @@ const SchoolYearEditForm = () => {
             entityId={data?.id!}
             entityName={data?.year!}
             label="Delete School Year"
-            useEntity={()=>mutation.mutate(data?.id!)}
+            onMutate={() => mutation.mutate(data?.id!)}
           />
         </HStack>
       </form>

@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 
 export const axiosInstance = axios.create({
   baseURL: "http://127.0.0.1:8000/",
@@ -117,6 +117,25 @@ class APIClient<T> {
     return axiosInstance
       .delete(`${this.endpoint}/${id}`)
       .then((res) => res.data);
+  };
+
+  deleteAll = async (ids: number[], onDeleteAll: () => void) => {
+    try {
+      const deletePromises = ids.map((id) => {
+        return axiosInstance
+          .delete(`${this.endpoint}/${id}`)
+          .then(() => {})
+          .catch((error) => {
+            throw error;
+          });
+      });
+
+      await Promise.all(deletePromises);
+
+      onDeleteAll();
+    } catch (error) {
+      throw error;
+    }
   };
 }
 
