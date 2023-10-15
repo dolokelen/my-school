@@ -1,7 +1,7 @@
 import { HStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { REGISTER_ROUTE } from "../data/constants";
+import { AUTH_LAYOUT_ROUTE, REGISTER_ROUTE } from "../data/constants";
 import authRouteToHomeRoute from "../data/getHomeRoute";
 import logoutUser from "../data/logoutUser";
 
@@ -9,7 +9,8 @@ const AuthNavBar = () => {
   return (
     <>
       <HStack bg="gray.200" h={9} mb={1} justifyContent="space-evenly">
-        <Link to={authRouteToHomeRoute()}>Home</Link>
+        <Link to={authRouteToHomeRoute()}>Website</Link>
+        <Link to={AUTH_LAYOUT_ROUTE}>Dashboard</Link>
         <Link to={authRouteToHomeRoute()} onClick={logoutUser}>
           Logout
         </Link>

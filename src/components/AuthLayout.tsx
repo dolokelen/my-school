@@ -1,13 +1,16 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { Outlet, useSearchParams } from "react-router-dom";
+import { Outlet, useLocation, useSearchParams } from "react-router-dom";
 import LoginPage from "../accounts/LoginPage";
 import getUserId from "../data/getUserId";
 import AuthNavBar from "./AuthNavBar";
 import SideBar from "./SideBar";
 import UnAuthLayout from "./UnAuthLayout";
+import AuthHomePage from "./AuthHomePage";
+import { AUTH_LAYOUT_ROUTE } from "../data/constants";
 
 const AuthLayout = () => {
+  const location = useLocation();
   const [params, setParams] = useSearchParams();
   const userId = params.get("userId");
 
@@ -46,7 +49,11 @@ const AuthLayout = () => {
           </GridItem>
         </Show>
         <GridItem mx={10} area="main">
-          <Outlet />
+          {location.pathname === AUTH_LAYOUT_ROUTE ? (
+            <AuthHomePage />
+          ) : (
+            <Outlet />
+          )}
         </GridItem>
       </Grid>
     );

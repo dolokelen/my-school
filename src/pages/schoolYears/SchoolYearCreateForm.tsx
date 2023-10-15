@@ -10,7 +10,7 @@ import { createBtnColor } from "../../data/constants";
 const schema = z.object({
   year: z
     .number({ invalid_type_error: "School year is required." })
-    .min(2000, { message: "School year must be 4 digits." }),
+    .min(1847, { message: "School year must be greater than 1847." }),
 });
 
 export type SchoolYearCreateFormData = z.infer<typeof schema>;
