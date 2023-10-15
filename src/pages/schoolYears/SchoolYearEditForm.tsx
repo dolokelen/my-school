@@ -10,7 +10,7 @@ import {
   useEditSchoolYear,
   useSchoolYear,
 } from "../../hooks/useSchoolYears";
-import { updateBtnColor } from "../../cacheKeysAndRoutes";
+import { teal } from "../../cacheKeysAndRoutes";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 
 const schema = z.object({
@@ -60,7 +60,7 @@ const SchoolYearEditForm = () => {
           {editMutation.isError && <Text color="red">{customMessage}</Text>}
         </Box>
         <HStack marginTop={8}>
-          <Button marginRight={6} type="submit" colorScheme={updateBtnColor}>
+          <Button marginRight={6} type="submit" colorScheme={teal}>
             Update School Year
           </Button>
           <DeletionConfirmation

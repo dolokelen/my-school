@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { useCreateSchoolYear } from "../../hooks/useSchoolYears";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
-import { createBtnColor } from "../../cacheKeysAndRoutes";
+import { blue } from "../../cacheKeysAndRoutes";
 
 const schema = z.object({
   year: z
@@ -47,7 +47,7 @@ const SchoolYearCreateForm = () => {
             {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
         </Stack>
-        <Button mt={6} type="submit" colorScheme={createBtnColor}>
+        <Button mt={6} type="submit" colorScheme={blue}>
           Create School Year
         </Button>
       </form>

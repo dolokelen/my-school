@@ -5,13 +5,11 @@ export const CACHE_KEY_REGISTER = "user";
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "login";
 
-export const AUTH_LAYOUT_ROUTE = "/dashboard/";
+export const AUTH_LAYOUT_ROUTE = "/dashboard";
 export const GROUP_ROUTE = "group-lists";
 export const REGISTER_ROUTE = "register";
 export const SCH_YEAR_LIST_ROUTE = "school-years-list";
 
-export const deleteBtnColor = "red";
-export const createBtnColor = "blue";
-export const updateBtnColor = "teal";
-
-
+export const red = "red";
+export const blue = "blue";
+export const teal = "teal";

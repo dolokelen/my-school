@@ -10,7 +10,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRef } from "react";
-import { deleteBtnColor } from "../cacheKeysAndRoutes";
+import { red } from "../cacheKeysAndRoutes";
 
 interface Props {
   onDelete: () => void;
@@ -24,7 +24,7 @@ const BulkDeleteButton = ({ label, entityName, onDelete }: Props) => {
 
   return (
     <>
-      <Button isActive colorScheme={deleteBtnColor} onClick={onOpen}>
+      <Button isActive colorScheme={red} onClick={onOpen}>
         {label}
       </Button>
 
@@ -53,7 +53,7 @@ const BulkDeleteButton = ({ label, entityName, onDelete }: Props) => {
                 isActive
                 type="submit"
                 onClick={onDelete}
-                colorScheme={deleteBtnColor}
+                colorScheme={red}
                 ml={3}
               >
                 Yes

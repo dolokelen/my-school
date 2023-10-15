@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { useCreateGroup } from "../hooks/useGroups";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../Utilities/httpErrorStatus";
-import { createBtnColor } from "../cacheKeysAndRoutes";
+import { blue } from "../cacheKeysAndRoutes";
 
 const schema = z.object({
   name: z.string().min(2, {
@@ -46,7 +46,7 @@ const GroupCreateForm = () => {
             {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
         </Stack>
-        <Button mt={3} type="submit" colorScheme={createBtnColor}>
+        <Button mt={3} type="submit" colorScheme={blue}>
           Create Group
         </Button>
       </form>

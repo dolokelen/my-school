@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useRegistration } from "../hooks/useRegistration";
-import { createBtnColor } from "../cacheKeysAndRoutes";
+import { blue } from "../cacheKeysAndRoutes";
 
 const schema = z
   .object({
@@ -126,7 +126,7 @@ const RegistrationPage = () => {
             </Text>
           )}
         </Box>
-        <Button type="submit" colorScheme={createBtnColor}>
+        <Button type="submit" colorScheme={blue}>
           Register A User
         </Button>
       </form>

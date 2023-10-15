@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { updateBtnColor } from "../cacheKeysAndRoutes";
+import { teal } from "../cacheKeysAndRoutes";
 import { useEditGroup, useGroup } from "../hooks/useGroups";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../Utilities/httpErrorStatus";
 
@@ -58,12 +58,7 @@ const GroupEditForm = () => {
           {errors.name && <Text color="red">{errors.name.message}</Text>}
           {mutation.isError && <Text color="red">{customerErrMessage}</Text>}
         </Box>
-        <Button
-          mt={4}
-          marginRight={6}
-          type="submit"
-          colorScheme={updateBtnColor}
-        >
+        <Button mt={4} marginRight={6} type="submit" colorScheme={teal}>
           Update Group Name
         </Button>
       </form>

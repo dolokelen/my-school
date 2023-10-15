@@ -2,6 +2,7 @@ import { Box, List, ListItem, Spinner } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import DeletionConfirmation from "../Utilities/DeletionConfirmation";
+import { red } from "../cacheKeysAndRoutes";
 import { useDeleteGroup, useGroup } from "../hooks/useGroups";
 import GroupEditForm from "./GroupEditForm";
 
@@ -21,9 +22,15 @@ const GroupDetailPage = () => {
         {group.name} Group Permissions
       </Box>
       <List>
-        {group.permissions?.map((p) => (
-          <ListItem key={p}>{p ? p : "No available permissions"}</ListItem>
-        ))}
+        {group.permissions?.length ? (
+          group.permissions?.map((p) => (
+            <ListItem key={p}>{p ? p : "No available permissions"}</ListItem>
+          ))
+        ) : (
+          <ListItem color={red}>
+            No available permissions for this group
+          </ListItem>
+        )}
       </List>
       <Box ml="90%">
         <DeletionConfirmation

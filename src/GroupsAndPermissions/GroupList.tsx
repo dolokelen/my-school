@@ -12,11 +12,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import BulkDeleteButton from "../Utilities/BulkDeleteButton";
-import {
-  AUTH_LAYOUT_ROUTE,
-  GROUP_ROUTE,
-  deleteBtnColor,
-} from "../cacheKeysAndRoutes";
+import { AUTH_LAYOUT_ROUTE, GROUP_ROUTE, red } from "../cacheKeysAndRoutes";
 import { useDeleteAllGroup, useGroups } from "../hooks/useGroups";
 import GroupCreateForm from "./GroupCreateForm";
 
@@ -30,9 +26,6 @@ const GroupListPage = () => {
     }
   );
   const { data: groups, isLoading, error } = useGroups();
-  // useEffect(()=>{
-  //   console.log("useEffect: ", selectedGroups)
-  // },[selectedGroups]);
 
   if (error) throw error;
   if (isLoading) return <Spinner />;
@@ -52,7 +45,7 @@ const GroupListPage = () => {
       <HStack justifyContent="space-evenly">
         <Heading>Groups</Heading>
         {selectedGroups.length === 0 ? (
-          <Button isDisabled colorScheme={deleteBtnColor}>
+          <Button isDisabled colorScheme={red}>
             Delete All
           </Button>
         ) : (

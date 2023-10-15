@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useLogin } from "./../hooks/useLogin";
-import { createBtnColor } from "../cacheKeysAndRoutes";
+import { blue } from "../cacheKeysAndRoutes";
 
 const schema = z.object({
   username: z.string().min(1, { message: "Username is required." }),
@@ -82,7 +82,7 @@ const LoginPage = () => {
         <Box mb={marginButton}>
           <Checkbox defaultChecked>Remeber me</Checkbox>
         </Box>
-        <Button type="submit" colorScheme={createBtnColor}>
+        <Button type="submit" colorScheme={blue}>
           Login
         </Button>
       </form>
