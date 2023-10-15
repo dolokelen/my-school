@@ -4,10 +4,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useCreateSchoolYear } from "../../hooks/useSchoolYears";
+import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../data/httpErrorStatus";
+import { createBtnColor } from "../../data/constants";
 
 const schema = z.object({
   year: z
-    .number({ invalid_type_error: "The school year is required." })
+    .number({ invalid_type_error: "School year is required." })
     .min(2000, { message: "School year must be 4 digits." }),
 });
 
@@ -23,14 +25,13 @@ const SchoolYearCreateForm = () => {
     formState: { errors },
   } = useForm<SchoolYearCreateFormData>({ resolver: zodResolver(schema) });
 
-  const createSchoolYear = useCreateSchoolYear(onCreate, () => reset());
+  const mutation = useCreateSchoolYear(onCreate, () => reset());
   const onSubmit = (data: SchoolYearCreateFormData) => {
-    createSchoolYear.mutate(data);
+    mutation.mutate(data);
   };
 
-  if (createSchoolYear.isError)
-    return <Text color="red">{createSchoolYear.error.message}</Text>;
-    
+  const customErrorMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -43,9 +44,10 @@ const SchoolYearCreateForm = () => {
               placeholder="Enter school year"
             />
             {errors.year && <Text color="red">{errors.year.message}</Text>}
+            {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
         </Stack>
-        <Button type="submit" colorScheme="blue">
+        <Button mt={6} type="submit" colorScheme={createBtnColor}>
           Create School Year
         </Button>
       </form>

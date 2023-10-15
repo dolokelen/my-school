@@ -1,7 +1,7 @@
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:8000/",
+  baseURL: "http://127.0.0.1:8000",
   timeout: 5000, //5 sec
   headers: {
     "Content-Type": "application/json",
@@ -86,48 +86,61 @@ class APIClient<T> {
   getAll = (config: AxiosRequestConfig) => {
     return axiosInstance
       .get<T[]>(this.endpoint, config)
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
   };
 
   get = (id: number) => {
     return axiosInstance
-      .get<T>(`${this.endpoint}/${id}`)
-      .then((res) => res.data);
+      .get<T>(`${this.endpoint}${id}/`)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
   };
 
   post = (data: T) => {
     return axiosInstance
-      .post<T>(`${this.endpoint}/`, data)
-      .then((res) => res.data);
+      .post<T>(this.endpoint, data)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
   };
 
   put = <T extends Data>(data: T) => {
     return axiosInstance
-      .put<T>(`${this.endpoint}/${data.id}/`, data)
-      .then((res) => res.data);
+      .put<T>(`${this.endpoint}${data.id}/`, data)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
   };
 
   patch = <T extends Data>(data: T) => {
     return axiosInstance
-      .patch<T>(`${this.endpoint}/${data.id}/`, data)
-      .then((res) => res.data);
+      .patch<T>(`${this.endpoint}${data.id}/`, data)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
   };
 
   delete = (id: number) => {
     return axiosInstance
-      .delete(`${this.endpoint}/${id}`)
-      .then((res) => res.data);
+      .delete(`${this.endpoint}${id}/`)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
   };
 
   deleteAll = async (ids: number[], onDeleteAll: () => void) => {
     try {
       const deletePromises = ids.map((id) => {
-        return axiosInstance
-          .delete(`${this.endpoint}/${id}`)
-          .then(() => {})
-          .catch((error) => {
-            throw error;
-          });
+        return this.delete(id);
       });
 
       await Promise.all(deletePromises);

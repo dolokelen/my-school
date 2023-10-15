@@ -7,25 +7,35 @@ import {
   List,
   ListItem,
   Spinner,
-  Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AUTH_LAYOUT_ROUTE, GROUP_ROUTE } from "../data/constants";
+import BulkDeleteButton from "../components/BulkDeleteButton";
+import {
+  AUTH_LAYOUT_ROUTE,
+  GROUP_ROUTE,
+  deleteBtnColor,
+} from "../data/constants";
 import { useDeleteAllGroup, useGroups } from "../hooks/useGroups";
 import GroupCreateForm from "./GroupCreateForm";
-import MultipleDeletionsConfirmation from "../components/MutipleDeletionsConfirmation";
 
 const GroupListPage = () => {
   const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
-  const handleDeleteAll = useDeleteAllGroup(selectedGroups, () =>
-    toast.success("Deletes everything successfully!")
+  const handleDeleteAll = useDeleteAllGroup(
+    selectedGroups,
+    () => toast.success("All deleted successfully!"),
+    () => {
+      setSelectedGroups([]);
+    }
   );
   const { data: groups, isLoading, error } = useGroups();
+  // useEffect(()=>{
+  //   console.log("useEffect: ", selectedGroups)
+  // },[selectedGroups]);
 
+  if (error) throw error;
   if (isLoading) return <Spinner />;
-  if (error) return <Text color="red">{error.message}</Text>;
 
   const handleCheckboxChange = (groupId: number) => {
     if (selectedGroups.includes(groupId)) {
@@ -34,7 +44,6 @@ const GroupListPage = () => {
       setSelectedGroups([...selectedGroups, groupId]);
     }
   };
-
   return (
     <>
       <Box marginY={6}>
@@ -42,11 +51,13 @@ const GroupListPage = () => {
       </Box>
       <HStack justifyContent="space-evenly">
         <Heading>Groups</Heading>
-        {selectedGroups.length < 2 ? (
-          <Button isDisabled colorScheme="red">Delete All</Button>
+        {selectedGroups.length === 0 ? (
+          <Button isDisabled colorScheme={deleteBtnColor}>
+            Delete All
+          </Button>
         ) : (
-          <MultipleDeletionsConfirmation
-            label="Delete All"
+          <BulkDeleteButton
+            label={selectedGroups.length > 1 ? "Delete All" : "Delete"}
             onDelete={handleDeleteAll}
           />
         )}

@@ -8,7 +8,7 @@ const SchoolYearDetailPage = () => {
   const schId = parseInt(id!);
   const { data, isLoading, error } = useSchoolYear(schId);
 
-  if (error) return <Text color="red">{error.message}</Text>;
+  if (error) throw error;
   if (isLoading) return <Spinner />;
 
   return (

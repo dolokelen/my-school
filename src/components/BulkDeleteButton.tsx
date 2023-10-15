@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -10,6 +9,8 @@ import {
   Heading,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useRef } from "react";
+import { deleteBtnColor } from "../data/constants";
 
 interface Props {
   onDelete: () => void;
@@ -17,17 +18,13 @@ interface Props {
   label: string;
 }
 
-const MultipleDeletionsConfirmation = ({
-  label,
-  entityName,
-  onDelete,
-}: Props) => {
+const BulkDeleteButton = ({ label, entityName, onDelete }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
 
   return (
     <>
-      <Button colorScheme="red" onClick={onOpen}>
+      <Button isActive colorScheme={deleteBtnColor} onClick={onOpen}>
         {label}
       </Button>
 
@@ -40,7 +37,7 @@ const MultipleDeletionsConfirmation = ({
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               <Heading as="h4">
-                {entityName ? entityName : "Recursive Deletion"}
+                {entityName ? entityName : "Caution! 💀"}
               </Heading>
             </AlertDialogHeader>
 
@@ -49,10 +46,16 @@ const MultipleDeletionsConfirmation = ({
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button isActive ref={cancelRef} onClick={onClose}>
                 No
               </Button>
-              <Button type="submit" onClick={onDelete} colorScheme="red" ml={3}>
+              <Button
+                isActive
+                type="submit"
+                onClick={onDelete}
+                colorScheme={deleteBtnColor}
+                ml={3}
+              >
                 Yes
               </Button>
             </AlertDialogFooter>
@@ -63,4 +66,4 @@ const MultipleDeletionsConfirmation = ({
   );
 };
 
-export default MultipleDeletionsConfirmation;
+export default BulkDeleteButton;

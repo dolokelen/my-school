@@ -1,19 +1,15 @@
 import {
   Box,
-  Button,
-  Heading,
   List,
   ListItem,
   Spinner,
-  Text,
-  grid,
+  Text
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import DeletionConfirmation from "../components/DeletionConfirmation";
 import { useDeleteGroup, useGroup } from "../hooks/useGroups";
 import GroupEditForm from "./GroupEditForm";
-import DeletionConfirmation from "../components/DeletionConfirmation";
-import { toast } from "react-toastify";
-import getUserId from './../data/getUserId';
 
 const GroupDetailPage = () => {
   const mutation = useDeleteGroup(() => toast.success("Deleted successfully."));
@@ -21,7 +17,7 @@ const GroupDetailPage = () => {
   const groupId = parseInt(id!);
   const { data: group, isLoading, error } = useGroup(groupId);
 
-  if (error) return <Text color="red">{error.message}</Text>;
+  if (error) throw error;
   if (isLoading) return <Spinner />;
 
   return (

@@ -9,3 +9,9 @@ export const AUTH_LAYOUT_ROUTE = "/dashboard";
 export const GROUP_ROUTE = "group-lists";
 export const REGISTER_ROUTE = "register";
 export const SCH_YEAR_LIST_ROUTE = "school-years-list";
+
+export const deleteBtnColor = "red";
+export const createBtnColor = "blue";
+export const updateBtnColor = "teal";
+
+

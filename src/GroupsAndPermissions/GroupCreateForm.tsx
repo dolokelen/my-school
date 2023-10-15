@@ -4,15 +4,16 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useCreateGroup } from "../hooks/useGroups";
+import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../data/httpErrorStatus";
+import { createBtnColor } from "../data/constants";
 
 const schema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Group name must be at least two letters" }),
+  name: z.string().min(2, {
+    message: "Group name is required and must be at least two letters",
+  }),
 });
 
 export type GroupCreateFormData = z.infer<typeof schema>;
-
 const GroupCreateForm = () => {
   const onCreate = () => toast.success("Group Created Successfully!");
 
@@ -23,13 +24,12 @@ const GroupCreateForm = () => {
     formState: { errors },
   } = useForm<GroupCreateFormData>({ resolver: zodResolver(schema) });
 
-  const createGroup = useCreateGroup(onCreate, () => reset());
+  const mutation = useCreateGroup(onCreate, () => reset());
   const onSubmit = (data: GroupCreateFormData) => {
-    createGroup.mutate(data);
+    mutation.mutate(data);
   };
 
-  if (createGroup.isError)
-    return <Text color="red">{createGroup.error.message}</Text>;
+  const customErrorMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
 
   return (
     <>
@@ -43,9 +43,10 @@ const GroupCreateForm = () => {
               placeholder="Enter Group Name"
             />
             {errors.name && <Text color="red">{errors.name.message}</Text>}
+            {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
         </Stack>
-        <Button type="submit" colorScheme="blue">
+        <Button mt={3} type="submit" colorScheme={createBtnColor}>
           Create Group
         </Button>
       </form>

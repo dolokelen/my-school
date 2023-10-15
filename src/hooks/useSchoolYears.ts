@@ -5,12 +5,11 @@ import { SchoolYearCreateFormData } from "../pages/schoolYears/SchoolYearCreateF
 import { SchoolYearEditFormData } from "../pages/schoolYears/SchoolYearEditForm";
 import apiClient from "../services/httpService";
 
-const apiClients = apiClient<SchoolYear>("school/years");
-
-export interface SchoolYear {
+interface SchoolYear {
   id?: number;
   year: number;
 }
+const apiClients = apiClient<SchoolYear>("/school/years/");
 
 export const useSchoolYears = () =>
   useQuery<SchoolYear[], Error>({

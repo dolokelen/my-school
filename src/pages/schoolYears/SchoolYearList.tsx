@@ -1,4 +1,4 @@
-import { Box, HStack, List, ListItem, Spinner, Text } from "@chakra-ui/react";
+import { Box, HStack, List, ListItem, Spinner } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -32,10 +32,8 @@ const SchoolYearList = () => {
       removeUpdatedQueryParam();
     }
   }, [params]);
-
+  if (error) throw error;
   if (isLoading) return <Spinner />;
-  if (error) return <Text color="red">{error.message}</Text>;
-
   return (
     <>
       <Box marginY={6}>

@@ -5,13 +5,15 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { updateBtnColor } from "../data/constants";
 import { useEditGroup, useGroup } from "../hooks/useGroups";
-
+import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "./../data/httpErrorStatus";
 
 const schema = z.object({
   id: z.number().optional(),
-  name: z.string()
-    .min(2, { message: "Group name must be at least two letters." }),
+  name: z
+    .string()
+    .min(2, { message: "Group name is required and must be at least two letters." }),
 });
 
 export type GroupEditFormData = z.infer<typeof schema>;
@@ -38,12 +40,13 @@ const GroupEditForm = () => {
     }
   }, [data, setValue]);
 
-  if (mutation.isError)
-    return <Text color="red">{mutation.error.message}</Text>;
+  const customerErrMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
 
   return (
     <>
-    <Box my={8} fontSize={50}>{data?.name} Update Form</Box>
+      <Box my={8} fontSize={50}>
+        {data?.name} Update Form
+      </Box>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box marginBottom={2}>
           <Input
@@ -53,10 +56,16 @@ const GroupEditForm = () => {
             placeholder="Enter school year"
           />
           {errors.name && <Text color="red">{errors.name.message}</Text>}
+          {mutation.isError && <Text color="red">{customerErrMessage}</Text>}
         </Box>
-          <Button mt={4} marginRight={6} type="submit" colorScheme="blue">
-            Update Group Name
-          </Button>
+        <Button
+          mt={4}
+          marginRight={6}
+          type="submit"
+          colorScheme={updateBtnColor}
+        >
+          Update Group Name
+        </Button>
       </form>
     </>
   );

@@ -10,6 +10,7 @@ import {
   Heading,
   useDisclosure,
 } from "@chakra-ui/react";
+import { deleteBtnColor } from "../data/constants";
 
 interface Props {
   entityId: number;
@@ -24,13 +25,12 @@ const DeletionConfirmation = ({
   label,
   onMutate,
 }: Props) => {
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
 
   return (
     <>
-      <Button colorScheme="red" onClick={onOpen}>
+      <Button isActive colorScheme={deleteBtnColor} onClick={onOpen}>
         {label}
       </Button>
 
@@ -54,9 +54,10 @@ const DeletionConfirmation = ({
                 No
               </Button>
               <Button
+                isActive
                 type="submit"
                 onClick={() => onMutate(entityId)}
-                colorScheme="red"
+                colorScheme={deleteBtnColor}
                 ml={3}
               >
                 Yes
