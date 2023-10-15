@@ -5,15 +5,15 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { updateBtnColor } from "../data/constants";
+import { updateBtnColor } from "../cacheKeysAndRoutes";
 import { useEditGroup, useGroup } from "../hooks/useGroups";
-import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "./../data/httpErrorStatus";
+import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../Utilities/httpErrorStatus";
 
 const schema = z.object({
   id: z.number().optional(),
-  name: z
-    .string()
-    .min(2, { message: "Group name is required and must be at least two letters." }),
+  name: z.string().min(2, {
+    message: "Group name is required and must be at least two letters.",
+  }),
 });
 
 export type GroupEditFormData = z.infer<typeof schema>;

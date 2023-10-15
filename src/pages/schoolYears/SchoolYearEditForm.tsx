@@ -4,14 +4,14 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { z } from "zod";
-import DeletionConfirmation from "../../components/DeletionConfirmation";
+import DeletionConfirmation from "../../Utilities/DeletionConfirmation";
 import {
   useDeleteSchoolYear,
   useEditSchoolYear,
   useSchoolYear,
 } from "../../hooks/useSchoolYears";
-import { updateBtnColor } from "../../data/constants";
-import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../data/httpErrorStatus";
+import { updateBtnColor } from "../../cacheKeysAndRoutes";
+import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 
 const schema = z.object({
   id: z.number().optional(),

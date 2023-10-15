@@ -11,12 +11,12 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import BulkDeleteButton from "../components/BulkDeleteButton";
+import BulkDeleteButton from "../Utilities/BulkDeleteButton";
 import {
   AUTH_LAYOUT_ROUTE,
   GROUP_ROUTE,
   deleteBtnColor,
-} from "../data/constants";
+} from "../cacheKeysAndRoutes";
 import { useDeleteAllGroup, useGroups } from "../hooks/useGroups";
 import GroupCreateForm from "./GroupCreateForm";
 

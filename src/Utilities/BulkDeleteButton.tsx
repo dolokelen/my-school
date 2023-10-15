@@ -10,7 +10,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRef } from "react";
-import { deleteBtnColor } from "../data/constants";
+import { deleteBtnColor } from "../cacheKeysAndRoutes";
 
 interface Props {
   onDelete: () => void;

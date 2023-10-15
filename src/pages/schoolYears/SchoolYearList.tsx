@@ -2,7 +2,10 @@ import { Box, HStack, List, ListItem, Spinner } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { AUTH_LAYOUT_ROUTE, SCH_YEAR_LIST_ROUTE } from "../../data/constants";
+import {
+  AUTH_LAYOUT_ROUTE,
+  SCH_YEAR_LIST_ROUTE,
+} from "../../cacheKeysAndRoutes";
 import { useSchoolYears } from "../../hooks/useSchoolYears";
 import SchoolYearCreateForm from "./SchoolYearCreateForm";
 

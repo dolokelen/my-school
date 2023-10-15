@@ -10,7 +10,7 @@ import {
   Heading,
   useDisclosure,
 } from "@chakra-ui/react";
-import { deleteBtnColor } from "../data/constants";
+import { deleteBtnColor } from "../cacheKeysAndRoutes";
 
 interface Props {
   entityId: number;

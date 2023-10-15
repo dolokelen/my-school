@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RegistrationFormData } from "../accounts/RegistrationPage";
-import { CACHE_KEY_REGISTER } from "../data/constants";
+import { CACHE_KEY_REGISTER } from "../cacheKeysAndRoutes";
 import apiClient from "../services/httpService";
 
 const apiClients = apiClient<RegistrationFormData>("auth/users");

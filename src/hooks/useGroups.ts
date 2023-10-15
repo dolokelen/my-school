@@ -4,7 +4,7 @@ import {
   AUTH_LAYOUT_ROUTE,
   CACHE_KEY_GROUP,
   GROUP_ROUTE,
-} from "../data/constants";
+} from "../cacheKeysAndRoutes";
 
 import { GroupCreateFormData } from "../GroupsAndPermissions/GroupCreateForm";
 import { GroupEditFormData } from "../GroupsAndPermissions/GroupEditForm";
@@ -85,7 +85,7 @@ export const useDeleteGroup = (onDelete: () => void) => {
 export const useDeleteAllGroup = (
   ids: number[],
   onDeleteAll: () => void,
-  onDeleSelectedItemsArray: () => void,
+  onDeleSelectedItemsArray: () => void
 ) => {
   const queryClient = useQueryClient();
   const handleDeleteAll = async () => {

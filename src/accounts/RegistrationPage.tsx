@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useRegistration } from "../hooks/useRegistration";
-import { createBtnColor } from "../data/constants";
+import { createBtnColor } from "../cacheKeysAndRoutes";
 
 const schema = z
   .object({

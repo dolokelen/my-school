@@ -10,9 +10,9 @@ import {
   LOGIN_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
-} from "./data/constants";
+} from "./cacheKeysAndRoutes";
 import ErrorPage from "./pages/ErrorPage";
-import HomePage from "./pages/HomePage";
+import UnAuthHomePage from "./components/UnAuthHomePage";
 import SchoolYearDetailPage from "./pages/schoolYears/SchoolYearDetailPage";
 import SchoolYearList from "./pages/schoolYears/SchoolYearList";
 import GroupListPage from "./GroupsAndPermissions/GroupList";
@@ -24,8 +24,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     element: <AuthLayout />,
     children: [
-      {path: GROUP_ROUTE, element: <GroupListPage />},
-      {path: `${GROUP_ROUTE}/:id`, element: <GroupDetailPage />},
+      { path: GROUP_ROUTE, element: <GroupListPage /> },
+      { path: `${GROUP_ROUTE}/:id`, element: <GroupDetailPage /> },
       { path: REGISTER_ROUTE, element: <RegistrationPage /> },
       { path: SCH_YEAR_LIST_ROUTE, element: <SchoolYearList /> },
       { path: `${SCH_YEAR_LIST_ROUTE}/:id`, element: <SchoolYearDetailPage /> },
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     errorElement: <UnAuthLayout children={<ErrorPage />} />,
     element: <UnAuthLayout />,
     children: [
-      { path: HOME_ROUTE, element: <HomePage /> },
+      { path: HOME_ROUTE, element: <UnAuthHomePage /> },
       { path: LOGIN_ROUTE, element: <LoginPage /> },
     ],
   },

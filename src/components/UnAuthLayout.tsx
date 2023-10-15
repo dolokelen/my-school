@@ -1,7 +1,7 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
-import Footer from "./Footer";
-import NavBar from "./NavBar";
+import UnAuthFooter from "./UnAuthFooter";
+import UnAuthNavBar from "./UnAuthNavBar";
 import { ReactNode } from "react";
 
 interface Props {
@@ -21,7 +21,7 @@ const UnAuthLayout = ({ children }: Props) => {
       }}
     >
       <GridItem area="nav" bg="gray.500">
-        <NavBar />
+        <UnAuthNavBar />
       </GridItem>
 
       <GridItem area="main" bg="tomato">
@@ -29,7 +29,7 @@ const UnAuthLayout = ({ children }: Props) => {
       </GridItem>
 
       <GridItem area="footer" bg="gray" py={10}>
-        <Footer />
+        <UnAuthFooter />
       </GridItem>
     </Grid>
   );

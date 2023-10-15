@@ -2,12 +2,12 @@ import { Grid, GridItem, Show } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Outlet, useLocation, useSearchParams } from "react-router-dom";
 import LoginPage from "../accounts/LoginPage";
-import getUserId from "../data/getUserId";
+import getUserId from "../Utilities/getUserId";
 import AuthNavBar from "./AuthNavBar";
-import SideBar from "./SideBar";
+import AuthSideBar from "./AuthSideBar";
 import UnAuthLayout from "./UnAuthLayout";
 import AuthHomePage from "./AuthHomePage";
-import { AUTH_LAYOUT_ROUTE } from "../data/constants";
+import { AUTH_LAYOUT_ROUTE } from "../cacheKeysAndRoutes";
 
 const AuthLayout = () => {
   const location = useLocation();
@@ -45,7 +45,7 @@ const AuthLayout = () => {
 
         <Show above="sm">
           <GridItem area="aside">
-            <SideBar />
+            <AuthSideBar />
           </GridItem>
         </Show>
         <GridItem mx={10} area="main">

@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { HOME_ROUTE } from "./constants";
+import { HOME_ROUTE } from "../cacheKeysAndRoutes";
 
 const authRouteToHomeRoute = () => {
   const location = useLocation();

@@ -1,9 +1,9 @@
 import { Avatar, Flex } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { HOME_ROUTE } from "../data/constants";
+import { HOME_ROUTE } from "../cacheKeysAndRoutes";
 import DashBoard from "./DashBoard";
 
-const SideBar = () => {
+const AuthSideBar = () => {
   return (
     <Flex
       bg="gray.200"
@@ -29,4 +29,4 @@ const SideBar = () => {
   );
 };
 
-export default SideBar;
+export default AuthSideBar;

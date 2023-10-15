@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { AUTH_LAYOUT_ROUTE, CACHE_KEY_SCHOOL_YEAR, SCH_YEAR_LIST_ROUTE } from "../data/constants";
+import {
+  AUTH_LAYOUT_ROUTE,
+  CACHE_KEY_SCHOOL_YEAR,
+  SCH_YEAR_LIST_ROUTE,
+} from "../cacheKeysAndRoutes";
 import { SchoolYearCreateFormData } from "../pages/schoolYears/SchoolYearCreateForm";
 import { SchoolYearEditFormData } from "../pages/schoolYears/SchoolYearEditForm";
 import apiClient from "../services/httpService";

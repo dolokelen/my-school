@@ -1,13 +1,7 @@
-import {
-  Box,
-  List,
-  ListItem,
-  Spinner,
-  Text
-} from "@chakra-ui/react";
+import { Box, List, ListItem, Spinner } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import DeletionConfirmation from "../components/DeletionConfirmation";
+import DeletionConfirmation from "../Utilities/DeletionConfirmation";
 import { useDeleteGroup, useGroup } from "../hooks/useGroups";
 import GroupEditForm from "./GroupEditForm";
 

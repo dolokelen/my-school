@@ -1,9 +1,9 @@
 import { HStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { AUTH_LAYOUT_ROUTE, REGISTER_ROUTE } from "../data/constants";
-import authRouteToHomeRoute from "../data/getHomeRoute";
-import logoutUser from "../data/logoutUser";
+import { AUTH_LAYOUT_ROUTE, REGISTER_ROUTE } from "../cacheKeysAndRoutes";
+import authRouteToHomeRoute from "../Utilities/getHomeRoute";
+import logoutUser from "../Utilities/logoutUser";
 
 const AuthNavBar = () => {
   return (
