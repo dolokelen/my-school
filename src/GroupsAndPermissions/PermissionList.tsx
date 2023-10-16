@@ -1,10 +1,10 @@
 import {
-    Box,
-    Button,
-    Checkbox,
-    List,
-    ListItem,
-    Spinner,
+  Box,
+  Button,
+  Checkbox,
+  List,
+  ListItem,
+  Spinner,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -14,11 +14,7 @@ import { useAddGroupPermissions } from "../hooks/useGroups";
 import { usePermissions } from "../hooks/usePermissions";
 
 const PermissionList = () => {
-    const { data, isLoading, error } = usePermissions();
-  
-    if (error) throw error;
-    if (isLoading) return <Spinner />;
-
+  const { data, isLoading, error } = usePermissions();
   const [selectedPermissions, setSelectedPermissions] = useState<number[]>([]);
 
   const { id } = useParams();
@@ -32,6 +28,9 @@ const PermissionList = () => {
     }
   );
 
+  if (error) throw error;
+  if (isLoading) return <Spinner />;
+  
   const handleCheckboxChange = (permissionId: number) => {
     if (selectedPermissions.includes(permissionId)) {
       setSelectedPermissions(

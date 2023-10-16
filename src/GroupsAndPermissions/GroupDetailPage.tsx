@@ -26,8 +26,6 @@ const GroupDetailPage = () => {
   const { id } = useParams();
   const groupId = parseInt(id!);
   const { data: group, isLoading, error } = useGroup(groupId);
-  if (error) throw error;
-  if (isLoading) return <Spinner />;
 
   const mutation = useDeleteGroup(() => toast.success("Deleted successfully."));
   const [selectedPermissions, setSelectedPermissions] = useState<number[]>([]);
@@ -39,6 +37,9 @@ const GroupDetailPage = () => {
       toast.success("Permissions removed successfully!");
     }
   );
+
+  if (error) throw error;
+  if (isLoading) return <Spinner />;
 
   const handleCheckboxChange = (permissionId: number) => {
     if (selectedPermissions.includes(permissionId)) {
