@@ -128,6 +128,15 @@ class APIClient<T> {
       });
   };
 
+  patchJsonData = <T>(data: T, entityId: number) => {
+    return axiosInstance
+      .patch<T>(`${this.endpoint}${entityId}/`, data)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  };
+
   delete = (id: number) => {
     return axiosInstance
       .delete(`${this.endpoint}${id}/`)

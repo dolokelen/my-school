@@ -17,6 +17,11 @@ import { useDeleteAllGroup, useGroups } from "../hooks/useGroups";
 import GroupCreateForm from "./GroupCreateForm";
 
 const GroupListPage = () => {
+  const { data: groups, isLoading, error } = useGroups();
+
+  if (error) throw error;
+  if (isLoading) return <Spinner />;
+
   const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
   const handleDeleteAll = useDeleteAllGroup(
     selectedGroups,
@@ -25,10 +30,6 @@ const GroupListPage = () => {
       setSelectedGroups([]);
     }
   );
-  const { data: groups, isLoading, error } = useGroups();
-
-  if (error) throw error;
-  if (isLoading) return <Spinner />;
 
   const handleCheckboxChange = (groupId: number) => {
     if (selectedGroups.includes(groupId)) {
@@ -37,6 +38,7 @@ const GroupListPage = () => {
       setSelectedGroups([...selectedGroups, groupId]);
     }
   };
+
   return (
     <>
       <Box marginY={6}>

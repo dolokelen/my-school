@@ -16,15 +16,16 @@ interface Props {
   onDelete: () => void;
   entityName?: string;
   label: string;
+  color?: string;
 }
 
-const BulkDeleteButton = ({ label, entityName, onDelete }: Props) => {
+const BulkDeleteButton = ({ label, entityName, color, onDelete }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
 
   return (
     <>
-      <Button isActive colorScheme={red} onClick={onOpen}>
+      <Button isActive colorScheme={ color ? color : red} onClick={onOpen}>
         {label}
       </Button>
 
@@ -53,7 +54,7 @@ const BulkDeleteButton = ({ label, entityName, onDelete }: Props) => {
                 isActive
                 type="submit"
                 onClick={onDelete}
-                colorScheme={red}
+                colorScheme={ color ? color : red}
                 ml={3}
               >
                 Yes

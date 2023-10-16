@@ -1,4 +1,5 @@
 export const CACHE_KEY_GROUP = "group";
+export const CACHE_KEY_PERMISSION = "permission";
 export const CACHE_KEY_SCHOOL_YEAR = "schoolYear";
 export const CACHE_KEY_REGISTER = "user";
 

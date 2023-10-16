@@ -5,15 +5,18 @@ import {
   CACHE_KEY_GROUP,
   GROUP_ROUTE,
 } from "../cacheKeysAndRoutes";
-
 import { GroupCreateFormData } from "../GroupsAndPermissions/GroupCreateForm";
 import { GroupEditFormData } from "../GroupsAndPermissions/GroupEditForm";
 import apiClient from "../services/httpService";
 
+interface Permission {
+  id: number;
+  name: string;
+}
 interface Group {
   id?: number;
   name: string;
-  permissions?: number[];
+  permissions?: Permission[];
 }
 const apiClients = apiClient<Group>("/school/groups/");
 
@@ -102,4 +105,40 @@ export const useDeleteAllGroup = (
   };
 
   return handleDeleteAll;
+};
+
+export const useUpdateGroupPermissions = (
+  data: { id: number, permissions_to_remove: number[] },
+  onDeleteSelectedItems: () => void
+) => {
+  const queryClient = useQueryClient();
+  const handlePermissionsRemoval = async () => {
+    try {
+      await apiClients.patchJsonData(JSON.stringify(data), data.id);
+      onDeleteSelectedItems();
+      queryClient.invalidateQueries([CACHE_KEY_GROUP]);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return handlePermissionsRemoval;
+};
+
+export const useAddGroupPermissions = (
+  data: { id: number, permissions_to_add: number[] },
+  onDeleteSelectedItems: () => void
+) => {
+  const queryClient = useQueryClient();
+  const handlePermissionsRemoval = async () => {
+    try {
+      await apiClients.patchJsonData(JSON.stringify(data), data.id);
+      onDeleteSelectedItems();
+      queryClient.invalidateQueries([CACHE_KEY_GROUP]);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return handlePermissionsRemoval;
 };
