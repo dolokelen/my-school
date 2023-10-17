@@ -28,7 +28,7 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       { path: USER_ROUTE, element: <UsersListPage /> },
-      { path: `${USER_ROUTE}/:id`, element: <UserDetailPage /> },
+      { path: `${USER_ROUTE}/:pk`, element: <UserDetailPage /> },
       { path: GROUP_ROUTE, element: <GroupListPage /> },
       { path: `${GROUP_ROUTE}/:id`, element: <GroupDetailPage /> },
       { path: REGISTER_ROUTE, element: <RegistrationForm /> },

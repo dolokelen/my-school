@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
 import UserEditForm from "./UserEditForm";
+import UserGroupsPage from "./UserGroupsPage";
 
 const UserDetailPage = () => {
-  const { id } = useParams();
-  const userId = parseInt(id!);
+  const { pk } = useParams();
+  const userId = parseInt(pk!);
   return (
     <>
       <UserEditForm />
+      <UserGroupsPage userPk={userId} />
     </>
   );
 };

@@ -7,7 +7,7 @@ interface Permission {
   name: string;
 }
 
-const apiClients = apiClient<Permission>("/school/permissions/");
+const apiClients = apiClient<Permission>("/core/permissions/");
 
 export const usePermissions = () => {
   return useQuery<Permission[], Error>({

@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { teal } from "../../cacheKeysAndRoutes";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
+import { teal } from "../../cacheKeysAndRoutes";
 import { useEditUser, useUser } from "../../hooks/useUsers";
 
 const schema = z.object({
@@ -36,10 +36,8 @@ const UserEditForm = () => {
     setValue,
     formState: { errors },
   } = useForm<UserEditFormData>({ resolver: zodResolver(schema) });
-
-  const { id } = useParams();
-  const { data, error, isLoading } = useUser(parseInt(id!));
-
+  const { pk } = useParams();
+  const { data, error, isLoading } = useUser(parseInt(pk!));
   const mutation = useEditUser(() => toast.success("Updated successfully."));
   const onSubmit = (FormData: UserEditFormData) => {
     mutation.mutate({ ...FormData, id: data?.id });
@@ -59,10 +57,10 @@ const UserEditForm = () => {
 
   return (
     <>
+      <form onSubmit={handleSubmit(onSubmit)}>
       <Box my={8} fontSize={50}>
         <Avatar /> {data?.first_name} {data.last_name}
       </Box>
-      <form onSubmit={handleSubmit(onSubmit)}>
         <Box marginBottom={2}>
           <Input
             {...register("first_name")}

@@ -18,7 +18,7 @@ interface Group {
   name: string;
   permissions?: Permission[];
 }
-const apiClients = apiClient<Group>("/school/groups/");
+const apiClients = apiClient<Group>("/core/groups/");
 
 export const useGroups = () => {
   return useQuery<Group[], Error>({
@@ -142,3 +142,4 @@ export const useAddGroupPermissions = (
 
   return handlePermissionsRemoval;
 };
+

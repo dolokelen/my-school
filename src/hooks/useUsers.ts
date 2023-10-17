@@ -10,7 +10,9 @@ interface User {
   first_name: string;
   last_name: string;
 }
-const apiClients = apiClient<User>("/core/users/");
+
+const CORE_USERS_URL = "/core/users/";
+const apiClients = apiClient<User>(CORE_USERS_URL);
 
 export const useUsers = () =>
   useQuery<User[], Error>({
@@ -19,12 +21,12 @@ export const useUsers = () =>
     staleTime: 24 * 60 * 60 * 1000, //24hrs
   });
 
-  export const useUser = (userId: number) => {
-    return useQuery<User, Error>({
-      queryKey: [CACHE_KEY_USER, userId],
-      queryFn: () => apiClients.get(userId),
-    });
-  };
+export const useUser = (userId: number) => {
+  return useQuery<User, Error>({
+    queryKey: [CACHE_KEY_USER, userId],
+    queryFn: () => apiClients.get(userId),
+  });
+};
 
 export const useEditUser = (onUpdate: () => void) => {
   const queryClient = useQueryClient();
@@ -41,4 +43,24 @@ export const useEditUser = (onUpdate: () => void) => {
       });
     },
   });
+};
+
+export const useAddGroupsToUser = (
+  data: { pk: number; group_ids: number[] },
+  onAddSelectedGroupIds: () => void
+) => {
+  const apiClients = apiClient<{ pk: number; group_ids: number[] }>(
+    CORE_USERS_URL
+  );
+
+  const handleAddGroupsToUser = async () => {
+    try {
+      await apiClients.patchJsonData(JSON.stringify(data), data.pk);
+      onAddSelectedGroupIds();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return handleAddGroupsToUser;
 };
