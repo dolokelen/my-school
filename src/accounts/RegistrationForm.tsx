@@ -34,7 +34,7 @@ const schema = z
 
 export type RegistrationFormData = z.infer<typeof schema>;
 
-const RegistrationPage = () => {
+const RegistrationForm = () => {
   const {
     register,
     handleSubmit,
@@ -134,4 +134,4 @@ const RegistrationPage = () => {
   );
 };
 
-export default RegistrationPage;
+export default RegistrationForm;

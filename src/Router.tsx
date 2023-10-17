@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import LoginPage from "./accounts/LoginPage";
-import RegistrationPage from "./accounts/RegistrationPage";
+import RegistrationForm from "./accounts/RegistrationForm";
 import AuthLayout from "./components/AuthLayout";
 import UnAuthLayout from "./components/UnAuthLayout";
 import {
@@ -10,6 +10,7 @@ import {
   LOGIN_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
+  USER_ROUTE,
 } from "./cacheKeysAndRoutes";
 import ErrorPage from "./pages/ErrorPage";
 import UnAuthHomePage from "./components/UnAuthHomePage";
@@ -17,6 +18,8 @@ import SchoolYearDetailPage from "./pages/schoolYears/SchoolYearDetailPage";
 import SchoolYearList from "./pages/schoolYears/SchoolYearList";
 import GroupListPage from "./GroupsAndPermissions/GroupList";
 import GroupDetailPage from "./GroupsAndPermissions/GroupDetailPage";
+import UsersListPage from "./pages/users/UsersListPage";
+import UserDetailPage from "./pages/users/UserDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -24,9 +27,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     element: <AuthLayout />,
     children: [
+      { path: USER_ROUTE, element: <UsersListPage /> },
+      { path: `${USER_ROUTE}/:id`, element: <UserDetailPage /> },
       { path: GROUP_ROUTE, element: <GroupListPage /> },
       { path: `${GROUP_ROUTE}/:id`, element: <GroupDetailPage /> },
-      { path: REGISTER_ROUTE, element: <RegistrationPage /> },
+      { path: REGISTER_ROUTE, element: <RegistrationForm /> },
       { path: SCH_YEAR_LIST_ROUTE, element: <SchoolYearList /> },
       { path: `${SCH_YEAR_LIST_ROUTE}/:id`, element: <SchoolYearDetailPage /> },
     ],
