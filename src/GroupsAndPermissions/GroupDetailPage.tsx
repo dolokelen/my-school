@@ -31,7 +31,7 @@ const GroupDetailPage = () => {
   const [selectedPermissions, setSelectedPermissions] = useState<number[]>([]);
 
   const handlePermissionsRemoval = useUpdateGroupPermissions(
-    { id: groupId, permissions_to_remove: selectedPermissions },
+    { id: groupId, permission_ids_to_remove: selectedPermissions },
     () => {
       setSelectedPermissions([]);
       toast.success("Permissions removed successfully!");

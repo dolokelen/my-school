@@ -1,14 +1,19 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { CACHE_KEY_USER } from "../cacheKeysAndRoutes";
-import apiClient from "../services/httpService";
 import { UserEditFormData } from "../pages/users/UserEditForm";
+import apiClient from "../services/httpService";
 
-interface User {
+interface Group {
+  id: number;
+  name: string;
+}
+export interface User {
   id: number;
   username: string;
   email: string;
   first_name: string;
   last_name: string;
+  groups: Group[];
 }
 
 const CORE_USERS_URL = "/core/users/";
@@ -46,21 +51,43 @@ export const useEditUser = (onUpdate: () => void) => {
 };
 
 export const useAddGroupsToUser = (
-  data: { pk: number; group_ids: number[] },
+  data: { pk: number; group_to_add_ids: number[] },
   onAddSelectedGroupIds: () => void
 ) => {
-  const apiClients = apiClient<{ pk: number; group_ids: number[] }>(
+  const apiClients = apiClient<{ pk: number; group_to_add_ids: number[] }>(
     CORE_USERS_URL
   );
-
+  const queryClient = useQueryClient();
   const handleAddGroupsToUser = async () => {
     try {
       await apiClients.patchJsonData(JSON.stringify(data), data.pk);
       onAddSelectedGroupIds();
+      return queryClient.invalidateQueries({ queryKey: [CACHE_KEY_USER] });
     } catch (error) {
       throw error;
     }
   };
 
   return handleAddGroupsToUser;
+};
+
+export const useRemoveGroupsFromUser = (
+  data: { pk: number; group_to_remove_ids: number[] },
+  onRemoveSelectedGroupIds: () => void
+) => {
+  const apiClients = apiClient<{ pk: number; group_to_remove_ids: number[] }>(
+    CORE_USERS_URL
+  );
+  const queryClient = useQueryClient();
+  const handleRemoveGroupsFormUser = async () => {
+    try {
+      await apiClients.patchJsonData(JSON.stringify(data), data.pk);
+      onRemoveSelectedGroupIds();
+      return queryClient.invalidateQueries({ queryKey: [CACHE_KEY_USER] });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return handleRemoveGroupsFormUser;
 };

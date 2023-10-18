@@ -108,7 +108,7 @@ export const useDeleteAllGroup = (
 };
 
 export const useUpdateGroupPermissions = (
-  data: { id: number, permissions_to_remove: number[] },
+  data: { id: number, permission_ids_to_remove: number[] },
   onDeleteSelectedItems: () => void
 ) => {
   const queryClient = useQueryClient();
@@ -126,7 +126,7 @@ export const useUpdateGroupPermissions = (
 };
 
 export const useAddGroupPermissions = (
-  data: { id: number, permissions_to_add: number[] },
+  data: { id: number, permission_ids_to_add: number[] },
   onDeleteSelectedItems: () => void
 ) => {
   const queryClient = useQueryClient();

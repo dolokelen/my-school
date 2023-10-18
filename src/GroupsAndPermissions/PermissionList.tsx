@@ -21,7 +21,7 @@ const PermissionList = () => {
   const groupId = parseInt(id!);
 
   const handleAddPermissions = useAddGroupPermissions(
-    { id: groupId, permissions_to_add: selectedPermissions },
+    { id: groupId, permission_ids_to_add: selectedPermissions },
     () => {
       setSelectedPermissions([]);
       toast.success("Permissions removed successfully!");

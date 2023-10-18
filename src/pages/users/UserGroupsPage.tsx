@@ -1,35 +1,62 @@
 import { Box, Button, Checkbox, Grid, GridItem, Stack } from "@chakra-ui/react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { blue } from "../../cacheKeysAndRoutes";
+import {
+  AUTH_LAYOUT_ROUTE,
+  GROUP_ROUTE,
+  blue,
+  teal,
+} from "../../cacheKeysAndRoutes";
 import { useGroups } from "../../hooks/useGroups";
-import { useAddGroupsToUser } from "../../hooks/useUsers";
+import {
+  useAddGroupsToUser,
+  useRemoveGroupsFromUser,
+  useUser,
+} from "../../hooks/useUsers";
 
 interface Props {
   userPk: number;
 }
 
 const UserGroupsPage = ({ userPk }: Props) => {
-  const { data: groups, error, isLoading } = useGroups();
-  const [selectedGroupIds, setSelectedGroups] = useState<number[]>([]);
-
+  const { data: user } = useUser(userPk);
+  const { data: groups, error } = useGroups();
+  const [groupIdsToAdd, setGroupIdsToAdd] = useState<number[]>([]);
+  const [groupIdsToRemove, setGroupIdsToRemove] = useState<number[]>([]);
   const pk = userPk;
+
   const handleAddUserToGroups = useAddGroupsToUser(
-    { pk, group_ids: selectedGroupIds },
+    { pk, group_to_add_ids: groupIdsToAdd },
     () => {
       toast.success("User successfully added to group!");
-      setSelectedGroups([]);
+      setGroupIdsToAdd([]);
     }
   );
 
-  if (error) throw error;
-  if (isLoading) return;
+  const handleRemoveGroupsFromUser = useRemoveGroupsFromUser(
+    { pk, group_to_remove_ids: groupIdsToRemove },
+    () => {
+      toast.success("User successfully from group!");
+      setGroupIdsToRemove([]);
+    }
+  );
 
-  const handleCheckboxChange = (groupId: number) => {
-    if (selectedGroupIds.includes(groupId)) {
-      setSelectedGroups(selectedGroupIds.filter((id) => id !== groupId));
+  if (error) return;
+
+  const handleCheckboxChangeForAdd = (groupId: number) => {
+    if (groupIdsToAdd.includes(groupId)) {
+      setGroupIdsToAdd(groupIdsToAdd.filter((id) => id !== groupId));
     } else {
-      setSelectedGroups([...selectedGroupIds, groupId]);
+      setGroupIdsToAdd([...groupIdsToAdd, groupId]);
+    }
+  };
+
+  const handleCheckboxChangeForRemove = (groupId: number) => {
+    if (groupIdsToRemove.includes(groupId)) {
+      setGroupIdsToRemove(groupIdsToRemove.filter((id) => id !== groupId));
+    } else {
+      setGroupIdsToRemove([...groupIdsToRemove, groupId]);
     }
   };
 
@@ -47,27 +74,40 @@ const UserGroupsPage = ({ userPk }: Props) => {
     >
       <GridItem area="userGroups">
         <Box fontWeight="bold" mt={8} mb={4}>
-          User Groups {userPk}
+          {user?.username} Groups
         </Box>
         <Stack>
-          <Checkbox>one</Checkbox>
-          <Checkbox>Two</Checkbox>
-          <Checkbox>Three</Checkbox>
+          {user?.groups.map((group) => (
+            <Checkbox
+              key={group.id}
+              isChecked={groupIdsToRemove.includes(group.id!)}
+              onChange={() => handleCheckboxChangeForRemove(group.id!)}
+            >
+              <Link to={`${AUTH_LAYOUT_ROUTE}/${GROUP_ROUTE}/${group.id}`}>
+                {group.name}
+              </Link>
+            </Checkbox>
+          ))}
+          <Button colorScheme={teal} onClick={handleRemoveGroupsFromUser}>
+            Remove
+          </Button>
         </Stack>
       </GridItem>
 
       <GridItem area="availableGroups">
         <Box fontWeight="bold" mt={8} mb={4}>
-          Available Groups {userPk}
+          Available Groups
         </Box>
         <Stack>
           {groups?.map((group) => (
             <Checkbox
               key={group.id}
-              isChecked={selectedGroupIds.includes(group.id!)}
-              onChange={() => handleCheckboxChange(group.id!)}
+              isChecked={groupIdsToAdd.includes(group.id!)}
+              onChange={() => handleCheckboxChangeForAdd(group.id!)}
             >
-              {group.name}
+              <Link to={`${AUTH_LAYOUT_ROUTE}/${GROUP_ROUTE}/${group.id}`}>
+                {group.name}
+              </Link>
             </Checkbox>
           ))}
           <Button colorScheme={blue} onClick={handleAddUserToGroups}>
