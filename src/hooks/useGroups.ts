@@ -8,6 +8,7 @@ import {
 import { GroupCreateFormData } from "../GroupsAndPermissions/GroupCreateForm";
 import { GroupEditFormData } from "../GroupsAndPermissions/GroupEditForm";
 import apiClient from "../services/httpService";
+import ms from "ms";
 
 interface Permission {
   id: number;
@@ -24,7 +25,7 @@ export const useGroups = () => {
   return useQuery<Group[], Error>({
     queryKey: [CACHE_KEY_GROUP],
     queryFn: apiClients.getAll,
-    staleTime: 24 * 60 * 60 * 1000, //24hrs
+    staleTime: ms('24h')
   });
 };
 

@@ -18,7 +18,7 @@ const UsersListPage = () => {
   const userId = parseInt(id!);
 
   if (error) throw error;
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner ml="50%" color="blue.500" thickness="10px" my={60} size="xl" />;
 
   return (
     <TableContainer>

@@ -1,4 +1,4 @@
-import { Box, Button, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Checkbox, FormLabel, Heading, Input, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -15,6 +15,7 @@ const schema = z
       .email("This is not a valid email address."),
     first_name: z.string().min(2, { message: "First name is required." }),
     last_name: z.string().min(2, { message: "Last name is required." }),
+    is_active: z.boolean(),
     password: z
       .string()
       .min(8, { message: "Password cannot be less than 8 characters." }),
@@ -99,6 +100,12 @@ const RegistrationForm = () => {
           {errors.last_name && (
             <Text color={errMessageColor}>{errors.last_name.message}</Text>
           )}
+        </Box>
+        <Box mb={marginButton}>
+          <Checkbox
+          {...register("is_active")}
+          name="is_active"
+          >Can login</Checkbox>
         </Box>
         <Box mb={marginButton}>
           <FormLabel htmlFor="password">Password</FormLabel>
