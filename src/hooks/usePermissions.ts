@@ -3,7 +3,7 @@ import { CACHE_KEY_PERMISSION } from "../cacheKeysAndRoutes";
 import apiClient from "../services/httpService";
 import ms from "ms";
 
-interface Permission {
+export interface Permission {
   id: number;
   name: string;
 }

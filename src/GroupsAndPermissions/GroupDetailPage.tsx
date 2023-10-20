@@ -3,6 +3,8 @@ import {
   Button,
   Checkbox,
   Flex,
+  Grid,
+  GridItem,
   HStack,
   List,
   ListItem,
@@ -11,7 +13,6 @@ import {
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import BulkDeleteButton from "../Utilities/BulkDeleteButton";
 import DeletionConfirmation from "../Utilities/DeletionConfirmation";
 import { blue, red } from "../cacheKeysAndRoutes";
 import {
@@ -20,6 +21,7 @@ import {
   useUpdateGroupPermissions,
 } from "../hooks/useGroups";
 import GroupEditForm from "./GroupEditForm";
+import OverflowYContainer from "./OverflowYContainer";
 import PermissionList from "./PermissionList";
 
 const GroupDetailPage = () => {
@@ -54,57 +56,79 @@ const GroupDetailPage = () => {
   return (
     <>
       <GroupEditForm />
+
       <HStack fontSize={30} mt={8} mb={3} justifyContent="space-evenly">
-        <Box>{group.name} Group Permissions</Box>
+        <Box ml="-10%">{group.name} Permissions</Box>
         <Box>Available Permissions</Box>
       </HStack>
-      <HStack fontSize={30} mt={8} mb={3} justifyContent="space-evenly">
-        <List>
-          {group.permissions?.length ? (
-            group.permissions?.map((p) => (
-              <ListItem key={p.id}>
-                <Checkbox
-                  isChecked={selectedPermissions.includes(p.id)}
-                  onChange={() => handleCheckboxChange(p.id)}
-                >
-                  {p.name}
-                </Checkbox>
-              </ListItem>
-            ))
-          ) : (
-            <ListItem color={red}>
-              No available permissions for this group
-            </ListItem>
-          )}
-        </List>
-        <PermissionList />
-      </HStack>
 
-      <Flex justifyContent="space-evenly">
-        {selectedPermissions.length === 0 ? (
-          <Button isActive isDisabled colorScheme={blue}>
-            Remove
-          </Button>
-        ) : (
-          <BulkDeleteButton
-            label="Remove"
-            entityName="Permissions"
-            color={blue}
-            onDelete={handlePermissionsRemoval}
-          />
-        )}
+      <Grid
+        templateAreas={{
+          base: `"groupPermissions unAssignPermissions" "buttons buttons"`,
+          //   sm: `"nav nav" "aside main"`,
+        }}
+        templateColumns={{
+          base: `0.29fr 0.29fr`,
+          //   sm: `225px 1fr`,
+        }}
+        justifyContent="space-evenly"
+      >
+        <GridItem area="groupPermissions">
+          <OverflowYContainer>
+            <List>
+              {group.permissions?.length ? (
+                group.permissions?.map((p) => (
+                  <ListItem key={p.id}>
+                    <Checkbox
+                      isChecked={selectedPermissions.includes(p.id)}
+                      onChange={() => handleCheckboxChange(p.id)}
+                    >
+                      {p.name}
+                    </Checkbox>
+                  </ListItem>
+                ))
+              ) : (
+                <ListItem color={red}>
+                  No assigned permissions
+                </ListItem>
+              )}
+            </List>
+          </OverflowYContainer>
+        </GridItem>
 
-        <DeletionConfirmation
-          entityId={groupId}
-          entityName={group.name}
-          label="Delete Group"
-          onMutate={() => mutation.mutate(groupId)}
-        />
+        <GridItem area="unAssignPermissions">
+          <PermissionList assignPermissions={group.permissions} />
+        </GridItem>
 
-        <Button isActive isDisabled colorScheme={blue}>
-          Add
-        </Button>
-      </Flex>
+        <GridItem area="buttons">
+          <Flex justifyContent="space-evenly">
+            {selectedPermissions.length === 0 ? (
+              <Button isActive isDisabled colorScheme={blue}>
+                Remove
+              </Button>
+            ) : (
+              <Button
+                isActive
+                onClick={handlePermissionsRemoval}
+                colorScheme={blue}
+              >
+                Remove
+              </Button>
+            )}
+
+            <DeletionConfirmation
+              entityId={groupId}
+              entityName={group.name}
+              label="Delete Group"
+              onMutate={() => mutation.mutate(groupId)}
+            />
+
+            <Button isActive isDisabled colorScheme={blue}>
+              Add
+            </Button>
+          </Flex>
+        </GridItem>
+      </Grid>
     </>
   );
 };

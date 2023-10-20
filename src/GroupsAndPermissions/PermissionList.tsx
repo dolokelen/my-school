@@ -1,20 +1,24 @@
 import {
-  Box,
   Button,
   Checkbox,
   List,
   ListItem,
-  Spinner,
+  Spinner
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { blue } from "../cacheKeysAndRoutes";
 import { useAddGroupPermissions } from "../hooks/useGroups";
-import { usePermissions } from "../hooks/usePermissions";
+import { Permission, usePermissions } from "../hooks/usePermissions";
+import OverflowYContainer from "./OverflowYContainer";
 
-const PermissionList = () => {
-  const { data, isLoading, error } = usePermissions();
+interface Props {
+  assignPermissions?: Permission[];
+}
+
+const PermissionList = ({ assignPermissions }: Props) => {
+  const { data: allPermissions, isLoading, error } = usePermissions();
   const [selectedPermissions, setSelectedPermissions] = useState<number[]>([]);
 
   const { id } = useParams();
@@ -30,7 +34,7 @@ const PermissionList = () => {
 
   if (error) throw error;
   if (isLoading) return <Spinner />;
-  
+
   const handleCheckboxChange = (permissionId: number) => {
     if (selectedPermissions.includes(permissionId)) {
       setSelectedPermissions(
@@ -42,10 +46,11 @@ const PermissionList = () => {
   };
 
   return (
-    <>
-      <Box maxH="300px" overflowY="auto">
-        <List>
-          {data.map((p) => (
+    <OverflowYContainer>
+      <List>
+        {allPermissions
+          ?.filter((p) => !assignPermissions?.some((ap) => ap.id === p.id))
+          .map((p) => (
             <ListItem key={p.id}>
               <Checkbox
                 isChecked={selectedPermissions.includes(p.id)}
@@ -55,18 +60,15 @@ const PermissionList = () => {
               </Checkbox>
             </ListItem>
           ))}
-        </List>
-        {selectedPermissions.length === 0 ? (
-          <Button isActive isDisabled colorScheme={blue}>
-            Add
-          </Button>
-        ) : (
-          <Button isActive onClick={handleAddPermissions} colorScheme={blue}>
-            Add
-          </Button>
-        )}
-      </Box>
-    </>
+      </List>
+      {selectedPermissions.length === 0 ? (
+        <></>
+      ) : (
+        <Button isActive onClick={handleAddPermissions} colorScheme={blue}>
+          Add
+        </Button>
+      )}
+    </OverflowYContainer>
   );
 };
 

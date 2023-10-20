@@ -11,6 +11,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { AUTH_LAYOUT_ROUTE, USER_ROUTE } from "../../cacheKeysAndRoutes";
 import { useUsers } from "../../hooks/useUsers";
+import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 
 const UsersListPage = () => {
   const { data: users, error, isLoading } = useUsers();
@@ -22,6 +23,7 @@ const UsersListPage = () => {
 
   return (
     <TableContainer>
+          <OverflowYContainer maxH="90vh">
       <Table variant="simple">
         <Thead>
           <Tr>
@@ -70,6 +72,7 @@ const UsersListPage = () => {
           ))}
         </Tbody>
       </Table>
+          </OverflowYContainer>
     </TableContainer>
   );
 };
