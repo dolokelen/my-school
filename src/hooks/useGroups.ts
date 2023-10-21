@@ -33,6 +33,7 @@ export const useGroup = (groupId: number) => {
   return useQuery<Group, Error>({
     queryKey: [CACHE_KEY_GROUP, groupId],
     queryFn: () => apiClients.get(groupId),
+    staleTime: ms('24h')
   });
 };
 

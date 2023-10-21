@@ -5,10 +5,10 @@ import { red } from "../cacheKeysAndRoutes";
 const ErrorPage = () => {
   const error = useRouteError();
   return (
-    <Box mx="40%" my="10%">
-      <Heading>Oops!</Heading>
+    <>
+      <Heading mx="40%" mt="10%">Oops!</Heading>
       {isRouteErrorResponse(error) ? (
-        <Text fontSize={40} color={red}>
+        <Text mx="40%" fontSize={40} color={red}>
           Page Does Not Exist.
         </Text>
       ) : (
@@ -17,7 +17,7 @@ const ErrorPage = () => {
           be resolved soon.
         </Text>
       )}
-    </Box>
+    </>
   );
 };
 

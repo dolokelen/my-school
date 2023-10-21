@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import ms from "ms";
 import { CACHE_KEY_USER } from "../cacheKeysAndRoutes";
 import { UserEditFormData } from "../pages/users/UserEditForm";
 import apiClient from "../services/httpService";
-import ms from "ms";
 
 interface Group {
   id: number;
@@ -31,6 +31,7 @@ export const useUser = (userId: number) => {
   return useQuery<User, Error>({
     queryKey: [CACHE_KEY_USER, userId],
     queryFn: () => apiClients.get(userId),
+    staleTime: ms('24h')
   });
 };
 

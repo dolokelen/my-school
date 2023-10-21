@@ -1,13 +1,13 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Outlet, useLocation, useSearchParams } from "react-router-dom";
-import LoginPage from "../accounts/LoginPage";
 import getUserId from "../Utilities/getUserId";
+import LoginPage from "../accounts/LoginPage";
+import { AUTH_LAYOUT_ROUTE } from "../cacheKeysAndRoutes";
+import AuthHomePage from "./AuthHomePage";
 import AuthNavBar from "./AuthNavBar";
 import AuthSideBar from "./AuthSideBar";
 import UnAuthLayout from "./UnAuthLayout";
-import AuthHomePage from "./AuthHomePage";
-import { AUTH_LAYOUT_ROUTE } from "../cacheKeysAndRoutes";
 
 const AuthLayout = () => {
   const location = useLocation();

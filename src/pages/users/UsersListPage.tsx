@@ -8,15 +8,13 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import { AUTH_LAYOUT_ROUTE, USER_ROUTE } from "../../cacheKeysAndRoutes";
 import { useUsers } from "../../hooks/useUsers";
-import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 
 const UsersListPage = () => {
   const { data: users, error, isLoading } = useUsers();
-  const { id } = useParams();
-  const userId = parseInt(id!);
 
   if (error) throw error;
   if (isLoading) return <Spinner ml="50%" color="blue.500" thickness="10px" my={60} size="xl" />;
@@ -34,7 +32,7 @@ const UsersListPage = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {users.map((user) => (
+          {users?.map((user) => (
             <Tr key={user.id}>
               <Td>
                 <Link
