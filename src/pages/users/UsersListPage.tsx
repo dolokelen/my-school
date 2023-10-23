@@ -12,13 +12,21 @@ import { Link } from "react-router-dom";
 import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import { AUTH_LAYOUT_ROUTE, USER_ROUTE } from "../../cacheKeysAndRoutes";
 import { useUsers } from "../../hooks/useUsers";
+import AccessDenyPage from "../AccessDenyPage";
 
 const UsersListPage = () => {
   const { data: users, error, isLoading } = useUsers();
 
-  if (error) throw error;
-  if (isLoading) return <Spinner ml="50%" color="blue.500" thickness="10px" my={60} size="xl" />;
-
+  if (error) {
+    const unAuthorized = "Request failed with status code 403";
+    if (error.message === unAuthorized) return <AccessDenyPage />;
+    else throw error;
+  }
+  if (isLoading)
+    return (
+      <Spinner ml="50%" color="blue.500" thickness="10px" my={60} size="xl" />
+    );
+    
   return (
     <TableContainer>
           <OverflowYContainer maxH="90vh">

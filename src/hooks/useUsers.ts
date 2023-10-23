@@ -3,6 +3,7 @@ import ms from "ms";
 import { CACHE_KEY_USER } from "../cacheKeysAndRoutes";
 import { UserEditFormData } from "../pages/users/UserEditForm";
 import apiClient from "../services/httpService";
+import getUserId from "../Utilities/getUserId";
 
 interface Group {
   id: number;
@@ -24,14 +25,30 @@ export const useUsers = () =>
   useQuery<User[], Error>({
     queryKey: [CACHE_KEY_USER],
     queryFn: apiClients.getAll,
-    staleTime: ms('24h')
+    staleTime: ms("24h"),
   });
 
 export const useUser = (userId: number) => {
   return useQuery<User, Error>({
     queryKey: [CACHE_KEY_USER, userId],
     queryFn: () => apiClients.get(userId),
-    staleTime: ms('24h')
+    staleTime: ms("24h"),
+  });
+};
+
+interface UserProfile {
+  id: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+export const useUserProfile = () => {
+  const apiClients = apiClient<UserProfile>("/auth/users/me");
+  return useQuery<UserProfile, Error>({
+    queryKey: ["userProfile", getUserId()],
+    queryFn: apiClients.getUserProfile,
+    staleTime: ms("24h"),
   });
 };
 

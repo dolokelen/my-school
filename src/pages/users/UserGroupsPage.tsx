@@ -35,7 +35,7 @@ const UserGroupsPage = ({ userPk }: Props) => {
   const [groupIdsToAdd, setGroupIdsToAdd] = useState<number[]>([]);
   const [groupIdsToRemove, setGroupIdsToRemove] = useState<number[]>([]);
   const pk = userPk;
-
+  
   const handleAddUserToGroups = useAddGroupsToUser(
     { pk, group_to_add_ids: groupIdsToAdd },
     () => {
@@ -52,7 +52,7 @@ const UserGroupsPage = ({ userPk }: Props) => {
     }
   );
 
-  if (error) return;
+  if (error) return <Text color={red}>There was error in getting groups</Text>;
 
   const handleCheckboxChangeForAdd = (groupId: number) => {
     if (groupIdsToAdd.includes(groupId)) {
@@ -114,7 +114,7 @@ const UserGroupsPage = ({ userPk }: Props) => {
         <OverflowYContainer>
           <Stack>
             {groups
-              ?.filter((g) => !user?.groups.some((ug) => ug.id === g.id))
+              ?.filter((g) => !user?.groups?.some((ug) => ug.id === g.id))
               .map((group) => (
                 <Checkbox
                   key={group.id}

@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import ms from "ms"
+import ms from "ms";
 
 export const axiosInstance = axios.create({
   baseURL: "http://127.0.0.1:8000",
@@ -96,6 +96,15 @@ class APIClient<T> {
   get = (id: number) => {
     return axiosInstance
       .get<T>(`${this.endpoint}${id}/`)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  getUserProfile = () => {
+    return axiosInstance
+      .get<T>(`${this.endpoint}/`)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
