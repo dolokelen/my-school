@@ -4,6 +4,7 @@ import { CACHE_KEY_USER } from "../cacheKeysAndRoutes";
 import { UserEditFormData } from "../pages/users/UserEditForm";
 import apiClient from "../services/httpService";
 import getUserId from "../Utilities/getUserId";
+import { Permission } from "./usePermissions";
 
 interface Group {
   id: number;
@@ -48,6 +49,20 @@ export const useUserProfile = () => {
   return useQuery<UserProfile, Error>({
     queryKey: ["userProfile", getUserId()],
     queryFn: apiClients.getUserProfile,
+    staleTime: ms("24h"),
+  });
+};
+
+interface UserGroupsPermissions {
+    id: number;
+    name: string;
+    permissions: Permission[];
+}
+export const useUserGroupsPermissions = (userId: number) => {
+  const apiClients = apiClient<UserGroupsPermissions>("/core/user_groups/");
+  return useQuery<UserGroupsPermissions[], Error>({
+    queryKey: ["userGroupsPermissions", getUserId()],
+    queryFn: () => apiClients.getEntity(userId),
     staleTime: ms("24h"),
   });
 };

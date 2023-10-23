@@ -111,6 +111,15 @@ class APIClient<T> {
       });
   };
 
+  getEntity = (userId: number) => {
+    return axiosInstance
+      .get<T[]>(`${this.endpoint}${userId}/`)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  };
+
   post = (data: T) => {
     return axiosInstance
       .post<T>(this.endpoint, data)

@@ -1,13 +1,29 @@
 import { MenuItem, Stack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { GROUP_ROUTE, SCH_YEAR_LIST_ROUTE, USER_ROUTE } from "../cacheKeysAndRoutes";
+import {
+  GROUP_ROUTE,
+  SCH_YEAR_LIST_ROUTE,
+  USER_ROUTE,
+} from "../cacheKeysAndRoutes";
 import DashBoardMenu from "./DashBoardMenu";
+import { useUserGroupsPermissions } from "../hooks/useUsers";
+import getUserId from "../Utilities/getUserId";
 
 const DashBoard = () => {
+  const { data: groups } = useUserGroupsPermissions(getUserId()!);
+
+  let canViewUser;
+  canViewUser = groups?.find((g) =>
+    g.permissions?.some((p) => p.name === "Can view user")
+  );
+
   return (
     <Stack w="auto">
       <DashBoardMenu label="Dashboards">
-        <MenuItem>{<Link to={USER_ROUTE}>Users</Link>}</MenuItem>
+        {canViewUser && (
+          <MenuItem>{<Link to={USER_ROUTE}>Users</Link>}</MenuItem>
+        )}
+
         <MenuItem>{<Link to={GROUP_ROUTE}>Group</Link>}</MenuItem>
       </DashBoardMenu>
 

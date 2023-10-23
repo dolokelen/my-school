@@ -1,4 +1,4 @@
-import { Avatar, Flex, HStack, Text } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import authRouteToHomeRoute from "../Utilities/getHomeRoute";
@@ -8,7 +8,7 @@ import { useUserProfile } from "../hooks/useUsers";
 
 const AuthNavBar = () => {
   const { data: userProfile } = useUserProfile();
-  console.log("AuthNavBar: ", userProfile)
+  
   return (
     <>
       <HStack bg="gray.200" h={9} mb={1} justifyContent="space-evenly">
