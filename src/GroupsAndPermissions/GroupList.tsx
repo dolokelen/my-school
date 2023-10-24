@@ -7,7 +7,7 @@ import {
   Heading,
   List,
   ListItem,
-  Spinner
+  Spinner,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -17,6 +17,7 @@ import { AUTH_LAYOUT_ROUTE, GROUP_ROUTE, red } from "../cacheKeysAndRoutes";
 import { useDeleteAllGroup, useGroups } from "../hooks/useGroups";
 import GroupCreateForm from "./GroupCreateForm";
 import OverflowYContainer from "./OverflowYContainer";
+import { hasPermission } from "../Utilities/hasPermissions";
 
 const GroupListPage = () => {
   const { data: groups, isLoading, error } = useGroups();
@@ -29,6 +30,9 @@ const GroupListPage = () => {
       setSelectedGroups([]);
     }
   );
+
+  const canAddGroup = hasPermission("Can add group");
+  const canDeleteGroup = hasPermission("Can delete group");
 
   if (error) throw error;
   if (isLoading) return <Spinner />;
@@ -55,8 +59,12 @@ const GroupListPage = () => {
         justifyContent="space-evenly"
       >
         <GridItem area="groups" mt={6}>
-          <Heading>Group Creation Form</Heading>
-          <GroupCreateForm />
+          {canAddGroup && (
+            <>
+              <Heading>Group Creation Form</Heading>
+              <GroupCreateForm />
+            </>
+          )}
         </GridItem>
 
         <GridItem area="deleteButton" mt={6}>
@@ -79,19 +87,20 @@ const GroupListPage = () => {
               ))}
             </List>
           </OverflowYContainer>
-
-          <Box ml="35%" mt={4}>
-            {selectedGroups.length === 0 ? (
-              <Button isDisabled colorScheme={red}>
-                Delete All
-              </Button>
-            ) : (
-              <BulkDeleteButton
-                label={selectedGroups.length > 1 ? "Delete All" : "Delete"}
-                onDelete={handleDeleteAll}
-              />
-            )}
-          </Box>
+          {canDeleteGroup && (
+            <Box ml="35%" mt={4}>
+              {selectedGroups.length === 0 ? (
+                <Button isDisabled colorScheme={red}>
+                  Delete All
+                </Button>
+              ) : (
+                <BulkDeleteButton
+                  label={selectedGroups.length > 1 ? "Delete All" : "Delete"}
+                  onDelete={handleDeleteAll}
+                />
+              )}
+            </Box>
+          )}
         </GridItem>
       </Grid>
     </>

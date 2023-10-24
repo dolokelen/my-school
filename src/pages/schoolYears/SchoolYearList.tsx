@@ -8,10 +8,12 @@ import {
 } from "../../cacheKeysAndRoutes";
 import { useSchoolYears } from "../../hooks/useSchoolYears";
 import SchoolYearCreateForm from "./SchoolYearCreateForm";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const SchoolYearList = () => {
   const [params, setParams] = useSearchParams();
   const { data, isLoading, error } = useSchoolYears();
+  
   const removeUpdatedQueryParam = () => {
     const updatedParam = params.get("updated");
     if (updatedParam) {
@@ -35,13 +37,17 @@ const SchoolYearList = () => {
       removeUpdatedQueryParam();
     }
   }, [params]);
+
+  const canAddSchoolYear = hasPermission("Can add school year");
   if (error) throw error;
   if (isLoading) return <Spinner />;
   return (
     <>
-      <Box marginY={6}>
-        <SchoolYearCreateForm />
-      </Box>
+      {canAddSchoolYear && (
+        <Box marginY={6}>
+          <SchoolYearCreateForm />
+        </Box>
+      )}
       <HStack>
         <List>
           {data?.map((data) => (

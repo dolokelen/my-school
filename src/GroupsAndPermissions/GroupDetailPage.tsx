@@ -23,6 +23,8 @@ import {
 import GroupEditForm from "./GroupEditForm";
 import OverflowYContainer from "./OverflowYContainer";
 import PermissionList from "./PermissionList";
+import { hasPermission } from "../Utilities/hasPermissions";
+import AccessDenyPage from "../pages/AccessDenyPage";
 
 const GroupDetailPage = () => {
   const { id } = useParams();
@@ -40,6 +42,9 @@ const GroupDetailPage = () => {
     }
   );
 
+  const canChangeGroup = hasPermission("Can change group");
+  const canChangePermission = hasPermission("Can change permission");
+
   if (error) throw error;
   if (isLoading) return <Spinner />;
 
@@ -55,80 +60,83 @@ const GroupDetailPage = () => {
 
   return (
     <>
-      <GroupEditForm />
+      {canChangeGroup && <GroupEditForm />}
+      {canChangePermission ? (
+        <>
+          <HStack fontSize={30} mt={8} mb={3} justifyContent="space-evenly">
+            <Box ml="-10%">{group.name} Permissions</Box>
+            <Box>Available Permissions</Box>
+          </HStack>
 
-      <HStack fontSize={30} mt={8} mb={3} justifyContent="space-evenly">
-        <Box ml="-10%">{group.name} Permissions</Box>
-        <Box>Available Permissions</Box>
-      </HStack>
+          <Grid
+            templateAreas={{
+              base: `"groupPermissions unAssignPermissions" "buttons buttons"`,
+              //   sm: `"nav nav" "aside main"`,
+            }}
+            templateColumns={{
+              base: `0.29fr 0.29fr`,
+              //   sm: `225px 1fr`,
+            }}
+            justifyContent="space-evenly"
+          >
+            <GridItem area="groupPermissions">
+              <OverflowYContainer>
+                <List>
+                  {group.permissions?.length ? (
+                    group.permissions?.map((p) => (
+                      <ListItem key={p.id}>
+                        <Checkbox
+                          isChecked={selectedPermissions.includes(p.id)}
+                          onChange={() => handleCheckboxChange(p.id)}
+                        >
+                          {p.name}
+                        </Checkbox>
+                      </ListItem>
+                    ))
+                  ) : (
+                    <ListItem color={red}>No assigned permissions</ListItem>
+                  )}
+                </List>
+              </OverflowYContainer>
+            </GridItem>
 
-      <Grid
-        templateAreas={{
-          base: `"groupPermissions unAssignPermissions" "buttons buttons"`,
-          //   sm: `"nav nav" "aside main"`,
-        }}
-        templateColumns={{
-          base: `0.29fr 0.29fr`,
-          //   sm: `225px 1fr`,
-        }}
-        justifyContent="space-evenly"
-      >
-        <GridItem area="groupPermissions">
-          <OverflowYContainer>
-            <List>
-              {group.permissions?.length ? (
-                group.permissions?.map((p) => (
-                  <ListItem key={p.id}>
-                    <Checkbox
-                      isChecked={selectedPermissions.includes(p.id)}
-                      onChange={() => handleCheckboxChange(p.id)}
-                    >
-                      {p.name}
-                    </Checkbox>
-                  </ListItem>
-                ))
-              ) : (
-                <ListItem color={red}>
-                  No assigned permissions
-                </ListItem>
-              )}
-            </List>
-          </OverflowYContainer>
-        </GridItem>
+            <GridItem area="unAssignPermissions">
+              <PermissionList assignPermissions={group.permissions} />
+            </GridItem>
 
-        <GridItem area="unAssignPermissions">
-          <PermissionList assignPermissions={group.permissions} />
-        </GridItem>
+            <GridItem area="buttons">
+              <Flex justifyContent="space-evenly">
+                {selectedPermissions.length === 0 ? (
+                  <Button isActive isDisabled colorScheme={blue}>
+                    Remove
+                  </Button>
+                ) : (
+                  <Button
+                    isActive
+                    onClick={handlePermissionsRemoval}
+                    colorScheme={blue}
+                  >
+                    Remove
+                  </Button>
+                )}
 
-        <GridItem area="buttons">
-          <Flex justifyContent="space-evenly">
-            {selectedPermissions.length === 0 ? (
-              <Button isActive isDisabled colorScheme={blue}>
-                Remove
-              </Button>
-            ) : (
-              <Button
-                isActive
-                onClick={handlePermissionsRemoval}
-                colorScheme={blue}
-              >
-                Remove
-              </Button>
-            )}
+                <DeletionConfirmation
+                  entityId={groupId}
+                  entityName={group.name}
+                  label="Delete Group"
+                  onMutate={() => mutation.mutate(groupId)}
+                />
 
-            <DeletionConfirmation
-              entityId={groupId}
-              entityName={group.name}
-              label="Delete Group"
-              onMutate={() => mutation.mutate(groupId)}
-            />
-
-            <Button isActive isDisabled colorScheme={blue}>
-              Add
-            </Button>
-          </Flex>
-        </GridItem>
-      </Grid>
+                <Button isActive isDisabled colorScheme={blue}>
+                  Add
+                </Button>
+              </Flex>
+            </GridItem>
+          </Grid>
+        </>
+      ) : (
+        <AccessDenyPage />
+      )}
     </>
   );
 };

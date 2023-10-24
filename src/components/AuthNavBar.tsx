@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import authRouteToHomeRoute from "../Utilities/getHomeRoute";
 import logoutUser from "../Utilities/logoutUser";
-import { AUTH_LAYOUT_ROUTE, REGISTER_ROUTE } from "../cacheKeysAndRoutes";
+import { AUTH_LAYOUT_ROUTE } from "../cacheKeysAndRoutes";
 import { useUserProfile } from "../hooks/useUsers";
 
 const AuthNavBar = () => {
@@ -17,7 +17,6 @@ const AuthNavBar = () => {
         <Link to={authRouteToHomeRoute()} onClick={logoutUser}>
           Logout
         </Link>
-        <Link to={REGISTER_ROUTE}>Register</Link>
         <Link to="#">Welcome {userProfile?.first_name}</Link>
       </HStack>
       <ToastContainer />

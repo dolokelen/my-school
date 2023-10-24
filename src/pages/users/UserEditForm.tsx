@@ -5,22 +5,20 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { hasPermission } from "../../Utilities/hasPermissions";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { teal } from "../../cacheKeysAndRoutes";
 import { useEditUser, useUser } from "../../hooks/useUsers";
+import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   id: z.number().optional(),
-  first_name: z
-    .string()
-    .min(2, {
-      message: "First name is required and must be at least two letters.",
-    }),
-  last_name: z
-    .string()
-    .min(2, {
-      message: "Last name is required and must be at least two letters.",
-    }),
+  first_name: z.string().min(2, {
+    message: "First name is required and must be at least two letters.",
+  }),
+  last_name: z.string().min(2, {
+    message: "Last name is required and must be at least two letters.",
+  }),
   email: z
     .string()
     .min(2, { message: "Email is required." })
@@ -51,56 +49,60 @@ const UserEditForm = () => {
     }
   }, [data, setValue]);
 
+  const canChangeUser = hasPermission("Can change user");
+
   const customerErrMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
   if (error) throw error;
-  if (isLoading) return <Spinner />
+  if (isLoading) return <Spinner />;
+  if (canChangeUser)
+    return (
+      <>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box my={8} fontSize={50}>
+            <Avatar /> {data?.first_name} {data.last_name}
+          </Box>
+          <Box marginBottom={2}>
+            <Input
+              {...register("first_name")}
+              type="text"
+              size="md"
+              placeholder="Enter your first name"
+            />
+            {errors.first_name && (
+              <Text color="red">{errors.first_name.message}</Text>
+            )}
+            {mutation.isError && <Text color="red">{customerErrMessage}</Text>}
+          </Box>
+          <Box marginBottom={2}>
+            <Input
+              {...register("last_name")}
+              type="text"
+              size="md"
+              placeholder="Enter your last name"
+            />
+            {errors.last_name && (
+              <Text color="red">{errors.last_name.message}</Text>
+            )}
+            {mutation.isError && <Text color="red">{customerErrMessage}</Text>}
+          </Box>
+          <Box marginBottom={2}>
+            <Input
+              {...register("email")}
+              type="email"
+              size="md"
+              placeholder="Enter your email address"
+            />
+            {errors.email && <Text color="red">{errors.email.message}</Text>}
+            {mutation.isError && <Text color="red">{customerErrMessage}</Text>}
+          </Box>
+          <Button mt={4} marginRight={6} type="submit" colorScheme={teal}>
+            Update User
+          </Button>
+        </form>
+      </>
+    );
 
-  return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-      <Box my={8} fontSize={50}>
-        <Avatar /> {data?.first_name} {data.last_name}
-      </Box>
-        <Box marginBottom={2}>
-          <Input
-            {...register("first_name")}
-            type="text"
-            size="md"
-            placeholder="Enter your first name"
-          />
-          {errors.first_name && (
-            <Text color="red">{errors.first_name.message}</Text>
-          )}
-          {mutation.isError && <Text color="red">{customerErrMessage}</Text>}
-        </Box>
-        <Box marginBottom={2}>
-          <Input
-            {...register("last_name")}
-            type="text"
-            size="md"
-            placeholder="Enter your last name"
-          />
-          {errors.last_name && (
-            <Text color="red">{errors.last_name.message}</Text>
-          )}
-          {mutation.isError && <Text color="red">{customerErrMessage}</Text>}
-        </Box>
-        <Box marginBottom={2}>
-          <Input
-            {...register("email")}
-            type="email"
-            size="md"
-            placeholder="Enter your email address"
-          />
-          {errors.email && <Text color="red">{errors.email.message}</Text>}
-          {mutation.isError && <Text color="red">{customerErrMessage}</Text>}
-        </Box>
-        <Button mt={4} marginRight={6} type="submit" colorScheme={teal}>
-          Update User
-        </Button>
-      </form>
-    </>
-  );
+  return <AccessDenyPage />;
 };
 
 export default UserEditForm;
