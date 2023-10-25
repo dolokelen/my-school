@@ -156,7 +156,7 @@ const UserGroupsPage = ({ userPk }: Props) => {
       </Grid>
     );
     
-  return <AccessDenyPage />
+  return <></>
 };
 
 export default UserGroupsPage;

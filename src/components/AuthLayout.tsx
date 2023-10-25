@@ -48,7 +48,7 @@ const AuthLayout = () => {
             <AuthSideBar />
           </GridItem>
         </Show>
-        <GridItem mx={10} area="main">
+        <GridItem mx={3} area="main">
           {location.pathname === AUTH_LAYOUT_ROUTE ||
           location.pathname === `${AUTH_LAYOUT_ROUTE}/` ? (
             <AuthHomePage />
