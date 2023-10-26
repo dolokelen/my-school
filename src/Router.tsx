@@ -5,6 +5,7 @@ import AuthLayout from "./components/AuthLayout";
 import UnAuthLayout from "./components/UnAuthLayout";
 import {
   AUTH_LAYOUT_ROUTE,
+  COURSES_CREATE_ROUTE,
   COURSES_LIST_ROUTE,
   GROUP_ROUTE,
   HOME_ROUTE,
@@ -23,6 +24,7 @@ import UsersListPage from "./pages/users/UsersListPage";
 import UserDetailPage from "./pages/users/UserDetailPage";
 import CourseListPage from "./pages/courses/CourseListPage";
 import CourseDetailPage from "./pages/courses/CourseDetailPage";
+import CourseCreateForm from "./pages/courses/CourseCreateForm";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +41,7 @@ const router = createBrowserRouter([
       { path: `${SCH_YEAR_LIST_ROUTE}/:id`, element: <SchoolYearDetailPage /> },
       { path: COURSES_LIST_ROUTE, element: <CourseListPage /> },
       { path: `${COURSES_LIST_ROUTE}/:pk`, element: <CourseDetailPage /> },
+      { path: COURSES_CREATE_ROUTE, element: <CourseCreateForm /> },
     ],
   },
 

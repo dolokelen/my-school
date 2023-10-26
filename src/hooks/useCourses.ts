@@ -1,11 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
 import { CACHE_KEY_COURSE } from "../cacheKeysAndRoutes";
 import apiClient from "../services/httpService";
 import { useCourseStore } from "../pages/courses/courseStore";
+import { CourseCreateFormData } from "../pages/courses/CourseCreateForm";
 
 interface Course {
-  id?: number;
+  id: number;
   code: string;
   title: string;
   level: string;
@@ -16,7 +17,8 @@ interface Course {
   additional_fee: number;
   total_price: number;
 }
-const apiClients = apiClient<Course>("/school/courses/");
+const COURSE_URL = "/school/courses/"
+const apiClients = apiClient<Course>(COURSE_URL);
 
 export const useCourses = () => {
   const courseQuery = useCourseStore();
@@ -42,25 +44,27 @@ export const useCourse = (courseId: number) => {
   });
 };
 
-// export const useCreateSchoolYear = (
-//   onCreate: () => void,
-//   reset: () => void
-// ) => {
-//   const queryClient = useQueryClient();
-//   return useMutation<SchoolYearCreateFormData, Error, SchoolYearCreateFormData>(
-//     {
-//       mutationFn: (data: SchoolYearCreateFormData) => apiClients.post(data),
+export const useCreateCourse = (
+  onCreate: () => void,
+  reset: () => void
+) => {
+  const apiClients = apiClient<CourseCreateFormData>(COURSE_URL);
 
-//       onSuccess: (existingData, newData) => {
-//         onCreate();
-//         reset();
-//         return queryClient.invalidateQueries({
-//           queryKey: [CACHE_KEY_SCHOOL_YEAR],
-//         });
-//       },
-//     }
-//   );
-// };
+  const queryClient = useQueryClient();
+  return useMutation<CourseCreateFormData, Error, CourseCreateFormData>(
+    {
+      mutationFn: (data: CourseCreateFormData) => apiClients.post(data),
+
+      onSuccess: (existingData, newData) => {
+        onCreate();
+        reset();
+        return queryClient.invalidateQueries({
+          queryKey: [CACHE_KEY_COURSE],
+        });
+      },
+    }
+  );
+};
 
 // export const useEditSchoolYear = () => {
 //   const navigate = useNavigate();

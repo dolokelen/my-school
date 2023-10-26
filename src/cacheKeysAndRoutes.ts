@@ -13,7 +13,8 @@ export const USER_ROUTE = "users"
 export const GROUP_ROUTE = "group-lists";
 export const REGISTER_ROUTE = "register";
 export const SCH_YEAR_LIST_ROUTE = "school-years-list";
-export const COURSES_LIST_ROUTE = "course-list"
+export const COURSES_LIST_ROUTE = "course-list";
+export const COURSES_CREATE_ROUTE = "course-create-form";
 
 export const red = "red";
 export const blue = "blue";
