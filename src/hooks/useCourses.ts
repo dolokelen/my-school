@@ -11,6 +11,7 @@ interface Course {
   level: string;
   price_per_credit: number;
   credit: number;
+  prerequisite: number;
 }
 const apiClients = apiClient<Course>("/school/courses/");
 
@@ -23,6 +24,8 @@ export const useCourses = () => {
       apiClients.getAll({
         params: {
           department_id: courseQuery.courseQuery?.departmentId,
+          prerequisite: courseQuery.courseQuery?.prerequisite,
+          search: courseQuery.courseQuery?.searchText
         },
       }),
     staleTime: ms("24h"),

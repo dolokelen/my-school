@@ -1,4 +1,5 @@
 import {
+  Box,
   Grid,
   GridItem,
   Spinner,
@@ -13,6 +14,8 @@ import {
 import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import { useCourses } from "../../hooks/useCourses";
 import DepartmentFilter from "../departments/DepartmentFilter";
+import PrerequisiteFilter from "./PrerequisiteFilter";
+import SearchBar from "./SearchBar";
 
 const CoursesList = () => {
   const { data: courses, isLoading } = useCourses();
@@ -29,7 +32,9 @@ const CoursesList = () => {
         // sm: `225px 1fr`,
       }}
     >
-      <GridItem area="searchBar">Search Bar</GridItem>
+      <GridItem area="searchBar">
+        <SearchBar />
+      </GridItem>
 
       <GridItem area="main">
         <TableContainer>
@@ -60,7 +65,14 @@ const CoursesList = () => {
         </TableContainer>
       </GridItem>
       <GridItem area="filter">
+        <Box fontWeight="bold">Filter by Departments</Box>
+        <OverflowYContainer>
         <DepartmentFilter />
+        </OverflowYContainer>
+        <Box fontWeight="bold">Filter by Prerequisite Courses</Box>
+        <OverflowYContainer>
+          <PrerequisiteFilter />
+        </OverflowYContainer>
       </GridItem>
     </Grid>
   );

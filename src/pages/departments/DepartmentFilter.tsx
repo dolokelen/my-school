@@ -13,7 +13,6 @@ const DepartmentFilter = () => {
   if (isLoading) return <Spinner />;
   return (
     <>
-      <div>Filter By Department</div>
       <List>
         <ListItem>
           <Link onClick={() => setShowAll("")}>Show All</Link>
