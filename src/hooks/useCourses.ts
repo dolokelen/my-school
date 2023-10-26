@@ -9,9 +9,12 @@ interface Course {
   code: string;
   title: string;
   level: string;
+  department: string;
   price_per_credit: number;
   credit: number;
   prerequisite: number;
+  additional_fee: number;
+  total_price: number;
 }
 const apiClients = apiClient<Course>("/school/courses/");
 
@@ -32,12 +35,12 @@ export const useCourses = () => {
   });
 };
 
-// export const useSchoolYear = (schoolYearId: number) => {
-//   return useQuery<Course, Error>({
-//     queryKey: [CACHE_KEY_SCHOOL_YEAR, schoolYearId],
-//     queryFn: () => apiClients.get(schoolYearId),
-//   });
-// };
+export const useCourse = (courseId: number) => {
+  return useQuery<Course, Error>({
+    queryKey: [CACHE_KEY_COURSE, courseId],
+    queryFn: () => apiClients.get(courseId),
+  });
+};
 
 // export const useCreateSchoolYear = (
 //   onCreate: () => void,

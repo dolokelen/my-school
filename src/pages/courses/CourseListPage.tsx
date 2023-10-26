@@ -16,8 +16,13 @@ import { useCourses } from "../../hooks/useCourses";
 import DepartmentFilter from "../departments/DepartmentFilter";
 import PrerequisiteFilter from "./PrerequisiteFilter";
 import SearchBar from "./SearchBar";
+import { Link } from "react-router-dom";
+import {
+  AUTH_LAYOUT_ROUTE,
+  COURSES_LIST_ROUTE,
+} from "../../cacheKeysAndRoutes";
 
-const CoursesList = () => {
+const CourseListPage = () => {
   const { data: courses, isLoading } = useCourses();
   if (isLoading) return <Spinner />;
 
@@ -52,11 +57,41 @@ const CoursesList = () => {
               <Tbody>
                 {courses?.map((course) => (
                   <Tr key={course.id}>
-                    <Td>{course.code}</Td>
-                    <Td>{course.title}</Td>
-                    <Td>{course.level}</Td>
-                    <Td>$ {course.price_per_credit.toFixed(2)}</Td>
-                    <Td>{course.credit}</Td>
+                    <Td>
+                      <Link
+                        to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
+                      >
+                        {course.code}
+                      </Link>
+                    </Td>
+                    <Td>
+                      <Link
+                        to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
+                      >
+                        {course.title}
+                      </Link>
+                    </Td>
+                    <Td>
+                      <Link
+                        to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
+                      >
+                        {course.level}
+                      </Link>
+                    </Td>
+                    <Td>
+                      <Link
+                        to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
+                      >
+                        $ {course.price_per_credit.toFixed(2)}
+                      </Link>
+                    </Td>
+                    <Td>
+                      <Link
+                        to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
+                      >
+                        {course.credit}
+                      </Link>
+                    </Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -67,7 +102,7 @@ const CoursesList = () => {
       <GridItem area="filter">
         <Box fontWeight="bold">Filter by Departments</Box>
         <OverflowYContainer>
-        <DepartmentFilter />
+          <DepartmentFilter />
         </OverflowYContainer>
         <Box fontWeight="bold">Filter by Prerequisite Courses</Box>
         <OverflowYContainer>
@@ -78,4 +113,4 @@ const CoursesList = () => {
   );
 };
 
-export default CoursesList;
+export default CourseListPage;

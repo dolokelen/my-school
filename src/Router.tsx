@@ -21,7 +21,8 @@ import GroupListPage from "./GroupsAndPermissions/GroupList";
 import GroupDetailPage from "./GroupsAndPermissions/GroupDetailPage";
 import UsersListPage from "./pages/users/UsersListPage";
 import UserDetailPage from "./pages/users/UserDetailPage";
-import CoursesList from "./pages/courses/CoursesList";
+import CourseListPage from "./pages/courses/CourseListPage";
+import CourseDetailPage from "./pages/courses/CourseDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,8 @@ const router = createBrowserRouter([
       { path: REGISTER_ROUTE, element: <RegistrationForm /> },
       { path: SCH_YEAR_LIST_ROUTE, element: <SchoolYearList /> },
       { path: `${SCH_YEAR_LIST_ROUTE}/:id`, element: <SchoolYearDetailPage /> },
-      { path: COURSES_LIST_ROUTE, element: <CoursesList /> }
+      { path: COURSES_LIST_ROUTE, element: <CourseListPage /> },
+      { path: `${COURSES_LIST_ROUTE}/:pk`, element: <CourseDetailPage /> },
     ],
   },
 
