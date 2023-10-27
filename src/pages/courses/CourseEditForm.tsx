@@ -1,15 +1,26 @@
-import { Box, Button, Input, Select, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Input,
+  Select,
+  Spinner,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { blue } from "../../cacheKeysAndRoutes";
-import { useCourses, useCreateCourse } from "../../hooks/useCourses";
+import { useCourse, useCourses, useEditCourse } from "../../hooks/useCourses";
 import { useDepartment } from "../../hooks/useDepartments";
 import { levels } from "./courseData";
 
 const schema = z.object({
+  id: z.number().optional(),
   code: z
     .string()
     .min(2, {
@@ -33,52 +44,60 @@ const schema = z.object({
   level: z.string(),
 });
 
-export type CourseCreateFormData = z.infer<typeof schema>;
+export type CourseEditFormData = z.infer<typeof schema>;
 
-const CourseCreateForm = () => {
+const CourseEditForm = () => {
   const { data: departments } = useDepartment();
   const { data: courses } = useCourses();
-
-  const onCreate = () => toast.success("Course Created Successfully!");
 
   const {
     register,
     handleSubmit,
-    reset,
+    setValue,
     formState: { errors },
-  } = useForm<CourseCreateFormData>({ resolver: zodResolver(schema) });
+  } = useForm<CourseEditFormData>({ resolver: zodResolver(schema) });
 
-  const mutation = useCreateCourse(onCreate, () => reset());
-  const onSubmit = (data: CourseCreateFormData) => {
-    mutation.mutate(data);
+  const { pk } = useParams();
+  const { data, isLoading } = useCourse(parseInt(pk!));
+  console.log(data?.level);
+  const mutation = useEditCourse(() => toast.success("Updated successfully."));
+  const onSubmit = (FormData: CourseEditFormData) => {
+    mutation.mutate({ ...FormData, id: data?.id });
   };
+
+  useEffect(() => {
+    if (data) {
+      setValue("code", data?.code);
+      setValue("title", data?.title);
+      setValue("credit", data?.credit);
+      setValue("price_per_credit", data?.price_per_credit);
+      setValue("additional_fee", data?.additional_fee);
+      setValue("department", data?.department);
+      setValue("prerequisite", data?.prerequisite);
+      setValue("level", data?.level);
+    }
+  }, [data, setValue]);
 
   const customErrorMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
   const my = 2;
-  const fontSize = "1rem";
+  const fontSize = "1.3rem";
+
+  if (isLoading) return <Spinner />;
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack marginBottom={2}>
-        <Box my={my}>
+          <Box my={my}>
             <Text fontSize={fontSize}>Course code</Text>
-            <Input
-              {...register("code")}
-              type="text"
-              size="md"
-            />
+            <Input {...register("code")} type="text" size="md" />
             {errors?.code && <Text color="red">{errors.code.message}</Text>}
             {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
 
           <Box my={my}>
             <Text fontSize={fontSize}>Title</Text>
-            <Input
-              {...register("title")}
-              type="text"
-              size="md"
-            />
+            <Input {...register("title")} type="text" size="md" />
             {errors?.title && <Text color="red">{errors.title.message}</Text>}
             {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
@@ -156,11 +175,11 @@ const CourseCreateForm = () => {
           </Box>
         </Stack>
         <Button type="submit" colorScheme={blue}>
-          Create Course
+          Update Course
         </Button>
       </form>
     </>
   );
 };
 
-export default CourseCreateForm;
+export default CourseEditForm;

@@ -17,7 +17,7 @@ const AuthNavBar = () => {
         <Link to={authRouteToHomeRoute()} onClick={logoutUser}>
           Logout
         </Link>
-        <Link to="#">Welcome {userProfile?.first_name}</Link>
+        <Link to="#">Welcome {userProfile?.last_name}</Link>
       </HStack>
       <ToastContainer />
     </>

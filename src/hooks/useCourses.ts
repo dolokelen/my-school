@@ -1,9 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
-import { CACHE_KEY_COURSE } from "../cacheKeysAndRoutes";
+import {
+  AUTH_LAYOUT_ROUTE,
+  CACHE_KEY_COURSE,
+  COURSES_LIST_ROUTE,
+} from "../cacheKeysAndRoutes";
 import apiClient from "../services/httpService";
 import { useCourseStore } from "../pages/courses/courseStore";
 import { CourseCreateFormData } from "../pages/courses/CourseCreateForm";
+import { CourseEditFormData } from "../pages/courses/CourseEditForm";
+import { useNavigate } from "react-router-dom";
 
 interface Course {
   id: number;
@@ -13,11 +19,11 @@ interface Course {
   department: string;
   price_per_credit: number;
   credit: number;
-  prerequisite: number;
+  prerequisite: string;
   additional_fee: number;
   total_price: number;
 }
-const COURSE_URL = "/school/courses/"
+const COURSE_URL = "/school/courses/";
 const apiClients = apiClient<Course>(COURSE_URL);
 
 export const useCourses = () => {
@@ -30,7 +36,7 @@ export const useCourses = () => {
         params: {
           department_id: courseQuery.courseQuery?.departmentId,
           prerequisite: courseQuery.courseQuery?.prerequisite,
-          search: courseQuery.courseQuery?.searchText
+          search: courseQuery.courseQuery?.searchText,
         },
       }),
     staleTime: ms("24h"),
@@ -44,59 +50,53 @@ export const useCourse = (courseId: number) => {
   });
 };
 
-export const useCreateCourse = (
-  onCreate: () => void,
-  reset: () => void
-) => {
+export const useCreateCourse = (onCreate: () => void, reset: () => void) => {
   const apiClients = apiClient<CourseCreateFormData>(COURSE_URL);
 
   const queryClient = useQueryClient();
-  return useMutation<CourseCreateFormData, Error, CourseCreateFormData>(
-    {
-      mutationFn: (data: CourseCreateFormData) => apiClients.post(data),
+  return useMutation<CourseCreateFormData, Error, CourseCreateFormData>({
+    mutationFn: (data: CourseCreateFormData) => apiClients.post(data),
 
-      onSuccess: (existingData, newData) => {
-        onCreate();
-        reset();
-        return queryClient.invalidateQueries({
-          queryKey: [CACHE_KEY_COURSE],
-        });
-      },
-    }
-  );
+    onSuccess: (existingData, newData) => {
+      onCreate();
+      reset();
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_COURSE],
+      });
+    },
+  });
 };
 
-// export const useEditSchoolYear = () => {
-//   const navigate = useNavigate();
-//   const queryClient = useQueryClient();
+export const useEditCourse = (onUpdate: () => void) => {
+  const queryClient = useQueryClient();
 
-//   return useMutation<SchoolYearEditFormData, Error, SchoolYearEditFormData>({
-//     mutationFn: (data: SchoolYearEditFormData) =>
-//       apiClients.patch<SchoolYearEditFormData>(data),
+  return useMutation<CourseEditFormData, Error, CourseEditFormData>({
+    mutationFn: (data: CourseEditFormData) =>
+      apiClients.patch<CourseEditFormData>(data),
 
-//     onSuccess: (existingData, newData) => {
-//       navigate(`${AUTH_LAYOUT_ROUTE}/${SCH_YEAR_LIST_ROUTE}?updated=true`);
+    onSuccess: (existingData, newData) => {
+      onUpdate();
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_COURSE],
+      });
+    },
+  });
+};
 
-//       return queryClient.invalidateQueries({
-//         queryKey: [CACHE_KEY_SCHOOL_YEAR],
-//       });
-//     },
-//   });
-// };
+export const useDeleteCourse = (onDelete: () => void) => {
+  const navigate = useNavigate();
 
-// export const useDeleteSchoolYear = () => {
-//   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  return useMutation<number, Error, number>({
+    mutationFn: (id: number) => apiClients.delete(id),
 
-//   const queryClient = useQueryClient();
-//   return useMutation<number, Error, number>({
-//     mutationFn: (id: number) => apiClients.delete(id),
+    onSuccess: (existingData, newData) => {
+      navigate(`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}`);
+      onDelete();
 
-//     onSuccess: (existingData, newData) => {
-//       navigate(`${AUTH_LAYOUT_ROUTE}/${SCH_YEAR_LIST_ROUTE}?deleted=true`);
-
-//       return queryClient.invalidateQueries({
-//         queryKey: [CACHE_KEY_SCHOOL_YEAR],
-//       });
-//     },
-//   });
-// };
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_COURSE],
+      });
+    },
+  });
+};

@@ -33,7 +33,8 @@ const CourseListPage = () => {
         // sm: `"nav nav" "aside main"`,
       }}
       templateColumns={{
-        base: `"1fr" "8fr 2fr"`,
+        // base: `"1fr" "8fr 2fr"`,
+        base: `"1fr" 4fr 1fr`,
         // sm: `225px 1fr`,
       }}
     >
