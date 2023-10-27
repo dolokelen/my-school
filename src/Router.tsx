@@ -7,6 +7,8 @@ import {
   AUTH_LAYOUT_ROUTE,
   COURSES_CREATE_ROUTE,
   COURSES_LIST_ROUTE,
+  DEPARTMENTS_ROUTE,
+  DEPARTMENT_CREATE_ROUTE,
   GROUP_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
@@ -25,6 +27,9 @@ import UserDetailPage from "./pages/users/UserDetailPage";
 import CourseListPage from "./pages/courses/CourseListPage";
 import CourseDetailPage from "./pages/courses/CourseDetailPage";
 import CourseCreateForm from "./pages/courses/CourseCreateForm";
+import DepartmentListPage from "./pages/departments/DepartmentListPage";
+import DepartmentDetailPage from "./pages/departments/DepartmentDetailPage";
+import DepartmentCreateForm from "./pages/departments/DepartmentCreateForm";
 
 const router = createBrowserRouter([
   {
@@ -40,8 +45,11 @@ const router = createBrowserRouter([
       { path: SCH_YEAR_LIST_ROUTE, element: <SchoolYearList /> },
       { path: `${SCH_YEAR_LIST_ROUTE}/:id`, element: <SchoolYearDetailPage /> },
       { path: COURSES_LIST_ROUTE, element: <CourseListPage /> },
-      { path: `${COURSES_LIST_ROUTE}/:pk`, element: <CourseDetailPage /> },
+      { path: `${COURSES_LIST_ROUTE}/:pk/`, element: <CourseDetailPage /> },
       { path: COURSES_CREATE_ROUTE, element: <CourseCreateForm /> },
+      { path: DEPARTMENTS_ROUTE, element: <DepartmentListPage /> },
+      { path: `${DEPARTMENTS_ROUTE}/:pk/`, element: <DepartmentDetailPage /> },
+      { path: DEPARTMENT_CREATE_ROUTE, element: <DepartmentCreateForm /> },
     ],
   },
 

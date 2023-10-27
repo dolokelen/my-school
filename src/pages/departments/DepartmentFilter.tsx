@@ -1,10 +1,10 @@
 import { Link, List, ListItem, Spinner } from "@chakra-ui/react";
-import { useDepartment } from "../../hooks/useDepartments";
+import { useDepartments } from "../../hooks/useDepartments";
 import { useCourseStore } from "../courses/courseStore";
 
 const DepartmentFilter = () => {
-  const { data: departments, isLoading } = useDepartment();
-  
+  const { data: departments, isLoading } = useDepartments();
+
   const setSelectedDepartmentId = useCourseStore(
     (s) => s.setSelectedDepartmentId
   );

@@ -15,6 +15,7 @@ const CourseDetailPage = () => {
     toast.success("Deleted successfully!")
   );
   const canChangeCourse = hasPermission("Can change course");
+  const canDeleteCourse = hasPermission("Can delete course");
 
   if (isLoading) return <Spinner />;
 
@@ -52,14 +53,16 @@ const CourseDetailPage = () => {
         <Text fontSize={fontSize}>
           Totial price: $ {course?.total_price.toFixed(2)}
         </Text>
-        <Button
-          mt="1rem"
-          fontSize={fontSize}
-          colorScheme={red}
-          onClick={() => mutation.mutate(courseId)}
-        >
-          Delete Course
-        </Button>
+        {canDeleteCourse && (
+          <Button
+            isActive
+            mt="1rem"
+            colorScheme={red}
+            onClick={() => mutation.mutate(courseId)}
+          >
+            Delete Course
+          </Button>
+        )}
       </GridItem>
 
       <GridItem area="courseEditForm">

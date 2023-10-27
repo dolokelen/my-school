@@ -6,7 +6,7 @@ import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { blue } from "../../cacheKeysAndRoutes";
 import { useCourses, useCreateCourse } from "../../hooks/useCourses";
-import { useDepartment } from "../../hooks/useDepartments";
+import { useDepartments } from "../../hooks/useDepartments";
 import { levels } from "./courseData";
 
 const schema = z.object({
@@ -36,7 +36,7 @@ const schema = z.object({
 export type CourseCreateFormData = z.infer<typeof schema>;
 
 const CourseCreateForm = () => {
-  const { data: departments } = useDepartment();
+  const { data: departments } = useDepartments();
   const { data: courses } = useCourses();
 
   const onCreate = () => toast.success("Course Created Successfully!");
@@ -61,24 +61,16 @@ const CourseCreateForm = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack marginBottom={2}>
-        <Box my={my}>
+          <Box my={my}>
             <Text fontSize={fontSize}>Course code</Text>
-            <Input
-              {...register("code")}
-              type="text"
-              size="md"
-            />
+            <Input {...register("code")} type="text" size="md" />
             {errors?.code && <Text color="red">{errors.code.message}</Text>}
             {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
 
           <Box my={my}>
             <Text fontSize={fontSize}>Title</Text>
-            <Input
-              {...register("title")}
-              type="text"
-              size="md"
-            />
+            <Input {...register("title")} type="text" size="md" />
             {errors?.title && <Text color="red">{errors.title.message}</Text>}
             {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>

@@ -4,6 +4,8 @@ import { hasPermission } from "../Utilities/hasPermissions";
 import {
   COURSES_CREATE_ROUTE,
   COURSES_LIST_ROUTE,
+  DEPARTMENTS_ROUTE,
+  DEPARTMENT_CREATE_ROUTE,
   GROUP_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
@@ -17,10 +19,10 @@ const DashBoard = () => {
       <DashBoardMenu label="Dashboards">
         {hasPermission("Can view user") && (
           <MenuItem>{<Link to={USER_ROUTE}>Users</Link>}</MenuItem>
-          )}
-          {hasPermission("Can view group") && (
-            <MenuItem>{<Link to={GROUP_ROUTE}>Group</Link>}</MenuItem>
-          )}
+        )}
+        {hasPermission("Can view group") && (
+          <MenuItem>{<Link to={GROUP_ROUTE}>Group</Link>}</MenuItem>
+        )}
       </DashBoardMenu>
 
       <DashBoardMenu label="All Pages">
@@ -44,7 +46,16 @@ const DashBoard = () => {
             {<Link to={COURSES_CREATE_ROUTE}>Course Create From</Link>}
           </MenuItem>
         )}
-        
+        {hasPermission("Can view department") && (
+          <MenuItem>
+            {<Link to={DEPARTMENTS_ROUTE}>All Departments</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can add department") && (
+          <MenuItem>
+            {<Link to={DEPARTMENT_CREATE_ROUTE}>Department Create Form</Link>}
+          </MenuItem>
+        )}
       </DashBoardMenu>
     </Stack>
   );

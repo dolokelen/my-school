@@ -14,9 +14,9 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
-import { blue } from "../../cacheKeysAndRoutes";
+import { teal } from "../../cacheKeysAndRoutes";
 import { useCourse, useCourses, useEditCourse } from "../../hooks/useCourses";
-import { useDepartment } from "../../hooks/useDepartments";
+import { useDepartments } from "../../hooks/useDepartments";
 import { levels } from "./courseData";
 
 const schema = z.object({
@@ -47,7 +47,7 @@ const schema = z.object({
 export type CourseEditFormData = z.infer<typeof schema>;
 
 const CourseEditForm = () => {
-  const { data: departments } = useDepartment();
+  const { data: departments } = useDepartments();
   const { data: courses } = useCourses();
 
   const {
@@ -59,7 +59,6 @@ const CourseEditForm = () => {
 
   const { pk } = useParams();
   const { data, isLoading } = useCourse(parseInt(pk!));
-  console.log(data?.level);
   const mutation = useEditCourse(() => toast.success("Updated successfully."));
   const onSubmit = (FormData: CourseEditFormData) => {
     mutation.mutate({ ...FormData, id: data?.id });
@@ -174,7 +173,7 @@ const CourseEditForm = () => {
             {errors?.level && <Text color="red">{errors.level.message}</Text>}
           </Box>
         </Stack>
-        <Button type="submit" colorScheme={blue}>
+        <Button type="submit" colorScheme={teal}>
           Update Course
         </Button>
       </form>
