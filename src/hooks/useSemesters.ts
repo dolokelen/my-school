@@ -1,6 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
-import { AUTH_LAYOUT_ROUTE, CACHE_KEY_SEMESTER, SEMESTERS_ROUTE } from "../cacheKeysAndRoutes";
+import {
+  AUTH_LAYOUT_ROUTE,
+  CACHE_KEY_SEMESTER,
+  SEMESTERS_ROUTE,
+} from "../cacheKeysAndRoutes";
 import apiClient from "../services/httpService";
 import { useNavigate } from "react-router-dom";
 import { SemesterCreateFormData } from "../pages/semesters/SemesterCreateForm";
@@ -15,6 +19,7 @@ interface Semester {
   enrollment_end_date: string;
   start_date: string;
   end_date: string;
+  is_current: boolean;
   courses: { id: number; code: string }[];
 }
 
@@ -93,3 +98,22 @@ export const useDeleteSemester = (onDelete: () => void) => {
     },
   });
 };
+
+export const useAddSemesterCourses = (
+  data: { id: number, courses_to_add_ids: number[] },
+  onAddSelectedItems: () => void
+) => {
+  const queryClient = useQueryClient();
+  const handleCoursesAddition = async () => {
+    try {
+      await apiClients.patchJsonData(JSON.stringify(data), data.id);
+      onAddSelectedItems();
+      queryClient.invalidateQueries([CACHE_KEY_SEMESTER]);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return handleCoursesAddition;
+};
+

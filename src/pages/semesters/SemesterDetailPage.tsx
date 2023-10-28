@@ -18,6 +18,7 @@ import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import SemesterEditForm from "./SemesterEditForm";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import { toast } from "react-toastify";
+import AddSemesterSpecificCourses from "./AddSemesterSpecificCourses";
 
 const SemesterDetailPage = () => {
   const { id } = useParams();
@@ -29,16 +30,16 @@ const SemesterDetailPage = () => {
   const canChangeSemester = hasPermission("Can change semester");
   const canDeleteSemester = hasPermission("Can delete semester");
 
-  const fontSize = "1.3rem";
+  const fontSize = "1.1rem";
   const marginBottom = "1rem";
 
   return (
     <Grid
       templateAreas={{
-        base: `"semesterDetail semesterEditForm"`,
+        base: `"semesterDetail semesterEditForm" "semesSpecificCourse semesSpecificCourse"`,
       }}
       templateColumns={{
-        base: `1.3fr 2fr`,
+        base: `1.4fr 2fr`,
       }}
       justifyContent="space-center"
     >
@@ -98,6 +99,24 @@ const SemesterDetailPage = () => {
           </>
         )}
       </GridItem>
+
+      {canChangeSemester && (
+        <GridItem area="semesSpecificCourse">
+          <Box
+            fontSize="1.6rem"
+            mt="3.5rem"
+            mb="1rem"
+            fontWeight="bold"
+            ml={20}
+          >
+            Add new courses to this semester exclusively if necessary
+          </Box>
+          <AddSemesterSpecificCourses
+            semesterCourses={semester?.courses}
+            isCurrentSemester={semester?.is_current}
+          />
+        </GridItem>
+      )}
     </Grid>
   );
 };

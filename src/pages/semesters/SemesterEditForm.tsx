@@ -1,11 +1,11 @@
 import {
-    Box,
-    Button,
-    Input,
-    Select,
-    Spinner,
-    Stack,
-    Text,
+  Box,
+  Button,
+  Input,
+  Select,
+  Spinner,
+  Stack,
+  Text,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
@@ -14,11 +14,11 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
-import { blue, red } from "../../cacheKeysAndRoutes";
+import { red, teal } from "../../cacheKeysAndRoutes";
 import { useSchoolYears } from "../../hooks/useSchoolYears";
 import {
-    useEditSemester,
-    useSemester
+  useEditSemester,
+  useSemester
 } from "../../hooks/useSemesters";
 import { semesterNames } from "./data";
 
@@ -151,8 +151,8 @@ const SemesterEditForm = () => {
             )}
           </Box>
         </Stack>
-        <Button type="submit" colorScheme={blue}>
-          Create Semester
+        <Button type="submit" isActive colorScheme={teal}>
+          Update Semester
         </Button>
       </form>
     </>
