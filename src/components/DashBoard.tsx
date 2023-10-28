@@ -9,6 +9,8 @@ import {
   GROUP_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
+  SEMESTERS_ROUTE,
+  SEMESTER_CREATE_ROUTE,
   USER_ROUTE,
 } from "../cacheKeysAndRoutes";
 import DashBoardMenu from "./DashBoardMenu";
@@ -54,6 +56,16 @@ const DashBoard = () => {
         {hasPermission("Can add department") && (
           <MenuItem>
             {<Link to={DEPARTMENT_CREATE_ROUTE}>Department Create Form</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can view semester") && (
+          <MenuItem>
+            {<Link to={SEMESTERS_ROUTE}>All Semesters</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can add semester") && (
+          <MenuItem>
+            {<Link to={SEMESTER_CREATE_ROUTE}>Semester Create Form</Link>}
           </MenuItem>
         )}
       </DashBoardMenu>

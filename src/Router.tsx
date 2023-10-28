@@ -14,6 +14,8 @@ import {
   LOGIN_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
+  SEMESTERS_ROUTE,
+  SEMESTER_CREATE_ROUTE,
   USER_ROUTE,
 } from "./cacheKeysAndRoutes";
 import ErrorPage from "./pages/ErrorPage";
@@ -30,6 +32,9 @@ import CourseCreateForm from "./pages/courses/CourseCreateForm";
 import DepartmentListPage from "./pages/departments/DepartmentListPage";
 import DepartmentDetailPage from "./pages/departments/DepartmentDetailPage";
 import DepartmentCreateForm from "./pages/departments/DepartmentCreateForm";
+import SemesterListPage from "./pages/semesters/SemesterListPage";
+import SemesterDetailPage from "./pages/semesters/SemesterDetailPage";
+import SemesterCreateForm from "./pages/semesters/SemesterCreateForm";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +55,9 @@ const router = createBrowserRouter([
       { path: DEPARTMENTS_ROUTE, element: <DepartmentListPage /> },
       { path: `${DEPARTMENTS_ROUTE}/:pk/`, element: <DepartmentDetailPage /> },
       { path: DEPARTMENT_CREATE_ROUTE, element: <DepartmentCreateForm /> },
+      { path: SEMESTERS_ROUTE, element: <SemesterListPage /> },
+      { path: `${SEMESTERS_ROUTE}/:id/`, element: <SemesterDetailPage /> },
+      { path: SEMESTER_CREATE_ROUTE, element: <SemesterCreateForm /> },
     ],
   },
 
