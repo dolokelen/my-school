@@ -1,10 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import apiClient from "../services/httpService";
 import ms from "ms";
-import { AUTH_LAYOUT_ROUTE, CACHE_KEY_DEPARTMENT, DEPARTMENTS_ROUTE } from "../cacheKeysAndRoutes";
+import {
+  AUTH_LAYOUT_ROUTE,
+  CACHE_KEY_DEPARTMENT,
+  DEPARTMENTS_ROUTE,
+} from "../cacheKeysAndRoutes";
 import { DepartmentCreateFormData } from "../pages/departments/DepartmentCreateForm";
 import { DepartmentEditFormData } from "../pages/departments/DepartmentEditFrom";
 import { useNavigate } from "react-router-dom";
+
+export interface DepartmentAddress {
+  country: string;
+  county: string;
+  district: string;
+  city: string;
+  community: string;
+}
 
 interface Department {
   id: number;
@@ -13,6 +25,7 @@ interface Department {
   duty: string;
   number_of_courses: number;
   created_at: string;
+  departmentaddress: DepartmentAddress;
 }
 
 const DEPARTMENT_URL = "/school/departments/";
@@ -33,21 +46,26 @@ export const useDepartment = (departmentPk: number) => {
   });
 };
 
-export const useCreateDepartment = (onCreate: () => void, reset: () => void) => {
+export const useCreateDepartment = (
+  onCreate: () => void,
+  reset: () => void
+) => {
   const apiClients = apiClient<DepartmentCreateFormData>(DEPARTMENT_URL);
 
   const queryClient = useQueryClient();
-  return useMutation<DepartmentCreateFormData, Error, DepartmentCreateFormData>({
-    mutationFn: (data: DepartmentCreateFormData) => apiClients.post(data),
+  return useMutation<DepartmentCreateFormData, Error, DepartmentCreateFormData>(
+    {
+      mutationFn: (data: DepartmentCreateFormData) => apiClients.post(data),
 
-    onSuccess: (existingData, newData) => {
-      onCreate();
-      reset();
-      return queryClient.invalidateQueries({
-        queryKey: [CACHE_KEY_DEPARTMENT],
-      });
-    },
-  });
+      onSuccess: (existingData, newData) => {
+        onCreate();
+        reset();
+        return queryClient.invalidateQueries({
+          queryKey: [CACHE_KEY_DEPARTMENT],
+        });
+      },
+    }
+  );
 };
 
 export const useEditDepartment = (onUpdate: () => void) => {
@@ -84,4 +102,3 @@ export const useDeleteDepartment = (onDelete: () => void) => {
     },
   });
 };
-

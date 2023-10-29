@@ -80,7 +80,7 @@ const DepartmentEditForm = () => {
             {errors?.duty && <Text color={red}>{errors.duty.message}</Text>}
           </Box>
         </Stack>
-        <Button type="submit" colorScheme={teal}>
+        <Button isActive type="submit" colorScheme={teal}>
           Update Department
         </Button>
       </form>

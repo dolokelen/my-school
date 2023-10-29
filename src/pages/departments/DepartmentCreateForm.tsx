@@ -17,6 +17,24 @@ const schema = z.object({
   duty: z.string().min(2, {
     message: "Department duty is required and must be at least 2 words.",
   }),
+  departmentaddress: z.object({
+    country: z.string().min(4, {
+      message: "Department counrty is required and must be at least 4 words.",
+    }),
+    county: z.string().min(4, {
+      message: "Department county is required and must be at least 4 words.",
+    }),
+    city: z.string().min(4, {
+      message: "Department city is required and must be at least 4 words.",
+    }),
+    district: z.string().min(1, {
+      message: "Department district is required and must be at least a number.",
+    }),
+    community: z.string().min(2, {
+      message:
+        "Department community is required and must be at least 2 letters.",
+    }),
+  }),
 });
 
 export type DepartmentCreateFormData = z.infer<typeof schema>;
@@ -65,6 +83,55 @@ const DepartmentCreateForm = () => {
             <Text fontSize={fontSize}>Duty</Text>
             <Textarea {...register("duty")} size="md" />
             {errors?.duty && <Text color={red}>{errors.duty.message}</Text>}
+          </Box>
+
+          <Box mx="15rem" fontSize="1.6rem" w="auto" mt="2rem">
+            Department Address Section
+          </Box>
+          <Box my={my}>
+            <Text fontSize={fontSize}>Country</Text>
+            <Input {...register("departmentaddress.country")} size="md" />
+            {errors.departmentaddress?.country && (
+              <Text color={red}>
+                {errors.departmentaddress.country.message}
+              </Text>
+            )}
+          </Box>
+
+          <Box my={my}>
+            <Text fontSize={fontSize}>County</Text>
+            <Input {...register("departmentaddress.county")} size="md" />
+            {errors.departmentaddress?.county && (
+              <Text color={red}>{errors.departmentaddress.county.message}</Text>
+            )}
+          </Box>
+
+          <Box my={my}>
+            <Text fontSize={fontSize}>City</Text>
+            <Input {...register("departmentaddress.city")} size="md" />
+            {errors.departmentaddress?.city && (
+              <Text color={red}>{errors.departmentaddress.city.message}</Text>
+            )}
+          </Box>
+
+          <Box my={my}>
+            <Text fontSize={fontSize}>District</Text>
+            <Input {...register("departmentaddress.district")} size="md" />
+            {errors.departmentaddress?.district && (
+              <Text color={red}>
+                {errors.departmentaddress.district.message}
+              </Text>
+            )}
+          </Box>
+
+          <Box my={my}>
+            <Text fontSize={fontSize}>Community</Text>
+            <Input {...register("departmentaddress.community")} size="md" />
+            {errors.departmentaddress?.community && (
+              <Text color={red}>
+                {errors.departmentaddress.community.message}
+              </Text>
+            )}
           </Box>
         </Stack>
         <Button type="submit" colorScheme={blue}>

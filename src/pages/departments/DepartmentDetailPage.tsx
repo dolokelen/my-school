@@ -5,6 +5,7 @@ import { red } from "../../cacheKeysAndRoutes";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import DepartmentEditForm from "./DepartmentEditFrom";
 import { toast } from "react-toastify";
+import DepartmentAddressListPage from "./DepartmentAddressListPage";
 
 const DepartmentDetailPage = () => {
   const { pk } = useParams();
@@ -33,7 +34,7 @@ const DepartmentDetailPage = () => {
     >
       <GridItem area="courseDetail">
         <Box mb={marginBottom} fontSize="2rem">
-          {department?.name}
+          {department?.name} Department
         </Box>
         <Text fontSize={fontSize}>Name: {department?.name}</Text>
         <Text fontSize="1.5rem">Budget: $ {department?.budget.toFixed(2)}</Text>
@@ -46,6 +47,10 @@ const DepartmentDetailPage = () => {
         <Text fontSize={fontSize}>
           Created on: {department?.created_at.substring(0, 10)}
         </Text>
+        <Box mt="1.3rem" fontSize="1.5rem" fontWeight={500}>
+        {department?.name} Address
+      </Box>
+        <DepartmentAddressListPage departmentaddress={department?.departmentaddress} />
         {canDeleteDepartment && (
           <Button
             isActive
