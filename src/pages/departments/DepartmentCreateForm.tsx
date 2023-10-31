@@ -63,7 +63,7 @@ const DepartmentCreateForm = () => {
   } = useForm<DepartmentCreateFormData>({ resolver: zodResolver(schema) });
 
   const { fields, append, remove } = useFieldArray({
-    control, 
+    control,
     name: "departmentcontact",
   });
 
@@ -183,6 +183,7 @@ const DepartmentCreateForm = () => {
                   </Text>
                 )}
               </Box>
+              <Button onClick={() => remove(index)}>Remove Contact</Button>
             </Box>
           ))}
           <Button onClick={() => append({ phone: "", email: "" })}>
