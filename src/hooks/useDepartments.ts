@@ -18,6 +18,11 @@ export interface DepartmentAddress {
   community: string;
 }
 
+export interface DepartmentContact {
+  phone: string;
+  emial: string;
+}
+
 interface Department {
   id: number;
   name: string;
@@ -26,6 +31,7 @@ interface Department {
   number_of_courses: number;
   created_at: string;
   departmentaddress: DepartmentAddress;
+  departmentcontact: DepartmentContact[];
 }
 
 const DEPARTMENT_URL = "/school/departments/";

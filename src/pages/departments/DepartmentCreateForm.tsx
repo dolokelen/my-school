@@ -1,11 +1,22 @@
 import { Box, Button, Input, Stack, Text, Textarea } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { blue, red } from "../../cacheKeysAndRoutes";
 import { useCreateDepartment } from "../../hooks/useDepartments";
+
+const departmentContact = z.object({
+  phone: z.string().min(10, {
+    message:
+      "Department phone is required and must be at least 10 valid phone numbers.",
+  }),
+  email: z
+    .string()
+    .min(4, { message: "Email is required." })
+    .email("This is not a valid email."),
+});
 
 const schema = z.object({
   name: z.string().min(2, {
@@ -35,6 +46,7 @@ const schema = z.object({
         "Department community is required and must be at least 2 letters.",
     }),
   }),
+  departmentcontact: z.array(departmentContact),
 });
 
 export type DepartmentCreateFormData = z.infer<typeof schema>;
@@ -46,8 +58,14 @@ const DepartmentCreateForm = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<DepartmentCreateFormData>({ resolver: zodResolver(schema) });
+
+  const { fields, append, remove } = useFieldArray({
+    control, 
+    name: "departmentcontact",
+  });
 
   const mutation = useCreateDepartment(onCreate, () => reset());
   const onSubmit = (data: DepartmentCreateFormData) => {
@@ -133,8 +151,51 @@ const DepartmentCreateForm = () => {
               </Text>
             )}
           </Box>
+
+          <Box mx="15rem" fontSize="1.6rem" w="auto" mt="2rem">
+            Department Contact Section
+          </Box>
+
+          {fields.map((contact, index) => (
+            <Box key={contact.id}>
+              <Box my={my}>
+                <Text fontSize={fontSize}>Phone</Text>
+                <Input
+                  {...register(`departmentcontact.${index}.phone`)}
+                  size="md"
+                />
+                {errors?.departmentcontact?.[index]?.phone && (
+                  <Text color={red}>
+                    {errors.departmentcontact[index]?.phone?.message}
+                  </Text>
+                )}
+              </Box>
+
+              <Box my={my}>
+                <Text fontSize={fontSize}>Email</Text>
+                <Input
+                  {...register(`departmentcontact.${index}.email`)}
+                  size="md"
+                />
+                {errors?.departmentcontact?.[index]?.email && (
+                  <Text color={red}>
+                    {errors.departmentcontact[index]?.email?.message}
+                  </Text>
+                )}
+              </Box>
+            </Box>
+          ))}
+          <Button onClick={() => append({ phone: "", email: "" })}>
+            Add Contact
+          </Button>
         </Stack>
-        <Button type="submit" colorScheme={blue}>
+        <Button
+          onClick={() =>
+            fields.length === 0 && append({ phone: "", email: "" })
+          }
+          type="submit"
+          colorScheme={blue}
+        >
           Create Department
         </Button>
       </form>
