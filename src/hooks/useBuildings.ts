@@ -1,10 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
-import { CACHE_KEY_BUILDING } from "../cacheKeysAndRoutes";
+import { useNavigate } from "react-router-dom";
+import { AUTH_LAYOUT_ROUTE, BUILDINGS_ROUTE, CACHE_KEY_BUILDING } from "../cacheKeysAndRoutes";
+import { BuildingAddressEditFormData } from "../pages/buildings/BuildingAddressEditForm";
 import { BuildingCreateFormData } from "../pages/buildings/BuildingCreateForm";
+import { BuildingEditFormData } from "../pages/buildings/BuildingEditForm";
 import apiClient from "../services/httpService";
+import { Address } from "./useAddress";
 
-interface Building {
+export interface Building {
   id: number;
   name: string;
   dimension: string;
@@ -12,6 +16,7 @@ interface Building {
   classroom_counts: number;
   toilet_counts: number;
   date_constructed: string;
+  buildingaddress: Address;
 }
 
 const BUILDING_URL = "/school/buildings/";
@@ -55,91 +60,62 @@ export const useCreateBuilding = (
   );
 };
 
-// export const useEditDepartment = (onUpdate: () => void) => {
-//   const queryClient = useQueryClient();
+export const useEditBuilding = (onUpdate: () => void) => {
+  const queryClient = useQueryClient();
 
-//   return useMutation<DepartmentEditFormData, Error, DepartmentEditFormData>({
-//     mutationFn: (data: DepartmentEditFormData) =>
-//       apiClients.patch<DepartmentEditFormData>(data),
+  return useMutation<BuildingEditFormData, Error, BuildingEditFormData>({
+    mutationFn: (data: BuildingEditFormData) =>
+      apiClients.patch<BuildingEditFormData>(data),
 
-//     onSuccess: (existingData, newData) => {
-//       onUpdate();
+    onSuccess: (existingData, newData) => {
+      onUpdate();
 
-//       return queryClient.invalidateQueries({
-//         queryKey: [CACHE_KEY_DEPARTMENT],
-//       });
-//     },
-//   });
-// };
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_BUILDING],
+      });
+    },
+  });
+};
 
-// export const useEditDepartmentAddress = (onUpdate: () => void) => {
-//   const queryClient = useQueryClient();
+export const useEditBuildingAddress = (onUpdate: () => void) => {
+  const queryClient = useQueryClient();
 
-//   return useMutation<
-//     DepartmentAddressEditFormData,
-//     Error,
-//     DepartmentAddressEditFormData
-//   >({
-//     mutationFn: (data: DepartmentAddressEditFormData) =>
-//       apiClients.patchNested<DepartmentAddressEditFormData>(
-//         data,
-//         "address",
-//         data.id
-//       ),
+  return useMutation<
+    BuildingAddressEditFormData,
+    Error,
+    BuildingAddressEditFormData
+  >({
+    mutationFn: (data: BuildingAddressEditFormData) =>
+      apiClients.patchNested<BuildingAddressEditFormData>(
+        data,
+        "address",
+        data.id
+      ),
 
-//     onSuccess: (existingData, newData) => {
-//       onUpdate();
+    onSuccess: (existingData, newData) => {
+      onUpdate();
 
-//       return queryClient.invalidateQueries({
-//         queryKey: [CACHE_KEY_DEPARTMENT],
-//       });
-//     },
-//   });
-// };
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_BUILDING],
+      });
+    },
+  });
+};
 
-// export const useEditDepartmentContact = (onUpdate: () => void) => {
-//   const queryClient = useQueryClient();
+export const useDeleteBuilding = (onDelete: () => void) => {
+  const navigate = useNavigate();
 
-//   const departmentContactId = useDepartmentContactStore(
-//     (s) => s.departmentContactQuery.departmentContactId
-//   );
+  const queryClient = useQueryClient();
+  return useMutation<number, Error, number>({
+    mutationFn: (id: number) => apiClients.delete(id),
 
-//   return useMutation<
-//     DepartmentContactEditFormData,
-//     Error,
-//     DepartmentContactEditFormData
-//   >({
-//     mutationFn: (data: DepartmentContactEditFormData) =>
-//       apiClients.patchNested<DepartmentContactEditFormData>(
-//         data,
-//         "contacts",
-//         departmentContactId
-//       ),
+    onSuccess: (existingData, newData) => {
+      navigate(`${AUTH_LAYOUT_ROUTE}/${BUILDINGS_ROUTE}`);
+      onDelete();
 
-//     onSuccess: (existingData, newData) => {
-//       onUpdate();
-
-//       return queryClient.invalidateQueries({
-//         queryKey: [CACHE_KEY_DEPARTMENT],
-//       });
-//     },
-//   });
-// };
-
-// export const useDeleteDepartment = (onDelete: () => void) => {
-//   const navigate = useNavigate();
-
-//   const queryClient = useQueryClient();
-//   return useMutation<number, Error, number>({
-//     mutationFn: (id: number) => apiClients.delete(id),
-
-//     onSuccess: (existingData, newData) => {
-//       navigate(`${AUTH_LAYOUT_ROUTE}/${DEPARTMENTS_ROUTE}`);
-//       onDelete();
-
-//       return queryClient.invalidateQueries({
-//         queryKey: [CACHE_KEY_DEPARTMENT],
-//       });
-//     },
-//   });
-// };
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_BUILDING],
+      });
+    },
+  });
+};

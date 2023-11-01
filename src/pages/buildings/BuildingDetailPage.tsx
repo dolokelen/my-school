@@ -1,100 +1,95 @@
-import { Box, Grid, GridItem, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Grid, GridItem, Spinner, Text } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { hasPermission } from "../../Utilities/hasPermissions";
-import { useBuilding } from "../../hooks/useBuildings";
+import { useBuilding, useDeleteBuilding } from "../../hooks/useBuildings";
+import BuildingEditForm from "./BuildingEditForm";
+import BuildingAddressPage from "./BuildingAddressPage";
+import BuildingAddressEditForm from "./BuildingAddressEditForm";
+import { red } from "../../cacheKeysAndRoutes";
+import { toast } from "react-toastify";
 
 const BuildingDetailPage = () => {
   const { id } = useParams();
   const buildingId = parseInt(id!);
   const { data: building, isLoading } = useBuilding(buildingId);
-  //   const mutation = useDeleteBuilding(() =>
-  //     toast.success("Deleted successfully!")
-  //   );
 
-  const canDeleteDepartment = hasPermission("Can delete building");
-  const canChangeDepartment = hasPermission("Can change building");
+  const mutation = useDeleteBuilding(() =>
+    toast.success("Deleted successfully!")
+  );
 
-//   const selectedDepartmentContactId = useDepartmentContactStore(
-//     (s) => s.departmentContactQuery.departmentContactId
-//   );
-//   const selectedDepartmentContact = building?.departmentcontact.find(
-//     (deptContact) => deptContact.id === selectedDepartmentContactId
-//   );
+  const canDeleteBuilding = hasPermission("Can delete building");
+  const canChangeBuilding = hasPermission("Can change building");
 
   const fontSize = "1rem";
   const marginBottom = "1rem";
   if (isLoading) return <Spinner />;
 
   return (
-    <Grid
-      templateAreas={{
-        base: `"buildingDetail buildingEditForm"`,
-      }}
-      templateColumns={{
-        base: `1.2fr 1fr`,
-      }}
-      justifyContent="space-center"
-    >
-      <GridItem area="buildingDetail">
-        <Box mb={marginBottom} fontSize="2rem">
-          {building?.name} Building
-        </Box>
-        <Text fontSize={fontSize}>Name: {building?.name}</Text>
-        <Text fontSize={fontSize}>Dimension: {building?.dimension}</Text>
-        <Text w="50ch" fontSize={fontSize}>
-          Number of offices: {building?.office_counts}
-        </Text>
-        <Text fontSize={fontSize}>
-          Number of classrooms: {building?.classroom_counts}
-        </Text>
-        <Text fontSize={fontSize}>
-          Number of Toilet: {building?.toilet_counts}
-        </Text>
-        <Text fontSize={fontSize}>
-          Date constructed: {building?.date_constructed}
-        </Text>
-        {/* <Box mt="1.3rem" fontSize="1.5rem" fontWeight={500}>
-          {building?.name} Department Address
-        </Box>
-        <DepartmentAddressListPage
-          departmentaddress={building?.departmentaddress}
-        /> */}
+    <>
+      <Grid
+        templateAreas={{
+          base: `"buildingDetail buildingEditForm"`,
+        }}
+        templateColumns={{
+          base: `1.2fr 1fr`,
+        }}
+        justifyContent="space-center"
+      >
+        <GridItem area="buildingDetail">
+          <Box mb={marginBottom} fontSize="2rem">
+            {building?.name} Building
+          </Box>
+          <Text fontSize={fontSize}>Name: {building?.name}</Text>
+          <Text fontSize={fontSize}>Dimension: {building?.dimension}</Text>
+          <Text w="50ch" fontSize={fontSize}>
+            Number of offices: {building?.office_counts}
+          </Text>
+          <Text fontSize={fontSize}>
+            Number of classrooms: {building?.classroom_counts}
+          </Text>
+          <Text fontSize={fontSize}>
+            Number of Toilet: {building?.toilet_counts}
+          </Text>
+          <Text fontSize={fontSize}>
+            Date constructed: {building?.date_constructed}
+          </Text>
+          <Box mt="1.3rem" fontSize="1.5rem">
+            {building?.name} Building Address
+          </Box>
+          <BuildingAddressPage buildingAddress={building?.buildingaddress} />
+        </GridItem>
 
-        {/* <Box mt="1.3rem" fontSize="1.5rem" fontWeight={500}>
-          {building?.name} Department Contact(s)
-        </Box>
-        <DepartmentContactListPage
-          departmentContacts={building?.departmentcontact}
+        <GridItem area="buildingEditForm">
+          {canChangeBuilding && (
+            <>
+              <Box mb={marginBottom} fontSize="2rem">
+                Update Form
+              </Box>
+              <BuildingEditForm building={building} />
+            </>
+          )}
+        </GridItem>
+      </Grid>
+      {canChangeBuilding && (
+        <BuildingAddressEditForm
+          buildingAddress={building?.buildingaddress}
+          buildingId={buildingId}
         />
-        <DepartmentContactEditForm
-          selectedDepartmentContact={selectedDepartmentContact}
-          departmentId={buildingId}
-        /> */}
+      )}
 
-        {/* {canDeleteDepartment && (
-          <Button
-            isActive
-            mt="6rem"
-            width="45%"
-            colorScheme={red}
-            onClick={() => mutation.mutate(buildingId)}
-          >
-            Delete Department
-          </Button>
-        )} */}
-      </GridItem>
-
-      <GridItem area="courseEditForm">
-        {canChangeDepartment && (
-          <>
-            <Box mb={marginBottom} fontSize="2rem">
-              Update Form
-            </Box>
-            {/* <DepartmentEditForm /> */}
-          </>
-        )}
-      </GridItem>
-    </Grid>
+      {canDeleteBuilding && (
+        <Button
+          isActive
+          mt="4rem"
+          width="60%"
+          ml="9rem"
+          colorScheme={red}
+          onClick={() => mutation.mutate(buildingId)}
+        >
+          Delete Building Records
+        </Button>
+      )}
+    </>
   );
 };
 
