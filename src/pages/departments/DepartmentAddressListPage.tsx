@@ -5,7 +5,7 @@ interface Props {
   departmentaddress?: DepartmentAddress;
 }
 const DepartmentAddressListPage = ({ departmentaddress }: Props) => {
-  const fontSize = "1.3rem";
+  const fontSize = "1rem";
 
   return (
     <>

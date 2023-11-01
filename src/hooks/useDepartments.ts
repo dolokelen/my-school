@@ -20,8 +20,9 @@ export interface DepartmentAddress {
 }
 
 export interface DepartmentContact {
+  id: number;
   phone: string;
-  emial: string;
+  email: string;
 }
 
 interface Department {
