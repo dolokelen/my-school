@@ -1,4 +1,5 @@
 import {
+  Link,
   Table,
   TableContainer,
   Tbody,
@@ -7,15 +8,17 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { DepartmentContact, useDepartments } from "../../hooks/useDepartments";
-import { Link } from "react-router-dom";
-import { AUTH_LAYOUT_ROUTE, DEPARTMENTS_ROUTE } from "../../cacheKeysAndRoutes";
+import { DepartmentContact } from "../../hooks/useDepartments";
+import { useDepartmentContactStore } from "./departmentStore";
 
 interface Props {
   departmentContacts?: DepartmentContact[];
 }
 
 const DepartmentContactListPage = ({ departmentContacts }: Props) => {
+  const setSelectedDepartmentContactId = useDepartmentContactStore(
+    (s) => s.setSelectedDepartmentContactId
+  );
   const fontSize = "1rem";
 
   return (
@@ -29,13 +32,12 @@ const DepartmentContactListPage = ({ departmentContacts }: Props) => {
         </Thead>
         <Tbody>
           {departmentContacts?.map((contact) => (
-            <Tr key={contact.id}>
-              <Td fontSize={fontSize}>
-               {contact.phone}
-              </Td>
-              <Td fontSize={fontSize}>
-                {contact.email}
-              </Td>
+            <Tr
+              key={contact.id}
+              onClick={() => setSelectedDepartmentContactId(contact.id)}
+            >
+              <Td fontSize={fontSize}><Link>{contact.phone}</Link></Td>
+              <Td fontSize={fontSize}><Link>{contact.email}</Link></Td>
             </Tr>
           ))}
         </Tbody>

@@ -7,6 +7,8 @@ import DepartmentEditForm from "./DepartmentEditFrom";
 import { toast } from "react-toastify";
 import DepartmentAddressListPage from "./DepartmentAddressListPage";
 import DepartmentContactListPage from "./DepartmentContactListPage";
+import DepartmentContactEditForm from "./DepartmentContactEditForm";
+import { useDepartmentContactStore } from "./departmentStore";
 
 const DepartmentDetailPage = () => {
   const { pk } = useParams();
@@ -18,6 +20,13 @@ const DepartmentDetailPage = () => {
 
   const canDeleteDepartment = hasPermission("Can delete department");
   const canChangeDepartment = hasPermission("Can change department");
+
+  const selectedDepartmentContactId = useDepartmentContactStore(
+    (s) => s.departmentContactQuery.departmentContactId
+  );
+  const selectedDepartmentContact = department?.departmentcontact.find(
+    (deptContact) => deptContact.id === selectedDepartmentContactId
+  );
 
   const fontSize = "1rem";
   const marginBottom = "1rem";
@@ -49,18 +58,28 @@ const DepartmentDetailPage = () => {
           Created on: {department?.created_at.substring(0, 10)}
         </Text>
         <Box mt="1.3rem" fontSize="1.5rem" fontWeight={500}>
-        {department?.name} Department Address
-      </Box>
-        <DepartmentAddressListPage departmentaddress={department?.departmentaddress} />
-        
+          {department?.name} Department Address
+        </Box>
+        <DepartmentAddressListPage
+          departmentaddress={department?.departmentaddress}
+        />
+
         <Box mt="1.3rem" fontSize="1.5rem" fontWeight={500}>
-        {department?.name} Department Contact(s)
-      </Box>
-        <DepartmentContactListPage departmentContacts={department?.departmentcontact}/>
+          {department?.name} Department Contact(s)
+        </Box>
+        <DepartmentContactListPage
+          departmentContacts={department?.departmentcontact}
+        />
+        <DepartmentContactEditForm
+          selectedDepartmentContact={selectedDepartmentContact}
+          departmentId={departmentPk}
+        />
+
         {canDeleteDepartment && (
           <Button
             isActive
-            mt="4rem"
+            mt="6rem"
+            width="45%"
             colorScheme={red}
             onClick={() => mutation.mutate(departmentPk)}
           >

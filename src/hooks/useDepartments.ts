@@ -10,6 +10,8 @@ import { DepartmentCreateFormData } from "../pages/departments/DepartmentCreateF
 import { DepartmentEditFormData } from "../pages/departments/DepartmentEditFrom";
 import { useNavigate } from "react-router-dom";
 import { DepartmentAddressEditFormData } from "../pages/departments/DepartmentAddressEditForm";
+import { DepartmentContactEditFormData } from "../pages/departments/DepartmentContactEditForm";
+import { useDepartmentContactStore } from "../pages/departments/departmentStore";
 
 export interface DepartmentAddress {
   country: string;
@@ -96,9 +98,46 @@ export const useEditDepartment = (onUpdate: () => void) => {
 export const useEditDepartmentAddress = (onUpdate: () => void) => {
   const queryClient = useQueryClient();
 
-  return useMutation<DepartmentAddressEditFormData, Error, DepartmentAddressEditFormData>({
+  return useMutation<
+    DepartmentAddressEditFormData,
+    Error,
+    DepartmentAddressEditFormData
+  >({
     mutationFn: (data: DepartmentAddressEditFormData) =>
-      apiClients.patchNested<DepartmentAddressEditFormData>(data, 'address', data.id),
+      apiClients.patchNested<DepartmentAddressEditFormData>(
+        data,
+        "address",
+        data.id
+      ),
+
+    onSuccess: (existingData, newData) => {
+      onUpdate();
+
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_DEPARTMENT],
+      });
+    },
+  });
+};
+
+export const useEditDepartmentContact = (onUpdate: () => void) => {
+  const queryClient = useQueryClient();
+
+  const departmentContactId = useDepartmentContactStore(
+    (s) => s.departmentContactQuery.departmentContactId
+  );
+
+  return useMutation<
+    DepartmentContactEditFormData,
+    Error,
+    DepartmentContactEditFormData
+  >({
+    mutationFn: (data: DepartmentContactEditFormData) =>
+      apiClients.patchNested<DepartmentContactEditFormData>(
+        data,
+        "contacts",
+        departmentContactId
+      ),
 
     onSuccess: (existingData, newData) => {
       onUpdate();
