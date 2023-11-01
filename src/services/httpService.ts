@@ -147,6 +147,22 @@ class APIClient<T> {
       });
   };
 
+  patchNested = <T extends Data>(
+    data: T,
+    childEndpoint: string,
+    childObjId?: number
+  ) => {
+    return axiosInstance
+      .patch<T>(
+        `${this.endpoint}${data.id}/${childEndpoint}/${childObjId}/`,
+        data
+      )
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  };
+
   patchJsonData = <T>(data: T, entityId: number) => {
     return axiosInstance
       .patch<T>(`${this.endpoint}${entityId}/`, data)

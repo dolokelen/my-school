@@ -1,4 +1,12 @@
-import { Box, Button, Input, Stack, Text, Textarea } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Input,
+  Spinner,
+  Stack,
+  Text,
+  Textarea,
+} from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -8,6 +16,7 @@ import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { red, teal } from "../../cacheKeysAndRoutes";
 import { useDepartment, useEditDepartment } from "../../hooks/useDepartments";
+import DepartmentAddressEditForm from "./DepartmentAddressEditForm";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -33,7 +42,8 @@ const DepartmentEditForm = () => {
   } = useForm<DepartmentEditFormData>({ resolver: zodResolver(schema) });
 
   const { pk } = useParams();
-  const { data: department, isLoading } = useDepartment(parseInt(pk!));
+  const departmentId = parseInt(pk!);
+  const { data: department, isLoading } = useDepartment(departmentId);
   const mutation = useEditDepartment(() =>
     toast.success("Department Updated Successfully!")
   );
@@ -53,6 +63,7 @@ const DepartmentEditForm = () => {
   const my = 2;
   const fontSize = "1rem";
 
+  if (isLoading) return <Spinner />;
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -84,6 +95,10 @@ const DepartmentEditForm = () => {
           Update Department
         </Button>
       </form>
+      <DepartmentAddressEditForm
+        departmentAddress={department?.departmentaddress}
+        departmentId={departmentId}
+      />
     </>
   );
 };

@@ -9,6 +9,7 @@ import {
 import { DepartmentCreateFormData } from "../pages/departments/DepartmentCreateForm";
 import { DepartmentEditFormData } from "../pages/departments/DepartmentEditFrom";
 import { useNavigate } from "react-router-dom";
+import { DepartmentAddressEditFormData } from "../pages/departments/DepartmentAddressEditForm";
 
 export interface DepartmentAddress {
   country: string;
@@ -80,6 +81,23 @@ export const useEditDepartment = (onUpdate: () => void) => {
   return useMutation<DepartmentEditFormData, Error, DepartmentEditFormData>({
     mutationFn: (data: DepartmentEditFormData) =>
       apiClients.patch<DepartmentEditFormData>(data),
+
+    onSuccess: (existingData, newData) => {
+      onUpdate();
+
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_DEPARTMENT],
+      });
+    },
+  });
+};
+
+export const useEditDepartmentAddress = (onUpdate: () => void) => {
+  const queryClient = useQueryClient();
+
+  return useMutation<DepartmentAddressEditFormData, Error, DepartmentAddressEditFormData>({
+    mutationFn: (data: DepartmentAddressEditFormData) =>
+      apiClients.patchNested<DepartmentAddressEditFormData>(data, 'address', data.id),
 
     onSuccess: (existingData, newData) => {
       onUpdate();
