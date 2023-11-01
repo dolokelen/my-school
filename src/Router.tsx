@@ -5,6 +5,8 @@ import AuthLayout from "./components/AuthLayout";
 import UnAuthLayout from "./components/UnAuthLayout";
 import {
   AUTH_LAYOUT_ROUTE,
+  BUILDINGS_CREATE_ROUTE,
+  BUILDINGS_ROUTE,
   COURSES_CREATE_ROUTE,
   COURSES_LIST_ROUTE,
   DEPARTMENTS_ROUTE,
@@ -35,6 +37,9 @@ import DepartmentCreateForm from "./pages/departments/DepartmentCreateForm";
 import SemesterListPage from "./pages/semesters/SemesterListPage";
 import SemesterDetailPage from "./pages/semesters/SemesterDetailPage";
 import SemesterCreateForm from "./pages/semesters/SemesterCreateForm";
+import BuildingListPage from "./pages/buildings/BuildingListPage";
+import BuildingDetailPage from "./pages/buildings/BuildingDetailPage";
+import BuildingCreateForm from "./pages/buildings/BuildingCreateForm";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +63,9 @@ const router = createBrowserRouter([
       { path: SEMESTERS_ROUTE, element: <SemesterListPage /> },
       { path: `${SEMESTERS_ROUTE}/:id/`, element: <SemesterDetailPage /> },
       { path: SEMESTER_CREATE_ROUTE, element: <SemesterCreateForm /> },
+      { path: BUILDINGS_ROUTE, element: <BuildingListPage /> },
+      { path: `${BUILDINGS_ROUTE}/:id/`, element: <BuildingDetailPage /> },
+      { path: BUILDINGS_CREATE_ROUTE, element: <BuildingCreateForm /> },
     ],
   },
 

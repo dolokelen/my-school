@@ -5,6 +5,7 @@ export const CACHE_KEY_USER = "user";
 export const CACHE_KEY_COURSE = "course";
 export const CACHE_KEY_DEPARTMENT = "department";
 export const CACHE_KEY_SEMESTER = "semester";
+export const CACHE_KEY_BUILDING = "building";
 
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "login";
@@ -20,6 +21,8 @@ export const DEPARTMENTS_ROUTE = "departments-list";
 export const DEPARTMENT_CREATE_ROUTE = "departments-create-form";
 export const SEMESTERS_ROUTE = "semesters-list";
 export const SEMESTER_CREATE_ROUTE = "semester-create-form";
+export const BUILDINGS_ROUTE = "buildings-list";
+export const BUILDINGS_CREATE_ROUTE = "buildings-create-form";
 
 export const red = "red";
 export const blue = "blue";

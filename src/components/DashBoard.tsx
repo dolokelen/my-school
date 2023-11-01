@@ -2,6 +2,8 @@ import { MenuItem, Stack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { hasPermission } from "../Utilities/hasPermissions";
 import {
+  BUILDINGS_CREATE_ROUTE,
+  BUILDINGS_ROUTE,
   COURSES_CREATE_ROUTE,
   COURSES_LIST_ROUTE,
   DEPARTMENTS_ROUTE,
@@ -66,6 +68,16 @@ const DashBoard = () => {
         {hasPermission("Can add semester") && (
           <MenuItem>
             {<Link to={SEMESTER_CREATE_ROUTE}>Semester Create Form</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can view building") && (
+          <MenuItem>
+            {<Link to={BUILDINGS_ROUTE}>Buildings</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can add building") && (
+          <MenuItem>
+            {<Link to={BUILDINGS_CREATE_ROUTE}>Building Create Form</Link>}
           </MenuItem>
         )}
       </DashBoardMenu>
