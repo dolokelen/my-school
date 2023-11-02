@@ -14,7 +14,7 @@ import { SemesterEditFormData } from "../pages/semesters/SemesterEditForm";
 interface Semester {
   id: number;
   name: string;
-  school_year: string;
+  school_year: {id: number, year: number};
   enrollment_start_date: string;
   enrollment_end_date: string;
   start_date: string;

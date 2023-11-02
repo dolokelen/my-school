@@ -27,7 +27,7 @@ const schema = z.object({
   name: z.string().min(1, {
     message: "Semester name is required.",
   }),
-  school_year: z.string().min(1, {
+  school_year: z.number().min(1, {
     message: "School year is required.",
   }),
   enrollment_start_date: z.string().min(10, {
@@ -67,7 +67,7 @@ const SemesterEditForm = () => {
   useEffect(() => {
     if (semester) {
       setValue("name", semester?.name);
-      setValue("school_year", semester?.school_year);
+      setValue("school_year", semester?.school_year.id);
       setValue("enrollment_start_date", semester?.enrollment_start_date);
       setValue("enrollment_end_date", semester?.enrollment_start_date);
       setValue("start_date", semester?.start_date);
@@ -100,12 +100,13 @@ const SemesterEditForm = () => {
 
           <Box my={my}>
             <Text fontSize={fontSize}>Semester year</Text>
-            <Select {...register("school_year")}>
-              {schoolYears?.map((schYear) => (
+            <Select {...register("school_year", {valueAsNumber: true})}>
+              <option value={semester?.school_year.id}>{semester?.school_year.year}</option>
+              {schoolYears?.map((schYear) => schYear.id !== semester?.school_year.id ? (
                 <option key={schYear.id} value={schYear.id}>
                   {schYear.year}
                 </option>
-              ))}
+              ) : schYear.id)}
             </Select>
             {errors?.school_year && (
               <Text color={red}>{errors.school_year.message}</Text>

@@ -62,7 +62,7 @@ const SemesterListPage = () => {
                 <Link
                   to={`${AUTH_LAYOUT_ROUTE}/${SEMESTERS_ROUTE}/${semester.id}`}
                 >
-                  {semester.school_year}
+                  {semester.school_year.year}
                 </Link>
               </Td>
               <Td>

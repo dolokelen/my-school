@@ -13,7 +13,7 @@ const schema = z.object({
   name: z.string().min(1, {
     message: "Semester name is required.",
   }),
-  school_year: z.string().min(1, {
+  school_year: z.number({invalid_type_error: "Select a year explicitly."}).min(1, {
     message: "School year is required.",
   }),
   enrollment_start_date: z.string().min(10, {
@@ -70,7 +70,7 @@ const SemesterCreateForm = () => {
 
           <Box my={my}>
             <Text fontSize={fontSize}>Semester year</Text>
-            <Select {...register("school_year")}>
+            <Select {...register("school_year", {valueAsNumber: true})}>
               {schoolYears?.map((schYear) => (
                 <option key={schYear.id} value={schYear.id}>
                   {schYear.year}

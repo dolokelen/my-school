@@ -47,7 +47,7 @@ const SemesterDetailPage = () => {
         <Box mb={marginBottom} fontSize="2rem">
           Semester: {semester?.name}
         </Box>
-        <Text fontSize="1.5rem">School Year: {semester?.school_year}</Text>
+        <Text fontSize="1.5rem">School Year: {semester?.school_year.year}</Text>
         <Text fontSize={fontSize}>
           Registration start date: {semester?.enrollment_end_date}
         </Text>
@@ -61,7 +61,7 @@ const SemesterDetailPage = () => {
         </Text>
 
         <Text fontSize={fontSize} fontWeight="bold">
-          Semester {semester?.name} {semester?.school_year} Courses
+          Semester {semester?.name} {semester?.school_year.year} Courses
         </Text>
         <OverflowYContainer maxH="30vh">
           {semester?.courses?.map((course) => (
@@ -102,19 +102,24 @@ const SemesterDetailPage = () => {
 
       {canChangeSemester && (
         <GridItem area="semesSpecificCourse">
-          <Box
-            fontSize="1.6rem"
-            mt="3.5rem"
-            mb="1rem"
-            fontWeight="bold"
-            ml={20}
-          >
-            Add new courses to this semester exclusively if necessary
-          </Box>
-          <AddSemesterSpecificCourses
-            semesterCourses={semester?.courses}
-            isCurrentSemester={semester?.is_current}
-          />
+          {semester?.is_current && (
+            <>
+              <Box
+                fontSize="1.6rem"
+                mt="3.5rem"
+                mb="1rem"
+                fontWeight="bold"
+                ml={20}
+              >
+                Add new courses to this semester exclusively if necessary
+              </Box>
+
+              <AddSemesterSpecificCourses
+                semesterCourses={semester?.courses}
+                isCurrentSemester={semester?.is_current}
+              />
+            </>
+          )}
         </GridItem>
       )}
     </Grid>
