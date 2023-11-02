@@ -22,6 +22,7 @@ const BuildingDetailPage = () => {
 
   const fontSize = "1rem";
   const marginBottom = "1rem";
+  const mutationErrorMsg = `${building?.name} cannot be deleted because it may have dependencies!`;
   if (isLoading) return <Spinner />;
 
   return (
@@ -84,7 +85,10 @@ const BuildingDetailPage = () => {
           width="60%"
           ml="9rem"
           colorScheme={red}
-          onClick={() => mutation.mutate(buildingId)}
+          onClick={() => {
+            mutation.mutate(buildingId);
+            mutation.isError && toast.error(mutationErrorMsg);
+          }}
         >
           Delete Building Records
         </Button>

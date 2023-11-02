@@ -58,7 +58,7 @@ export const useEditOffice = (onUpdate: () => void) => {
 
   return useMutation<OfficeEditFormData, Error, OfficeEditFormData>({
     mutationFn: (data: OfficeEditFormData) =>
-      apiClients.patch<OfficeEditFormData>(data),
+      apiClients.patch(data),
 
     onSuccess: (existingData, newData) => {
       onUpdate();
