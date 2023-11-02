@@ -14,6 +14,8 @@ import {
   GROUP_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
+  OFFICES_CREATE_ROUTE,
+  OFFICES_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
   SEMESTERS_ROUTE,
@@ -40,6 +42,9 @@ import SemesterCreateForm from "./pages/semesters/SemesterCreateForm";
 import BuildingListPage from "./pages/buildings/BuildingListPage";
 import BuildingDetailPage from "./pages/buildings/BuildingDetailPage";
 import BuildingCreateForm from "./pages/buildings/BuildingCreateForm";
+import OfficeListPage from "./pages/offices/OfficeListPage";
+import OfficeDetailPage from "./pages/offices/OfficeDetailPage";
+import OfficeCreateForm from "./pages/offices/OfficeCreateForm";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +71,9 @@ const router = createBrowserRouter([
       { path: BUILDINGS_ROUTE, element: <BuildingListPage /> },
       { path: `${BUILDINGS_ROUTE}/:id/`, element: <BuildingDetailPage /> },
       { path: BUILDINGS_CREATE_ROUTE, element: <BuildingCreateForm /> },
+      { path: OFFICES_ROUTE, element: <OfficeListPage /> },
+      { path: `${OFFICES_ROUTE}/:id/`, element: <OfficeDetailPage /> },
+      { path: OFFICES_CREATE_ROUTE, element: <OfficeCreateForm /> },
     ],
   },
 

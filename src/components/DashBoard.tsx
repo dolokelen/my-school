@@ -9,6 +9,8 @@ import {
   DEPARTMENTS_ROUTE,
   DEPARTMENT_CREATE_ROUTE,
   GROUP_ROUTE,
+  OFFICES_CREATE_ROUTE,
+  OFFICES_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
   SEMESTERS_ROUTE,
@@ -78,6 +80,16 @@ const DashBoard = () => {
         {hasPermission("Can add building") && (
           <MenuItem>
             {<Link to={BUILDINGS_CREATE_ROUTE}>Building Create Form</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can view office") && (
+          <MenuItem>
+            {<Link to={OFFICES_ROUTE}>Offices</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can add office") && (
+          <MenuItem>
+            {<Link to={OFFICES_CREATE_ROUTE}>Office Create Form</Link>}
           </MenuItem>
         )}
       </DashBoardMenu>
