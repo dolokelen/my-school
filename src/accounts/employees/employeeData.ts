@@ -17,3 +17,10 @@ export const employmentStatuses = [
   { value: "FT", name: "Full Time" },
   { value: "PT", name: "Part Time" },
 ];
+export const highestEducations = [
+  { value: "HSD", name: "High Sch Diploma" },
+  { value: "TRD", name: "Trade Sch Certificate" },
+  { value: "BSC", name: "Barchelor Degree" },
+  { value: "MSC", name: "Master Degree" },
+  { value: "PHD", name: "Doctorate Degree" },
+];

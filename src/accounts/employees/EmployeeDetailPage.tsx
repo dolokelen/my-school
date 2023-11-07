@@ -25,13 +25,15 @@ console.log(employeeId)
       <Heading size='md'>{employee?.user.full_name}</Heading>
       <Text>Username: {employee?.user.username}</Text>
       <Text>Email: {employee?.user.email}</Text>
+      <Text>Phone: {employee?.phone}</Text>
       <Text>Gender: {employee?.gender}</Text>
       <Text>Birth Date: {employee?.birth_date}</Text>
       <Text>Marital Status: {employee?.marital_status}</Text>
       <Text>Religion: {employee?.religion}</Text>
       <Text>Employment Status: {employee?.employment_status}</Text>
       <Text>Employment Date: {employee?.joined_at}</Text>
-      <Text>Employment Is Active? {employee?.user.is_active ? "Yes" : "No"}</Text>
+      <Text>Is Active? {employee?.user.is_active ? "Yes" : "No"}</Text>
+      <Text>Highest Education Obtained: {employee?.level_of_education}</Text>
       <Text>Salary: $ {employee?.salary.toFixed(2)}</Text>
       <Text>Office: {employee?.office.building.name}, office {employee?.office.id}</Text>
       <Text>Department Name: {employee?.department.name}</Text>
@@ -39,6 +41,11 @@ console.log(employeeId)
       <Text>Term of Reference: <a href={employee?.term_of_reference} download target="_blank">
         PDF
       </a> </Text>
+      <Text>Country: {employee?.employeeaddress.country}</Text>
+      <Text>County: {employee?.employeeaddress.county}</Text>
+      <Text>City: {employee?.employeeaddress.city}</Text>
+      <Text>District: {employee?.employeeaddress.district}</Text>
+      <Text>Community: {employee?.employeeaddress.community}</Text>
     </Stack>
   </CardBody>
 </Card>

@@ -13,13 +13,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { blue } from "../../cacheKeysAndRoutes";
+import { blue, red } from "../../cacheKeysAndRoutes";
 import { useDepartments } from "../../hooks/useDepartments";
 import { useEmployees, useRegisterEmployee } from "../../hooks/useEmployees";
 import { useOffices } from "../../hooks/useOffices";
 import {
   employmentStatuses,
   genders,
+  highestEducations,
   maritalStatuses,
   religions,
 } from "./employeeData";
@@ -51,20 +52,39 @@ const userSchema = z
     }
   );
 
+const address = z.object({
+  country: z.string().min(4, {
+    message: "Employee counrty is required and must be at least 4 words.",
+  }),
+  county: z.string().min(4, {
+    message: "Employee county is required and must be at least 4 words.",
+  }),
+  city: z.string().min(4, {
+    message: "Employee city is required and must be at least 4 words.",
+  }),
+  district: z.string().min(1, {
+    message: "Employee district is required and must be at least a number.",
+  }),
+  community: z.string().min(2, {
+    message: "Employee community is required and must be at least 2 letters.",
+  }),
+});
+
 const schema = z.object({
   user: userSchema,
+  employeeaddress: address,
   gender: z.string().min(1, { message: "Gender is required" }),
   marital_status: z.string().min(1, { message: "Marital status is required" }),
   employment_status: z
     .string()
     .min(1, { message: "Employment status is required" }),
   religion: z.string().min(1, { message: "Religion is required" }),
-  birth_date: z.string({
-    required_error: "Birth date is required.",
-  }),
+  phone: z.string().min(10, { message: "Phone is required" }),
+  birth_date: z.string().min(10, { message: "Birth date is required." }),
+  level_of_education: z.string().min(1, { message: "Highest edcation obtained is required." }),
   salary: z
     .number({ invalid_type_error: "Salary is required" })
-    .min(2, { message: "Salary is required" }),
+    .min(2, { message: "Salary is required" }).positive(),
   supervisor: z.any(),
   department: z.number({ invalid_type_error: "Department is required" }),
   office: z.number({ invalid_type_error: "Office is required" }),
@@ -122,12 +142,21 @@ const EmployeeRegistrationForm = () => {
     formData.append("user.password", user.password);
     formData.append("user.confirm_password", user.confirm_password);
 
+    const address = data.employeeaddress;
+    formData.append("employeeaddress.country", address.country);
+    formData.append("employeeaddress.county", address.county);
+    formData.append("employeeaddress.city", address.city);
+    formData.append("employeeaddress.district", address.district);
+    formData.append("employeeaddress.community", address.community);
+
     formData.append("gender", data.gender);
     formData.append("marital_status", data.marital_status);
     formData.append("employment_status", data.employment_status);
     formData.append("birth_date", data.birth_date);
     formData.append("religion", data.religion);
+    formData.append("phone", data.phone);
     formData.append("salary", data.salary.toString());
+    formData.append("level_of_education", data.level_of_education);
     formData.append("office", data.office.toString());
     formData.append("department", data.department.toString());
     formData.append("supervisor", data.supervisor.toString());
@@ -142,7 +171,6 @@ const EmployeeRegistrationForm = () => {
   };
 
   const marginButton = 3;
-  const errMessageColor = "red";
 
   return (
     <>
@@ -160,7 +188,7 @@ const EmployeeRegistrationForm = () => {
             id="username"
           />
           {errors.user?.username && (
-            <Text color={errMessageColor}>{errors.user.username.message}</Text>
+            <Text color={red}>{errors.user.username.message}</Text>
           )}
         </Box>
         <Box mb={marginButton}>
@@ -172,7 +200,19 @@ const EmployeeRegistrationForm = () => {
             id="email"
           />
           {errors.user?.email && (
-            <Text color={errMessageColor}>{errors.user.email.message}</Text>
+            <Text color={red}>{errors.user.email.message}</Text>
+          )}
+        </Box>
+        <Box mb={marginButton}>
+          <FormLabel htmlFor="phone">Phone Number</FormLabel>
+          <Input
+            {...register("phone")}
+            name="phone"
+            type="text"
+            id="phone"
+          />
+          {errors?.phone && (
+            <Text color={red}>{errors.phone.message}</Text>
           )}
         </Box>
         <Box mb={marginButton}>
@@ -184,9 +224,7 @@ const EmployeeRegistrationForm = () => {
             id="first_name"
           />
           {errors.user?.first_name && (
-            <Text color={errMessageColor}>
-              {errors.user.first_name.message}
-            </Text>
+            <Text color={red}>{errors.user.first_name.message}</Text>
           )}
         </Box>
         <Box mb={marginButton}>
@@ -198,7 +236,7 @@ const EmployeeRegistrationForm = () => {
             id="last_name"
           />
           {errors.user?.last_name && (
-            <Text color={errMessageColor}>{errors.user.last_name.message}</Text>
+            <Text color={red}>{errors.user.last_name.message}</Text>
           )}
         </Box>
 
@@ -211,9 +249,7 @@ const EmployeeRegistrationForm = () => {
               </option>
             ))}
           </Select>
-          {errors?.gender && (
-            <Text color={errMessageColor}>{errors.gender.message}</Text>
-          )}
+          {errors?.gender && <Text color={red}>{errors.gender.message}</Text>}
         </Box>
 
         <Box mb={marginButton}>
@@ -226,7 +262,7 @@ const EmployeeRegistrationForm = () => {
             ))}
           </Select>
           {errors?.marital_status && (
-            <Text color={errMessageColor}>{errors.marital_status.message}</Text>
+            <Text color={red}>{errors.marital_status.message}</Text>
           )}
         </Box>
 
@@ -239,7 +275,7 @@ const EmployeeRegistrationForm = () => {
             id="birth_date"
           />
           {errors?.birth_date && (
-            <Text color={errMessageColor}>{errors.birth_date.message}</Text>
+            <Text color={red}>{errors.birth_date.message}</Text>
           )}
         </Box>
 
@@ -253,12 +289,12 @@ const EmployeeRegistrationForm = () => {
             ))}
           </Select>
           {errors?.religion && (
-            <Text color={errMessageColor}>{errors.religion.message}</Text>
+            <Text color={red}>{errors.religion.message}</Text>
           )}
         </Box>
 
         <Box mb={marginButton}>
-          <FormLabel htmlFor="status">Religion</FormLabel>
+          <FormLabel htmlFor="status">Emploment Status</FormLabel>
           <Select {...register("employment_status")}>
             {employmentStatuses?.map((status) => (
               <option key={status.value} value={status.value}>
@@ -267,9 +303,21 @@ const EmployeeRegistrationForm = () => {
             ))}
           </Select>
           {errors?.employment_status && (
-            <Text color={errMessageColor}>
-              {errors.employment_status.message}
-            </Text>
+            <Text color={red}>{errors.employment_status.message}</Text>
+          )}
+        </Box>
+
+        <Box mb={marginButton}>
+          <FormLabel htmlFor="level">Highest education level</FormLabel>
+          <Select {...register("level_of_education")}>
+            {highestEducations?.map((education) => (
+              <option key={education.value} value={education.value}>
+                {education.name}
+              </option>
+            ))}
+          </Select>
+          {errors?.level_of_education && (
+            <Text color={red}>{errors.level_of_education.message}</Text>
           )}
         </Box>
 
@@ -281,9 +329,7 @@ const EmployeeRegistrationForm = () => {
             type="number"
             id="salary"
           />
-          {errors?.salary && (
-            <Text color={errMessageColor}>{errors.salary.message}</Text>
-          )}
+          {errors?.salary && <Text color={red}>{errors.salary.message}</Text>}
         </Box>
 
         <Box mb={marginButton}>
@@ -316,7 +362,7 @@ const EmployeeRegistrationForm = () => {
             ))}
           </Select>
           {errors?.department && (
-            <Text color={errMessageColor}>{errors.department.message}</Text>
+            <Text color={red}>{errors.department.message}</Text>
           )}
         </Box>
 
@@ -341,8 +387,50 @@ const EmployeeRegistrationForm = () => {
               </option>
             ))}
           </Select>
-          {errors?.office && (
-            <Text color={errMessageColor}>{errors.office.message}</Text>
+          {errors?.office && <Text color={red}>{errors.office.message}</Text>}
+        </Box>
+
+        <Box mx="15rem" fontSize="1.6rem" w="auto" mt="2rem">
+          Employee Address Section
+        </Box>
+
+        <Box my={marginButton}>
+          <FormLabel htmlFor="country">Country</FormLabel>
+          <Input {...register(`employeeaddress.country`)} size="md" />
+          {errors?.employeeaddress?.country && (
+            <Text color={red}>{errors.employeeaddress.country.message}</Text>
+          )}
+        </Box>
+
+        <Box my={marginButton}>
+          <FormLabel htmlFor="county">County</FormLabel>
+          <Input {...register(`employeeaddress.county`)} size="md" />
+          {errors?.employeeaddress?.county && (
+            <Text color={red}>{errors.employeeaddress?.county.message}</Text>
+          )}
+        </Box>
+
+        <Box my={marginButton}>
+          <FormLabel htmlFor="city">City</FormLabel>
+          <Input {...register(`employeeaddress.city`)} size="md" />
+          {errors.employeeaddress?.city && (
+            <Text color={red}>{errors.employeeaddress.city?.message}</Text>
+          )}
+        </Box>
+
+        <Box my={marginButton}>
+          <FormLabel htmlFor="district">District</FormLabel>
+          <Input {...register(`employeeaddress.district`)} size="md" />
+          {errors.employeeaddress?.district && (
+            <Text color={red}>{errors.employeeaddress.district?.message}</Text>
+          )}
+        </Box>
+
+        <Box my={marginButton}>
+          <FormLabel htmlFor="community">Community</FormLabel>
+          <Input {...register(`employeeaddress.community`)} size="md" />
+          {errors.employeeaddress?.community && (
+            <Text color={red}>{errors.employeeaddress.community?.message}</Text>
           )}
         </Box>
 
@@ -360,7 +448,7 @@ const EmployeeRegistrationForm = () => {
             id="password"
           />
           {errors.user?.password && (
-            <Text color={errMessageColor}>{errors.user.password.message}</Text>
+            <Text color={red}>{errors.user.password.message}</Text>
           )}
         </Box>
         <Box mb={marginButton}>
@@ -372,9 +460,7 @@ const EmployeeRegistrationForm = () => {
             id="confirm_password"
           />
           {errors.user?.confirm_password && (
-            <Text color={errMessageColor}>
-              {errors.user.confirm_password.message}
-            </Text>
+            <Text color={red}>{errors.user.confirm_password.message}</Text>
           )}
         </Box>
         <Button type="submit" colorScheme={blue}>

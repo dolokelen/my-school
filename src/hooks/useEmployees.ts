@@ -4,20 +4,24 @@ import { CACHE_KEY_EMPLOYEE } from "../cacheKeysAndRoutes";
 import apiClient from "../services/httpService";
 import { Office } from "./useOffices";
 import { UserProfile } from "./useUsers";
+import { Address } from "./useAddress";
 
 export interface Employee {
-  user: UserProfile
+  user: UserProfile;
+  employeeaddress: Address;
+  phone: string;
   gender: string;
   marital_status: string;
   employment_status: string;
   birth_date: string;
   religion: string;
   salary: number;
+  level_of_education: string;
   term_of_reference: string;
   image: string;
-  department: {name: string};
-  supervisor: {full_name: string};
-  office: Office
+  department: { name: string };
+  supervisor: { full_name: string };
+  office: Office;
   joined_at: string;
 }
 
@@ -40,8 +44,11 @@ export const useEmployee = (employeeId: number) => {
 };
 
 type Data = FormData;
-export const useRegisterEmployee = (onCreate: () => void, reset: () => void) => {
-  const apiClients = apiClient<Data>(EMPLOYEE_URL)
+export const useRegisterEmployee = (
+  onCreate: () => void,
+  reset: () => void
+) => {
+  const apiClients = apiClient<Data>(EMPLOYEE_URL);
   const queryClient = useQueryClient();
   return useMutation<Data, Error, Data>({
     mutationFn: (data: Data) => apiClients.post(data),

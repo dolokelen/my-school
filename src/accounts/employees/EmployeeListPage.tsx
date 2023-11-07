@@ -39,6 +39,7 @@ const EmployeeListPage = () => {
                 <Th>First Name</Th>
                 <Th>Last Name</Th>
                 <Th>Email</Th>
+                <Th>Phone</Th>
                 <Th>Username</Th>
                 <Th>Department</Th>
               </Tr>
@@ -68,6 +69,14 @@ const EmployeeListPage = () => {
                       to={`${AUTH_LAYOUT_ROUTE}/${EMPLOYEES_ROUTE}/${employee.user.id}`}
                     >
                       {employee.user.email}
+                    </Link>
+                  </Td>
+                  <Td>
+                    <Link
+                      key={employee.user.id}
+                      to={`${AUTH_LAYOUT_ROUTE}/${EMPLOYEES_ROUTE}/${employee.user.id}`}
+                    >
+                      {employee.phone}
                     </Link>
                   </Td>
                   <Td>
