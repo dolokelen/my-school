@@ -11,6 +11,8 @@ import {
   COURSES_LIST_ROUTE,
   DEPARTMENTS_ROUTE,
   DEPARTMENT_CREATE_ROUTE,
+  EMPLOYEES_ROUTE,
+  EMPLOYEE_REGISTER_ROUTE,
   GROUP_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
@@ -45,6 +47,9 @@ import BuildingCreateForm from "./pages/buildings/BuildingCreateForm";
 import OfficeListPage from "./pages/offices/OfficeListPage";
 import OfficeDetailPage from "./pages/offices/OfficeDetailPage";
 import OfficeCreateForm from "./pages/offices/OfficeCreateForm";
+import EmployeeListPage from "./accounts/employees/EmployeeListPage";
+import EmployeeDetailPage from "./accounts/employees/EmployeeDetailPage";
+import EmployeeRegistrationForm from "./accounts/employees/EmployeeRegistrationForm";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +59,9 @@ const router = createBrowserRouter([
     children: [
       { path: USER_ROUTE, element: <UsersListPage /> },
       { path: `${USER_ROUTE}/:pk`, element: <UserDetailPage /> },
+      {path: EMPLOYEE_REGISTER_ROUTE, element: <EmployeeRegistrationForm />},
+      { path: EMPLOYEES_ROUTE, element: <EmployeeListPage /> },
+      { path: `${EMPLOYEES_ROUTE}/:id/`, element: <EmployeeDetailPage /> },
       { path: GROUP_ROUTE, element: <GroupListPage /> },
       { path: `${GROUP_ROUTE}/:id`, element: <GroupDetailPage /> },
       { path: REGISTER_ROUTE, element: <RegistrationForm /> },

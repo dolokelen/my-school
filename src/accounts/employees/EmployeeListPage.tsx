@@ -1,0 +1,99 @@
+import {
+  Box,
+  Spinner,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
+import { AUTH_LAYOUT_ROUTE, EMPLOYEES_ROUTE } from "../../cacheKeysAndRoutes";
+import { useEmployees } from "../../hooks/useEmployees";
+import AccessDenyPage from "../../pages/AccessDenyPage";
+
+const EmployeeListPage = () => {
+  const { data: employees, error, isLoading } = useEmployees();
+
+  if (error) {
+    const unAuthorized = "Request failed with status code 403";
+    if (error.message === unAuthorized) return <AccessDenyPage />;
+    else throw error;
+  }
+  if (isLoading)
+    return (
+      <Spinner ml="50%" color="blue.500" thickness="10px" my={60} size="xl" />
+    );
+
+  return (
+    <>
+      <Box ml="48%" fontWeight={500} my={4}>Employees</Box>
+      <TableContainer>
+        <OverflowYContainer maxH="90vh">
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th>First Name</Th>
+                <Th>Last Name</Th>
+                <Th>Email</Th>
+                <Th>Username</Th>
+                <Th>Department</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {employees?.map((employee) => (
+                <Tr key={employee.user.id}>
+                  <Td>
+                    <Link
+                      key={employee.user.id}
+                      to={`${AUTH_LAYOUT_ROUTE}/${EMPLOYEES_ROUTE}/${employee.user.id}`}
+                    >
+                      {employee.user.first_name}
+                    </Link>
+                  </Td>
+                  <Td>
+                    <Link
+                      key={employee.user.id}
+                      to={`${AUTH_LAYOUT_ROUTE}/${EMPLOYEES_ROUTE}/${employee.user.id}`}
+                    >
+                      {employee.user.last_name}
+                    </Link>
+                  </Td>
+                  <Td>
+                    <Link
+                      key={employee.user.id}
+                      to={`${AUTH_LAYOUT_ROUTE}/${EMPLOYEES_ROUTE}/${employee.user.id}`}
+                    >
+                      {employee.user.email}
+                    </Link>
+                  </Td>
+                  <Td>
+                    <Link
+                      key={employee.user.id}
+                      to={`${AUTH_LAYOUT_ROUTE}/${EMPLOYEES_ROUTE}/${employee.user.id}`}
+                    >
+                      {employee.user.username}
+                    </Link>
+                  </Td>
+                  <Td>
+                    <Link
+                      key={employee.user.id}
+                      to={`${AUTH_LAYOUT_ROUTE}/${EMPLOYEES_ROUTE}/${employee.user.id}`}
+                    >
+                      {employee.department.name}
+                    </Link>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </OverflowYContainer>
+      </TableContainer>
+    </>
+  );
+};
+
+export default EmployeeListPage;

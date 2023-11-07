@@ -37,12 +37,14 @@ export const useUser = (userId: number) => {
   });
 };
 
-interface UserProfile {
+export interface UserProfile {
   id: number;
   username: string;
   email: string;
   first_name: string;
   last_name: string;
+  full_name: string;
+  is_active: boolean;
 }
 export const useUserProfile = () => {
   const apiClients = apiClient<UserProfile>("/auth/users/me");

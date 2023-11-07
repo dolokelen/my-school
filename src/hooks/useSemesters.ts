@@ -70,7 +70,7 @@ export const useEditSemester = (onUpdate: () => void) => {
 
   return useMutation<SemesterEditFormData, Error, SemesterEditFormData>({
     mutationFn: (data: SemesterEditFormData) =>
-      apiClients.patch<SemesterEditFormData>(data),
+      apiClients.patch(data),
 
     onSuccess: (existingData, newData) => {
       onUpdate();

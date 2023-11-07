@@ -8,6 +8,8 @@ import {
   COURSES_LIST_ROUTE,
   DEPARTMENTS_ROUTE,
   DEPARTMENT_CREATE_ROUTE,
+  EMPLOYEES_ROUTE,
+  EMPLOYEE_REGISTER_ROUTE,
   GROUP_ROUTE,
   OFFICES_CREATE_ROUTE,
   OFFICES_ROUTE,
@@ -25,6 +27,12 @@ const DashBoard = () => {
       <DashBoardMenu label="Dashboards">
         {hasPermission("Can view user") && (
           <MenuItem>{<Link to={USER_ROUTE}>Users</Link>}</MenuItem>
+        )}
+        {hasPermission("Can view employee") && (
+          <MenuItem>{<Link to={EMPLOYEES_ROUTE}>Employees</Link>}</MenuItem>
+        )}
+        {hasPermission("Can add user") && (
+          <MenuItem>{<Link to={EMPLOYEE_REGISTER_ROUTE}>Employee Registration Form</Link>}</MenuItem>
         )}
         {hasPermission("Can view group") && (
           <MenuItem>{<Link to={GROUP_ROUTE}>Group</Link>}</MenuItem>

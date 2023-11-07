@@ -7,6 +7,7 @@ export const CACHE_KEY_DEPARTMENT = "department";
 export const CACHE_KEY_SEMESTER = "semester";
 export const CACHE_KEY_BUILDING = "building";
 export const CACHE_KEY_OFFICE = "office";
+export const CACHE_KEY_EMPLOYEE = "employee";
 
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "login";
@@ -26,6 +27,8 @@ export const BUILDINGS_ROUTE = "buildings-list";
 export const BUILDINGS_CREATE_ROUTE = "buildings-create-form";
 export const OFFICES_ROUTE = "office-list";
 export const OFFICES_CREATE_ROUTE = "office-create-form";
+export const EMPLOYEES_ROUTE = "employees-list";
+export const EMPLOYEE_REGISTER_ROUTE = "employee-registration";
 
 export const red = "red";
 export const blue = "blue";
