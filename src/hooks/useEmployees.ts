@@ -19,8 +19,8 @@ export interface Employee {
   level_of_education: string;
   term_of_reference: string;
   image: string;
-  department: { name: string };
-  supervisor: { full_name: string };
+  department: {id: number, name: string };
+  supervisor: {id: number, full_name: string };
   office: Office;
   joined_at: string;
 }
@@ -64,21 +64,6 @@ export const useRegisterEmployee = (
   });
 };
 
-// interface UserProfile {
-//   id: number;
-//   username: string;
-//   email: string;
-//   first_name: string;
-//   last_name: string;
-// }
-// export const useUserProfile = () => {
-//   const apiClients = apiClient<UserProfile>("/auth/users/me");
-//   return useQuery<UserProfile, Error>({
-//     queryKey: ["userProfile", getUserId()],
-//     queryFn: apiClients.getUserProfile,
-//     staleTime: ms("24h"),
-//   });
-// };
 
 // interface UserGroupsPermissions {
 //     id: number;
@@ -94,22 +79,22 @@ export const useRegisterEmployee = (
 //   });
 // };
 
-// export const useEditUser = (onUpdate: () => void) => {
-//   const queryClient = useQueryClient();
+export const useEditEmployee = (onUpdate: () => void, employeeId: number) => {
+  const queryClient = useQueryClient();
 
-//   return useMutation<UserEditFormData, Error, UserEditFormData>({
-//     mutationFn: (data: UserEditFormData) =>
-//       apiClients.patch<UserEditFormData>(data),
+  return useMutation<Data, Error, Data>({
+    mutationFn: (data: Data) =>
+      apiClients.patchFormData(data, employeeId),
 
-//     onSuccess: (existingData, newData) => {
-//       onUpdate();
+    onSuccess: (existingData, newData) => {
+      onUpdate();
 
-//       return queryClient.invalidateQueries({
-//         queryKey: [CACHE_KEY_USER],
-//       });
-//     },
-//   });
-// };
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_EMPLOYEE],
+      });
+    },
+  });
+};
 
 // export const useAddGroupsToUser = (
 //   data: { pk: number; group_to_add_ids: number[] },

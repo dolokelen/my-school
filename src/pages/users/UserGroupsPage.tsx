@@ -82,7 +82,7 @@ const UserGroupsPage = ({ userPk }: Props) => {
           //   sm: `"nav nav" "aside main"`,
         }}
         templateColumns={{
-          base: `0.2fr 0.2fr`,
+          base: `.3fr .3fr`,
           //   sm: `225px 1fr`,
         }}
         justifyContent="space-evenly"

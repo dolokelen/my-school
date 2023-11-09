@@ -148,6 +148,15 @@ class APIClient<T> {
       });
   };
 
+  patchFormData = <T>(data: T, id: number) => {
+    return axiosInstance
+      .patch<T>(`${this.endpoint}${id}/`, data)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  };
+
   patchNested = <T extends Data>(
     data: T,
     childEndpoint: string,
