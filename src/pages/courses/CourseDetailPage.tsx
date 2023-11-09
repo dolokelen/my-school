@@ -39,9 +39,9 @@ const CourseDetailPage = () => {
         <Text fontSize="1.5rem">Code: {course?.code}</Text>
         <Text fontSize={fontSize}>Title: {course?.title}</Text>
         <Text fontSize={fontSize}>Level: {course?.level}</Text>
-        <Text fontSize={fontSize}>Department: {course?.department}</Text>
+        <Text fontSize={fontSize}>Department: {course?.department.name}</Text>
         <Text fontSize={fontSize}>
-          Prerequisite: {course?.prerequisite ? course?.prerequisite : "None"}
+          Prerequisite: {course?.prerequisite?.code ? course?.prerequisite?.code : "None"}
         </Text>
         <Text fontSize={fontSize}>Credit hours: {course?.credit}</Text>
         <Text fontSize={fontSize}>

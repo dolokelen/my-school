@@ -244,7 +244,7 @@ const EmployeeRegistrationForm = () => {
           <FormLabel htmlFor="gender">Gender</FormLabel>
           <Select {...register("gender")}>
             {genders?.map((gender) => (
-              <option key={gender.value} value={gender.value}>
+              <option key={gender.name} value={gender.name}>
                 {gender.name}
               </option>
             ))}
@@ -256,7 +256,7 @@ const EmployeeRegistrationForm = () => {
           <FormLabel htmlFor="marital_status">Marital Status</FormLabel>
           <Select {...register("marital_status")}>
             {maritalStatuses?.map((status) => (
-              <option key={status.value} value={status.value}>
+              <option key={status.name} value={status.name}>
                 {status.name}
               </option>
             ))}
@@ -283,7 +283,7 @@ const EmployeeRegistrationForm = () => {
           <FormLabel htmlFor="religion">Religion</FormLabel>
           <Select {...register("religion")}>
             {religions?.map((religion) => (
-              <option key={religion.value} value={religion.value}>
+              <option key={religion.name} value={religion.name}>
                 {religion.name}
               </option>
             ))}
@@ -297,7 +297,7 @@ const EmployeeRegistrationForm = () => {
           <FormLabel htmlFor="status">Emploment Status</FormLabel>
           <Select {...register("employment_status")}>
             {employmentStatuses?.map((status) => (
-              <option key={status.value} value={status.value}>
+              <option key={status.name} value={status.name}>
                 {status.name}
               </option>
             ))}
@@ -311,7 +311,7 @@ const EmployeeRegistrationForm = () => {
           <FormLabel htmlFor="level">Highest education level</FormLabel>
           <Select {...register("level_of_education")}>
             {highestEducations?.map((education) => (
-              <option key={education.value} value={education.value}>
+              <option key={education.name} value={education.name}>
                 {education.name}
               </option>
             ))}

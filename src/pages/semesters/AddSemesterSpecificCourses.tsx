@@ -1,23 +1,23 @@
 import {
-    Button,
-    Checkbox,
-    Spinner,
-    Table,
-    TableContainer,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
+  Button,
+  Checkbox,
+  Spinner,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import {
-    AUTH_LAYOUT_ROUTE,
-    COURSES_LIST_ROUTE,
-    blue,
+  AUTH_LAYOUT_ROUTE,
+  COURSES_LIST_ROUTE,
+  blue,
 } from "../../cacheKeysAndRoutes";
 import { useCourses } from "../../hooks/useCourses";
 import { useAddSemesterCourses } from "../../hooks/useSemesters";
@@ -98,7 +98,7 @@ const AddSemesterSpecificCourses = ({
                       <Link
                         to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
                       >
-                        {course.department}
+                        {course.department.name}
                       </Link>
                     </Td>
                     <Td>

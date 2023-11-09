@@ -139,7 +139,7 @@ const CourseCreateForm = () => {
             <Text fontSize={fontSize}>Course level</Text>
             <Select {...register("level")}>
               {levels?.map((level) => (
-                <option key={level.id} value={level.codename}>
+                <option key={level.name} value={level.name}>
                   {level.name}
                 </option>
               ))}

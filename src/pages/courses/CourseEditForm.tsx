@@ -58,24 +58,24 @@ const CourseEditForm = () => {
   } = useForm<CourseEditFormData>({ resolver: zodResolver(schema) });
 
   const { pk } = useParams();
-  const { data, isLoading } = useCourse(parseInt(pk!));
+  const { data: course, isLoading } = useCourse(parseInt(pk!));
   const mutation = useEditCourse(() => toast.success("Updated successfully."));
   const onSubmit = (FormData: CourseEditFormData) => {
-    mutation.mutate({ ...FormData, id: data?.id });
+    mutation.mutate({ ...FormData, id: course?.id });
   };
 
   useEffect(() => {
-    if (data) {
-      setValue("code", data?.code);
-      setValue("title", data?.title);
-      setValue("credit", data?.credit);
-      setValue("price_per_credit", data?.price_per_credit);
-      setValue("additional_fee", data?.additional_fee);
-      setValue("department", data?.department);
-      setValue("prerequisite", data?.prerequisite);
-      setValue("level", data?.level);
+    if (course) {
+      setValue("code", course?.code);
+      setValue("title", course?.title);
+      setValue("credit", course?.credit);
+      setValue("price_per_credit", course?.price_per_credit);
+      setValue("additional_fee", course?.additional_fee);
+      setValue("department", course?.department.id.toString());
+      setValue("prerequisite", course?.prerequisite?.id.toString());
+      setValue("level", course?.level);
     }
-  }, [data, setValue]);
+  }, [course, setValue]);
 
   const customErrorMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
   const my = 2;
@@ -138,11 +138,12 @@ const CourseEditForm = () => {
           <Box my={my}>
             <Text fontSize={fontSize}>Course department</Text>
             <Select {...register("department")}>
-              {departments?.map((depar) => (
+              <option value={course?.department.id}>{course?.department.name}</option>
+              {departments?.map((depar) => (depar.id !== course?.department.id ?
                 <option key={depar.id} value={depar.id}>
                   {depar.name}
                 </option>
-              ))}
+              : depar.id))}
             </Select>
             {errors?.department && (
               <Text color="red">{errors.department.message}</Text>
@@ -152,23 +153,25 @@ const CourseEditForm = () => {
           <Box my={my}>
             <Text fontSize={fontSize}>Course prerequisite</Text>
             <Select {...register("prerequisite")}>
+              <option value={course?.prerequisite?.id}>{course?.prerequisite?.code}</option>
               <option value="">----</option>
-              {courses?.map((course) => (
-                <option key={course.id} value={course.id}>
-                  {course.code}
+              {courses?.map((cos) => (cos.prerequisite?.id !== course?.prerequisite?.id ?
+                <option key={cos.id} value={cos.id}>
+                  {cos.code}
                 </option>
-              ))}
+              : cos.prerequisite?.id))}
             </Select>
           </Box>
 
           <Box my={my}>
             <Text fontSize={fontSize}>Course level</Text>
             <Select {...register("level")}>
-              {levels?.map((level) => (
-                <option key={level.id} value={level.codename}>
+              <option value={course?.level}>{course?.level}</option>
+              {levels?.map((level) => (level.name !== course?.level ?
+                <option key={level.name} value={level.name}>
                   {level.name}
                 </option>
-              ))}
+              : level.name))}
             </Select>
             {errors?.level && <Text color="red">{errors.level.message}</Text>}
           </Box>
