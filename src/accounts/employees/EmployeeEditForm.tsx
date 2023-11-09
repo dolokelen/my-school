@@ -191,7 +191,7 @@ const EmployeeEditForm = ({ employee }: Props) => {
       setValue("level_of_education", employee.level_of_education);
       setValue("office", employee.office.id);
       setValue("department", employee.department.id);
-      setValue("supervisor", employee.supervisor);
+      setValue("supervisor", employee.supervisor.id);
     }
   }, [setValue, employee]);
 
@@ -257,11 +257,16 @@ const EmployeeEditForm = ({ employee }: Props) => {
         <Box mb={marginButton}>
           <FormLabel htmlFor="gender">Gender</FormLabel>
           <Select {...register("gender")}>
-            {genders?.map((gender) => (
-              <option key={gender.value} value={gender.value}>
-                {gender.name}
-              </option>
-            ))}
+            <option value={employee?.gender}>{employee?.gender}</option>
+            {genders?.map((gender) =>
+              gender.name !== employee?.gender ? (
+                <option key={gender.name} value={gender.name}>
+                  {gender.name}
+                </option>
+              ) : (
+                gender.name
+              )
+            )}
           </Select>
           {errors?.gender && <Text color={red}>{errors.gender.message}</Text>}
         </Box>
@@ -269,11 +274,18 @@ const EmployeeEditForm = ({ employee }: Props) => {
         <Box mb={marginButton}>
           <FormLabel htmlFor="marital_status">Marital Status</FormLabel>
           <Select {...register("marital_status")}>
-            {maritalStatuses?.map((status) => (
-              <option key={status.value} value={status.value}>
-                {status.name}
-              </option>
-            ))}
+            <option value={employee?.marital_status}>
+              {employee?.marital_status}
+            </option>
+            {maritalStatuses?.map((status) =>
+              status.name !== employee?.marital_status ? (
+                <option key={status.name} value={status.name}>
+                  {status.name}
+                </option>
+              ) : (
+                status.name
+              )
+            )}
           </Select>
           {errors?.marital_status && (
             <Text color={red}>{errors.marital_status.message}</Text>
@@ -296,11 +308,16 @@ const EmployeeEditForm = ({ employee }: Props) => {
         <Box mb={marginButton}>
           <FormLabel htmlFor="religion">Religion</FormLabel>
           <Select {...register("religion")}>
-            {religions?.map((religion) => (
-              <option key={religion.value} value={religion.value}>
-                {religion.name}
-              </option>
-            ))}
+            <option value={employee?.religion}>{employee?.religion}</option>
+            {religions?.map((reli) =>
+              reli.name !== employee?.religion ? (
+                <option key={reli.name} value={reli.name}>
+                  {reli.name}
+                </option>
+              ) : (
+                reli.name
+              )
+            )}
           </Select>
           {errors?.religion && (
             <Text color={red}>{errors.religion.message}</Text>
@@ -310,11 +327,18 @@ const EmployeeEditForm = ({ employee }: Props) => {
         <Box mb={marginButton}>
           <FormLabel htmlFor="status">Emploment Status</FormLabel>
           <Select {...register("employment_status")}>
-            {employmentStatuses?.map((status) => (
-              <option key={status.value} value={status.value}>
-                {status.name}
-              </option>
-            ))}
+            <option value={employee?.employment_status}>
+              {employee?.employment_status}
+            </option>
+            {employmentStatuses?.map((status) =>
+              status.name !== employee?.employment_status ? (
+                <option key={status.name} value={status.name}>
+                  {status.name}
+                </option>
+              ) : (
+                status.name
+              )
+            )}
           </Select>
           {errors?.employment_status && (
             <Text color={red}>{errors.employment_status.message}</Text>
@@ -324,11 +348,18 @@ const EmployeeEditForm = ({ employee }: Props) => {
         <Box mb={marginButton}>
           <FormLabel htmlFor="level">Highest education level</FormLabel>
           <Select {...register("level_of_education")}>
-            {highestEducations?.map((education) => (
-              <option key={education.value} value={education.value}>
-                {education.name}
-              </option>
-            ))}
+            <option value={employee?.level_of_education}>
+              {employee?.level_of_education}
+            </option>
+            {highestEducations?.map((edu) =>
+              edu.name !== employee?.level_of_education ? (
+                <option key={edu.name} value={edu.name}>
+                  {edu.name}
+                </option>
+              ) : (
+                edu.name
+              )
+            )}
           </Select>
           {errors?.level_of_education && (
             <Text color={red}>{errors.level_of_education.message}</Text>
@@ -369,11 +400,18 @@ const EmployeeEditForm = ({ employee }: Props) => {
         <Box mb={marginButton}>
           <FormLabel htmlFor="department">Department</FormLabel>
           <Select {...register("department", { valueAsNumber: true })}>
-            {departments?.map((department) => (
-              <option key={department.id} value={department.id}>
-                {department.name}
-              </option>
-            ))}
+            <option value={employee?.department.id}>
+              {employee?.department.name}
+            </option>
+            {departments?.map((dept) =>
+              dept.id !== employee?.department.id ? (
+                <option key={dept.id} value={dept.id}>
+                  {dept.name}
+                </option>
+              ) : (
+                dept.id
+              )
+            )}
           </Select>
           {errors?.department && (
             <Text color={red}>{errors.department.message}</Text>
