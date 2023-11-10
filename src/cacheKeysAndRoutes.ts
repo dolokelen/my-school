@@ -29,6 +29,7 @@ export const OFFICES_ROUTE = "office-list";
 export const OFFICES_CREATE_ROUTE = "office-create-form";
 export const EMPLOYEES_ROUTE = "employees-list";
 export const EMPLOYEE_REGISTER_ROUTE = "employee-registration";
+export const EMPLOYEE_PROFILE_ROUTE = "employee-profile";
 
 export const red = "red";
 export const blue = "blue";

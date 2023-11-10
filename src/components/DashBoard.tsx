@@ -9,6 +9,7 @@ import {
   DEPARTMENTS_ROUTE,
   DEPARTMENT_CREATE_ROUTE,
   EMPLOYEES_ROUTE,
+  EMPLOYEE_PROFILE_ROUTE,
   EMPLOYEE_REGISTER_ROUTE,
   GROUP_ROUTE,
   OFFICES_CREATE_ROUTE,
@@ -31,12 +32,15 @@ const DashBoard = () => {
         {hasPermission("Can view employee") && (
           <MenuItem>{<Link to={EMPLOYEES_ROUTE}>Employees</Link>}</MenuItem>
         )}
-        {hasPermission("Can add user") && (
+        {hasPermission("Can add employee") && (
           <MenuItem>{<Link to={EMPLOYEE_REGISTER_ROUTE}>Employee Registration Form</Link>}</MenuItem>
         )}
         {hasPermission("Can view group") && (
           <MenuItem>{<Link to={GROUP_ROUTE}>Group</Link>}</MenuItem>
         )}
+        <MenuItem>
+            {<Link to={EMPLOYEE_PROFILE_ROUTE}>Profile</Link>}
+          </MenuItem>
       </DashBoardMenu>
 
       <DashBoardMenu label="All Pages">
@@ -100,6 +104,7 @@ const DashBoard = () => {
             {<Link to={OFFICES_CREATE_ROUTE}>Office Create Form</Link>}
           </MenuItem>
         )}
+    
       </DashBoardMenu>
     </Stack>
   );

@@ -43,6 +43,16 @@ export const useEmployee = (employeeId: number) => {
   });
 };
 
+export const useEmployeeProfile = (employeeId: number) => {
+  const apiClients = apiClient<Employee>("/school/employee-profile/");
+
+  return useQuery<Employee, Error>({
+    queryKey: [CACHE_KEY_EMPLOYEE, employeeId],
+    queryFn: () => apiClients.get(employeeId),
+    staleTime: ms("24h"),
+  });
+};
+
 type Data = FormData;
 export const useRegisterEmployee = (
   onCreate: () => void,
@@ -69,7 +79,7 @@ export const useEditEmployee = (onUpdate: () => void, employeeId: number) => {
 
   return useMutation<Data, Error, Data>({
     mutationFn: (data: Data) =>
-      apiClients.patchFormData(data, employeeId, formDataConfig),
+      apiClients.patchFormData(data, employeeId),
 
     onSuccess: (existingData, newData) => {
       onUpdate();

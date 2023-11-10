@@ -191,7 +191,7 @@ const EmployeeEditForm = ({ employee }: Props) => {
       setValue("level_of_education", employee.level_of_education);
       setValue("office", employee.office.id);
       setValue("department", employee.department.id);
-      setValue("supervisor", employee.supervisor.id);
+      setValue("supervisor", employee.supervisor?.id);
     }
   }, [setValue, employee]);
 
@@ -421,12 +421,12 @@ const EmployeeEditForm = ({ employee }: Props) => {
         <Box mb={marginButton}>
           <FormLabel htmlFor="supervisor">Supervisor</FormLabel>
           <Select {...register("supervisor", { valueAsNumber: true })}>
-            <option value={employee?.supervisor.id}>
-              {employee?.supervisor.full_name}
+            <option value={employee?.supervisor?.id}>
+              {employee?.supervisor?.full_name}
             </option>
             <option value={0}>---</option>
             {employees?.map((emp) =>
-              emp.user.id !== employee?.supervisor.id ? (
+              emp.user.id !== employee?.supervisor?.id ? (
                 <option key={emp.user.id} value={emp.user.id}>
                   {emp.user.full_name}
                 </option>

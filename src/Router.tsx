@@ -12,6 +12,7 @@ import {
   DEPARTMENTS_ROUTE,
   DEPARTMENT_CREATE_ROUTE,
   EMPLOYEES_ROUTE,
+  EMPLOYEE_PROFILE_ROUTE,
   EMPLOYEE_REGISTER_ROUTE,
   GROUP_ROUTE,
   HOME_ROUTE,
@@ -50,6 +51,7 @@ import OfficeCreateForm from "./pages/offices/OfficeCreateForm";
 import EmployeeListPage from "./accounts/employees/EmployeeListPage";
 import EmployeeDetailPage from "./accounts/employees/EmployeeDetailPage";
 import EmployeeRegistrationForm from "./accounts/employees/EmployeeRegistrationForm";
+import EmployeeProfilePage from "./accounts/employees/EmployeeProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +61,7 @@ const router = createBrowserRouter([
     children: [
       { path: USER_ROUTE, element: <UsersListPage /> },
       { path: `${USER_ROUTE}/:pk`, element: <UserDetailPage /> },
+      { path: EMPLOYEE_PROFILE_ROUTE, element: <EmployeeProfilePage /> },
       {path: EMPLOYEE_REGISTER_ROUTE, element: <EmployeeRegistrationForm />},
       { path: EMPLOYEES_ROUTE, element: <EmployeeListPage /> },
       { path: `${EMPLOYEES_ROUTE}/:id/`, element: <EmployeeDetailPage /> },

@@ -1,9 +1,9 @@
 import { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import getUserId from "../Utilities/getUserId";
 import { LoginFormData } from "../accounts/LoginPage";
 import { AUTH_LAYOUT_ROUTE } from "../cacheKeysAndRoutes";
-import getUserId from "../Utilities/getUserId";
 import { axiosInstance } from "../services/httpService";
 
 export const useLogin = () => {
@@ -19,6 +19,7 @@ export const useLogin = () => {
         axiosInstance.defaults.headers["Authorization"] =
           "JWT " + localStorage.getItem("access_token");
         const userId = getUserId();
+        // navigate(`${AUTH_LAYOUT_ROUTE}/${EMPLOYEE_PROFILE_ROUTE}?userId=${userId}`);
         navigate(`${AUTH_LAYOUT_ROUTE}?userId=${userId}`);
       } else {
         setError("An unknown error has occured.");

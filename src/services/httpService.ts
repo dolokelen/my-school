@@ -157,13 +157,9 @@ class APIClient<T> {
       });
   };
 
-  patchFormData = <T>(
-    data: T,
-    id: number,
-    requestConfig?: AxiosRequestConfig
-  ) => {
+  patchFormData = <T>(data: T, id: number) => {
     return axiosInstance
-      .patch<T>(`${this.endpoint}${id}/`, data, requestConfig)
+      .patch<T>(`${this.endpoint}${id}/`, data, formDataConfig)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
