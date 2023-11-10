@@ -1,15 +1,24 @@
 import axios, { AxiosRequestConfig } from "axios";
 import ms from "ms";
 
+const baseURL = "http://127.0.0.1:8000";
+const timeout = ms("5s");
+const accept = "application/json";
+
 export const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:8000",
-  timeout: ms("5s"),
+  baseURL: baseURL,
+  timeout: timeout,
   headers: {
-    // "Content-Type": "application/json",
-    "Content-Type": "multipart/form-data",
-    accept: "application/json",
+    "Content-Type": "application/json",
+    accept: accept,
   },
 });
+
+export const formDataConfig = {
+  baseURL: baseURL,
+  timeout: timeout,
+  headers: { "Content-Type": "multipart/form-data", accept: accept },
+};
 
 const access_token = localStorage.getItem("access_token");
 if (access_token) {
@@ -121,9 +130,9 @@ class APIClient<T> {
       });
   };
 
-  post = (data: T) => {
+  post = (data: T, requestConfig?: AxiosRequestConfig) => {
     return axiosInstance
-      .post<T>(this.endpoint, data)
+      .post<T>(this.endpoint, data, requestConfig)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -148,9 +157,13 @@ class APIClient<T> {
       });
   };
 
-  patchFormData = <T>(data: T, id: number) => {
+  patchFormData = <T>(
+    data: T,
+    id: number,
+    requestConfig?: AxiosRequestConfig
+  ) => {
     return axiosInstance
-      .patch<T>(`${this.endpoint}${id}/`, data)
+      .patch<T>(`${this.endpoint}${id}/`, data, requestConfig)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
