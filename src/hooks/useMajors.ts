@@ -1,10 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
-import { AUTH_LAYOUT_ROUTE, CACHE_KEY_MAJOR, MAJORS_ROUTE } from "../cacheKeysAndRoutes";
+import {
+  AUTH_LAYOUT_ROUTE,
+  CACHE_KEY_MAJOR,
+  MAJORS_ROUTE,
+} from "../cacheKeysAndRoutes";
 import apiClient from "../services/httpService";
 import { useNavigate } from "react-router-dom";
 import { MajorCreateFormData } from "../pages/majors/MajorCreateForm";
 import { MajorEditFormData } from "../pages/majors/MajorEditForm";
+import { useMajorStore } from "../pages/majors/majorStore";
 
 export interface Major {
   id: number;
@@ -15,9 +20,14 @@ const MAJOR_URL = "/school/majors/";
 const apiClients = apiClient<Major>(MAJOR_URL);
 
 export const useMajors = () => {
+  const majorQuery = useMajorStore();
+
   return useQuery<Major[], Error>({
-    queryKey: [CACHE_KEY_MAJOR],
-    queryFn: apiClients.getAll,
+    queryKey: [CACHE_KEY_MAJOR, majorQuery],
+    queryFn: () =>
+      apiClients.getAll({
+        params: { department_id: majorQuery.majorQuery.selectedDepartmentId },
+      }),
     staleTime: ms("24h"),
   });
 };

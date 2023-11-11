@@ -1,4 +1,6 @@
 import {
+  HStack,
+  Select,
   Spinner,
   Table,
   TableContainer,
@@ -12,9 +14,15 @@ import { Link } from "react-router-dom";
 import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import { AUTH_LAYOUT_ROUTE, MAJORS_ROUTE } from "../../cacheKeysAndRoutes";
 import { useMajors } from "../../hooks/useMajors";
+import { useMajorStore } from "./majorStore";
+import { useDepartments } from "../../hooks/useDepartments";
 
 const MajorListPage = () => {
   const { data: majors, error, isLoading } = useMajors();
+  const { data: departments } = useDepartments();
+  const setSelectedDepartmentId = useMajorStore(
+    (s) => s.setSelectedDepartmentId
+  );
 
   if (error) throw error;
 
@@ -23,6 +31,13 @@ const MajorListPage = () => {
       <Spinner ml="50%" color="blue.500" thickness="10px" my={60} size="xl" />
     );
 
+  const handleDepartmentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedDepartmentId = departments?.find(
+      (d) => d.name === e.target.value
+    )?.id;
+    setSelectedDepartmentId(selectedDepartmentId);
+  };
+
   return (
     <TableContainer>
       <OverflowYContainer maxH="90vh">
@@ -30,7 +45,17 @@ const MajorListPage = () => {
           <Thead>
             <Tr>
               <Th>Major Name</Th>
-              <Th>Major Department</Th>
+              <Th>
+                <HStack>
+                  <Select onChange={handleDepartmentChange}>
+                    <option>Department</option>
+                    {departments?.map((d) => (
+                      <option key={d.id}>{d.name}</option>
+                    ))}
+                    <option>All Departments</option>
+                  </Select>
+                </HStack>
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
