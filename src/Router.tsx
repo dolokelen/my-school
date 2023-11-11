@@ -23,6 +23,9 @@ import {
   SCH_YEAR_LIST_ROUTE,
   SEMESTERS_ROUTE,
   SEMESTER_CREATE_ROUTE,
+  TEACHERS_ROUTE,
+  TEACHER_PROFILE_ROUTE,
+  TEACHER_REGISTER_ROUTE,
   USER_ROUTE,
 } from "./cacheKeysAndRoutes";
 import ErrorPage from "./pages/ErrorPage";
@@ -52,6 +55,10 @@ import EmployeeListPage from "./accounts/employees/EmployeeListPage";
 import EmployeeDetailPage from "./accounts/employees/EmployeeDetailPage";
 import EmployeeRegistrationForm from "./accounts/employees/EmployeeRegistrationForm";
 import EmployeeProfilePage from "./accounts/employees/EmployeeProfilePage";
+import TeacherListPage from "./accounts/teachers/TeachersListPage";
+import TeacherDetailPage from "./accounts/teachers/TeacherDetailPage";
+import TeacherRegistrationForm from "./accounts/teachers/TeacherRegistrationForm";
+import TeacherProfilePage from "./accounts/teachers/TeacherProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -62,9 +69,13 @@ const router = createBrowserRouter([
       { path: USER_ROUTE, element: <UsersListPage /> },
       { path: `${USER_ROUTE}/:pk`, element: <UserDetailPage /> },
       { path: EMPLOYEE_PROFILE_ROUTE, element: <EmployeeProfilePage /> },
-      {path: EMPLOYEE_REGISTER_ROUTE, element: <EmployeeRegistrationForm />},
+      { path: TEACHER_PROFILE_ROUTE, element: <TeacherProfilePage /> },
+      { path: EMPLOYEE_REGISTER_ROUTE, element: <EmployeeRegistrationForm /> },
       { path: EMPLOYEES_ROUTE, element: <EmployeeListPage /> },
       { path: `${EMPLOYEES_ROUTE}/:id/`, element: <EmployeeDetailPage /> },
+      { path: TEACHERS_ROUTE, element: <TeacherListPage /> },
+      { path: `${TEACHERS_ROUTE}/:id/`, element: <TeacherDetailPage /> },
+      { path: TEACHER_REGISTER_ROUTE, element: <TeacherRegistrationForm /> },
       { path: GROUP_ROUTE, element: <GroupListPage /> },
       { path: `${GROUP_ROUTE}/:id`, element: <GroupDetailPage /> },
       { path: REGISTER_ROUTE, element: <RegistrationForm /> },

@@ -18,6 +18,9 @@ import {
   SCH_YEAR_LIST_ROUTE,
   SEMESTERS_ROUTE,
   SEMESTER_CREATE_ROUTE,
+  TEACHERS_ROUTE,
+  TEACHER_PROFILE_ROUTE,
+  TEACHER_REGISTER_ROUTE,
   USER_ROUTE,
 } from "../cacheKeysAndRoutes";
 import DashBoardMenu from "./DashBoardMenu";
@@ -35,12 +38,22 @@ const DashBoard = () => {
         {hasPermission("Can add employee") && (
           <MenuItem>{<Link to={EMPLOYEE_REGISTER_ROUTE}>Employee Registration Form</Link>}</MenuItem>
         )}
+        {hasPermission("Can view teacher") && (
+          <MenuItem>{<Link to={TEACHERS_ROUTE}>Teachers</Link>}</MenuItem>
+        )}
+          {hasPermission("Can add teacher") && (
+          <MenuItem>{<Link to={TEACHER_REGISTER_ROUTE}>Teacher Registration Form</Link>}</MenuItem>
+        )}
         {hasPermission("Can view group") && (
           <MenuItem>{<Link to={GROUP_ROUTE}>Group</Link>}</MenuItem>
         )}
         <MenuItem>
-            {<Link to={EMPLOYEE_PROFILE_ROUTE}>Profile</Link>}
+            {<Link to={EMPLOYEE_PROFILE_ROUTE}>Employee Profile</Link>}
           </MenuItem>
+        <MenuItem>
+            {<Link to={TEACHER_PROFILE_ROUTE}>Teacher Profile</Link>}
+          </MenuItem>
+          
       </DashBoardMenu>
 
       <DashBoardMenu label="All Pages">
