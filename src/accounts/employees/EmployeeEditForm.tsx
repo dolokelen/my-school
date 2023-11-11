@@ -27,7 +27,7 @@ import {
   highestEducations,
   maritalStatuses,
   religions,
-} from "./employeeData";
+} from "../data";
 
 const userSchema = z.object({
   username: z.string().min(1, { message: "Username is required." }),
@@ -154,7 +154,9 @@ const EmployeeEditForm = ({ employee }: Props) => {
     formData.append("level_of_education", data.level_of_education);
     formData.append("office", data.office.toString());
     formData.append("department", data.department.toString());
-    formData.append("supervisor", data.supervisor.toString());
+    if (data.supervisor)
+      formData.append("supervisor", data.supervisor?.toString());
+    else formData.append("supervisor", "0");
 
     imageFile && formData.append("image", imageFile);
     pdfFile && formData.append("term_of_reference", pdfFile);
@@ -191,7 +193,8 @@ const EmployeeEditForm = ({ employee }: Props) => {
       setValue("level_of_education", employee.level_of_education);
       setValue("office", employee.office.id);
       setValue("department", employee.department.id);
-      setValue("supervisor", employee.supervisor?.id);
+      if (employee.supervisor) setValue("supervisor", employee.supervisor?.id);
+      else setValue("supervisor", "0");
     }
   }, [setValue, employee]);
 
@@ -424,7 +427,7 @@ const EmployeeEditForm = ({ employee }: Props) => {
             <option value={employee?.supervisor?.id}>
               {employee?.supervisor?.full_name}
             </option>
-            <option value={0}>---</option>
+            <option value={0}>---No Supervisor---</option>
             {employees?.map((emp) =>
               emp.user.id !== employee?.supervisor?.id ? (
                 <option key={emp.user.id} value={emp.user.id}>

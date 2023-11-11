@@ -23,7 +23,7 @@ import {
   highestEducations,
   maritalStatuses,
   religions,
-} from "./employeeData";
+} from "../data";
 
 const userSchema = z
   .object({
@@ -81,10 +81,13 @@ const schema = z.object({
   religion: z.string().min(1, { message: "Religion is required" }),
   phone: z.string().min(10, { message: "Phone is required" }),
   birth_date: z.string().min(10, { message: "Birth date is required." }),
-  level_of_education: z.string().min(1, { message: "Highest edcation obtained is required." }),
+  level_of_education: z
+    .string()
+    .min(1, { message: "Highest edcation obtained is required." }),
   salary: z
     .number({ invalid_type_error: "Salary is required" })
-    .min(2, { message: "Salary is required" }).positive(),
+    .min(2, { message: "Salary is required" })
+    .positive(),
   supervisor: z.any(),
   department: z.number({ invalid_type_error: "Department is required" }),
   office: z.number({ invalid_type_error: "Office is required" }),
@@ -205,15 +208,8 @@ const EmployeeRegistrationForm = () => {
         </Box>
         <Box mb={marginButton}>
           <FormLabel htmlFor="phone">Phone Number</FormLabel>
-          <Input
-            {...register("phone")}
-            name="phone"
-            type="text"
-            id="phone"
-          />
-          {errors?.phone && (
-            <Text color={red}>{errors.phone.message}</Text>
-          )}
+          <Input {...register("phone")} name="phone" type="text" id="phone" />
+          {errors?.phone && <Text color={red}>{errors.phone.message}</Text>}
         </Box>
         <Box mb={marginButton}>
           <FormLabel htmlFor="first_name">First Name</FormLabel>
@@ -369,7 +365,7 @@ const EmployeeRegistrationForm = () => {
         <Box mb={marginButton}>
           <FormLabel htmlFor="supervisor">Supervisor</FormLabel>
           <Select {...register("supervisor", { valueAsNumber: true })}>
-            <option value={0}>---</option>
+            <option value={0}>---No Supervisor---</option>
             {employees?.map((employee) => (
               <option key={employee.user.id} value={employee.user.id}>
                 {employee.user.full_name}
