@@ -14,6 +14,7 @@ import {
   GROUP_ROUTE,
   OFFICES_CREATE_ROUTE,
   OFFICES_ROUTE,
+  PROFILE_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
   SEMESTERS_ROUTE,
@@ -48,11 +49,8 @@ const DashBoard = () => {
           <MenuItem>{<Link to={GROUP_ROUTE}>Group</Link>}</MenuItem>
         )}
         <MenuItem>
-            {<Link to={EMPLOYEE_PROFILE_ROUTE}>Employee Profile</Link>}
-          </MenuItem>
-        <MenuItem>
-            {<Link to={TEACHER_PROFILE_ROUTE}>Teacher Profile</Link>}
-          </MenuItem>
+        <Link to={PROFILE_ROUTE}>Your Profile</Link>
+        </MenuItem>
           
       </DashBoardMenu>
 

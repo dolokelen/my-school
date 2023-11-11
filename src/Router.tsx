@@ -1,8 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
+import GroupDetailPage from "./GroupsAndPermissions/GroupDetailPage";
+import GroupListPage from "./GroupsAndPermissions/GroupList";
 import LoginPage from "./accounts/LoginPage";
+import ProfilesWrapper from "./accounts/ProfilesWrapper";
 import RegistrationForm from "./accounts/RegistrationForm";
-import AuthLayout from "./components/AuthLayout";
-import UnAuthLayout from "./components/UnAuthLayout";
+import EmployeeDetailPage from "./accounts/employees/EmployeeDetailPage";
+import EmployeeListPage from "./accounts/employees/EmployeeListPage";
+import EmployeeRegistrationForm from "./accounts/employees/EmployeeRegistrationForm";
+import TeacherDetailPage from "./accounts/teachers/TeacherDetailPage";
+import TeacherRegistrationForm from "./accounts/teachers/TeacherRegistrationForm";
+import TeacherListPage from "./accounts/teachers/TeachersListPage";
 import {
   AUTH_LAYOUT_ROUTE,
   BUILDINGS_CREATE_ROUTE,
@@ -12,53 +19,44 @@ import {
   DEPARTMENTS_ROUTE,
   DEPARTMENT_CREATE_ROUTE,
   EMPLOYEES_ROUTE,
-  EMPLOYEE_PROFILE_ROUTE,
   EMPLOYEE_REGISTER_ROUTE,
   GROUP_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
   OFFICES_CREATE_ROUTE,
   OFFICES_ROUTE,
+  PROFILE_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
   SEMESTERS_ROUTE,
   SEMESTER_CREATE_ROUTE,
   TEACHERS_ROUTE,
-  TEACHER_PROFILE_ROUTE,
   TEACHER_REGISTER_ROUTE,
-  USER_ROUTE,
+  USER_ROUTE
 } from "./cacheKeysAndRoutes";
-import ErrorPage from "./pages/ErrorPage";
+import AuthLayout from "./components/AuthLayout";
 import UnAuthHomePage from "./components/UnAuthHomePage";
+import UnAuthLayout from "./components/UnAuthLayout";
+import ErrorPage from "./pages/ErrorPage";
+import BuildingCreateForm from "./pages/buildings/BuildingCreateForm";
+import BuildingDetailPage from "./pages/buildings/BuildingDetailPage";
+import BuildingListPage from "./pages/buildings/BuildingListPage";
+import CourseCreateForm from "./pages/courses/CourseCreateForm";
+import CourseDetailPage from "./pages/courses/CourseDetailPage";
+import CourseListPage from "./pages/courses/CourseListPage";
+import DepartmentCreateForm from "./pages/departments/DepartmentCreateForm";
+import DepartmentDetailPage from "./pages/departments/DepartmentDetailPage";
+import DepartmentListPage from "./pages/departments/DepartmentListPage";
+import OfficeCreateForm from "./pages/offices/OfficeCreateForm";
+import OfficeDetailPage from "./pages/offices/OfficeDetailPage";
+import OfficeListPage from "./pages/offices/OfficeListPage";
 import SchoolYearDetailPage from "./pages/schoolYears/SchoolYearDetailPage";
 import SchoolYearList from "./pages/schoolYears/SchoolYearList";
-import GroupListPage from "./GroupsAndPermissions/GroupList";
-import GroupDetailPage from "./GroupsAndPermissions/GroupDetailPage";
-import UsersListPage from "./pages/users/UsersListPage";
-import UserDetailPage from "./pages/users/UserDetailPage";
-import CourseListPage from "./pages/courses/CourseListPage";
-import CourseDetailPage from "./pages/courses/CourseDetailPage";
-import CourseCreateForm from "./pages/courses/CourseCreateForm";
-import DepartmentListPage from "./pages/departments/DepartmentListPage";
-import DepartmentDetailPage from "./pages/departments/DepartmentDetailPage";
-import DepartmentCreateForm from "./pages/departments/DepartmentCreateForm";
-import SemesterListPage from "./pages/semesters/SemesterListPage";
-import SemesterDetailPage from "./pages/semesters/SemesterDetailPage";
 import SemesterCreateForm from "./pages/semesters/SemesterCreateForm";
-import BuildingListPage from "./pages/buildings/BuildingListPage";
-import BuildingDetailPage from "./pages/buildings/BuildingDetailPage";
-import BuildingCreateForm from "./pages/buildings/BuildingCreateForm";
-import OfficeListPage from "./pages/offices/OfficeListPage";
-import OfficeDetailPage from "./pages/offices/OfficeDetailPage";
-import OfficeCreateForm from "./pages/offices/OfficeCreateForm";
-import EmployeeListPage from "./accounts/employees/EmployeeListPage";
-import EmployeeDetailPage from "./accounts/employees/EmployeeDetailPage";
-import EmployeeRegistrationForm from "./accounts/employees/EmployeeRegistrationForm";
-import EmployeeProfilePage from "./accounts/employees/EmployeeProfilePage";
-import TeacherListPage from "./accounts/teachers/TeachersListPage";
-import TeacherDetailPage from "./accounts/teachers/TeacherDetailPage";
-import TeacherRegistrationForm from "./accounts/teachers/TeacherRegistrationForm";
-import TeacherProfilePage from "./accounts/teachers/TeacherProfilePage";
+import SemesterDetailPage from "./pages/semesters/SemesterDetailPage";
+import SemesterListPage from "./pages/semesters/SemesterListPage";
+import UserDetailPage from "./pages/users/UserDetailPage";
+import UsersListPage from "./pages/users/UsersListPage";
 
 const router = createBrowserRouter([
   {
@@ -68,8 +66,7 @@ const router = createBrowserRouter([
     children: [
       { path: USER_ROUTE, element: <UsersListPage /> },
       { path: `${USER_ROUTE}/:pk`, element: <UserDetailPage /> },
-      { path: EMPLOYEE_PROFILE_ROUTE, element: <EmployeeProfilePage /> },
-      { path: TEACHER_PROFILE_ROUTE, element: <TeacherProfilePage /> },
+      { path: PROFILE_ROUTE, element: <ProfilesWrapper />},
       { path: EMPLOYEE_REGISTER_ROUTE, element: <EmployeeRegistrationForm /> },
       { path: EMPLOYEES_ROUTE, element: <EmployeeListPage /> },
       { path: `${EMPLOYEES_ROUTE}/:id/`, element: <EmployeeDetailPage /> },

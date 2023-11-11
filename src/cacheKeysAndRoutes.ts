@@ -34,6 +34,8 @@ export const EMPLOYEE_PROFILE_ROUTE = "employee-profile";
 export const TEACHERS_ROUTE = "teachers-list";
 export const TEACHER_REGISTER_ROUTE = "teacher-registration";
 export const TEACHER_PROFILE_ROUTE = "teacher-profile";
+export const PROFILE_ROUTE = "profile";
+
 
 export const red = "red";
 export const blue = "blue";

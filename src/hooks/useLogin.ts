@@ -19,7 +19,6 @@ export const useLogin = () => {
         axiosInstance.defaults.headers["Authorization"] =
           "JWT " + localStorage.getItem("access_token");
         const userId = getUserId();
-        // navigate(`${AUTH_LAYOUT_ROUTE}/${EMPLOYEE_PROFILE_ROUTE}?userId=${userId}`);
         navigate(`${AUTH_LAYOUT_ROUTE}?userId=${userId}`);
       } else {
         setError("An unknown error has occured.");
