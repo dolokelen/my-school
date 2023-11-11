@@ -34,6 +34,7 @@ interface Department {
   duty: string;
   number_of_courses: number;
   created_at: string;
+  majors: number[];
   departmentaddress: DepartmentAddress;
   departmentcontact: DepartmentContact[];
 }

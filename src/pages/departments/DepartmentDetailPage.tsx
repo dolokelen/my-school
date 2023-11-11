@@ -55,6 +55,9 @@ const DepartmentDetailPage = () => {
           Number of courses: {department?.number_of_courses}
         </Text>
         <Text fontSize={fontSize}>
+          Number of Majors: {department?.majors.length}
+        </Text>
+        <Text fontSize={fontSize}>
           Created on: {department?.created_at.substring(0, 10)}
         </Text>
         <Box mt="1.3rem" fontSize="1.5rem" fontWeight={500}>
@@ -76,15 +79,23 @@ const DepartmentDetailPage = () => {
         />
 
         {canDeleteDepartment && (
-          <Button
-            isActive
-            mt="6rem"
-            width="45%"
-            colorScheme={red}
-            onClick={() => mutation.mutate(departmentPk)}
-          >
-            Delete Department
-          </Button>
+          <>
+            <Button
+              isActive
+              mt="4rem"
+              width="45%"
+              colorScheme={red}
+              onClick={() => mutation.mutate(departmentPk)}
+            >
+              Delete Department
+            </Button>
+            {mutation.isError && (
+              <Text w="50ch" color={red}>
+                Department cannot be deleted because it might be associated with
+                other records, consider deleting those records first.
+              </Text>
+            )}
+          </>
         )}
       </GridItem>
 
