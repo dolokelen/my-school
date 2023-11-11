@@ -23,6 +23,8 @@ import {
   GROUP_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
+  MAJORS_CREATE_ROUTE,
+  MAJORS_ROUTE,
   OFFICES_CREATE_ROUTE,
   OFFICES_ROUTE,
   PROFILE_ROUTE,
@@ -32,7 +34,7 @@ import {
   SEMESTER_CREATE_ROUTE,
   TEACHERS_ROUTE,
   TEACHER_REGISTER_ROUTE,
-  USER_ROUTE
+  USER_ROUTE,
 } from "./cacheKeysAndRoutes";
 import AuthLayout from "./components/AuthLayout";
 import UnAuthHomePage from "./components/UnAuthHomePage";
@@ -57,6 +59,9 @@ import SemesterDetailPage from "./pages/semesters/SemesterDetailPage";
 import SemesterListPage from "./pages/semesters/SemesterListPage";
 import UserDetailPage from "./pages/users/UserDetailPage";
 import UsersListPage from "./pages/users/UsersListPage";
+import MajorListPage from "./pages/majors/MajorListPage";
+import MajorCreateForm from "./pages/majors/MajorCreateForm";
+import MajorDetailPage from "./pages/majors/MajorDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -66,7 +71,7 @@ const router = createBrowserRouter([
     children: [
       { path: USER_ROUTE, element: <UsersListPage /> },
       { path: `${USER_ROUTE}/:pk`, element: <UserDetailPage /> },
-      { path: PROFILE_ROUTE, element: <ProfilesWrapper />},
+      { path: PROFILE_ROUTE, element: <ProfilesWrapper /> },
       { path: EMPLOYEE_REGISTER_ROUTE, element: <EmployeeRegistrationForm /> },
       { path: EMPLOYEES_ROUTE, element: <EmployeeListPage /> },
       { path: `${EMPLOYEES_ROUTE}/:id/`, element: <EmployeeDetailPage /> },
@@ -81,6 +86,9 @@ const router = createBrowserRouter([
       { path: COURSES_LIST_ROUTE, element: <CourseListPage /> },
       { path: `${COURSES_LIST_ROUTE}/:pk/`, element: <CourseDetailPage /> },
       { path: COURSES_CREATE_ROUTE, element: <CourseCreateForm /> },
+      { path: MAJORS_ROUTE, element: <MajorListPage /> },
+      { path: MAJORS_CREATE_ROUTE, element: <MajorCreateForm /> },
+      { path: `${MAJORS_ROUTE}/:id/`, element: <MajorDetailPage /> },
       { path: DEPARTMENTS_ROUTE, element: <DepartmentListPage /> },
       { path: `${DEPARTMENTS_ROUTE}/:pk/`, element: <DepartmentDetailPage /> },
       { path: DEPARTMENT_CREATE_ROUTE, element: <DepartmentCreateForm /> },
