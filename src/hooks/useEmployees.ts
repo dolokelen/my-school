@@ -5,6 +5,7 @@ import apiClient, { formDataConfig } from "../services/httpService";
 import { Office } from "./useOffices";
 import { UserProfile } from "./useUsers";
 import { Address } from "./useAddress";
+import { useEmployeeStore } from "../accounts/employees/employeeStore";
 
 export interface Employee {
   user: UserProfile;
@@ -28,12 +29,19 @@ export interface Employee {
 const EMPLOYEE_URL = "/school/employees/";
 const apiClients = apiClient<Employee>(EMPLOYEE_URL);
 
-export const useEmployees = () =>
-  useQuery<Employee[], Error>({
-    queryKey: [CACHE_KEY_EMPLOYEE],
-    queryFn: apiClients.getAll,
+export const useEmployees = () =>{
+  const employeeQuery = useEmployeeStore();
+  
+  return useQuery<Employee[], Error>({
+    queryKey: [CACHE_KEY_EMPLOYEE, employeeQuery],
+    queryFn: () =>
+    apiClients.getAll({
+      params: {
+        department_id: employeeQuery.employeeQuery.selectedDepartmentId,
+      },
+    }),
     staleTime: ms("24h"),
-  });
+  })};
 
 export const useEmployee = (employeeId: number) => {
   return useQuery<Employee, Error>({

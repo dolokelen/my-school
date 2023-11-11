@@ -5,6 +5,7 @@ import { Office } from "./useOffices";
 import { UserProfile } from "./useUsers";
 import { Address } from "./useAddress";
 import { CACHE_KEY_TEACHER } from "../cacheKeysAndRoutes";
+import { useTeacherStore } from "../accounts/teachers/teacherStore";
 
 export interface Teacher {
   user: UserProfile;
@@ -19,8 +20,8 @@ export interface Teacher {
   level_of_education: string;
   term_of_reference: string;
   image: string;
-  department: {id: number, name: string };
-  supervisor: {id: number, full_name: string };
+  department: { id: number; name: string };
+  supervisor: { id: number; full_name: string };
   office: Office;
   joined_at: string;
 }
@@ -28,12 +29,19 @@ export interface Teacher {
 const TEACHER_URL = "/school/teachers/";
 const apiClients = apiClient<Teacher>(TEACHER_URL);
 
-export const useTeachers = () =>
-  useQuery<Teacher[], Error>({
-    queryKey: [CACHE_KEY_TEACHER],
-    queryFn: apiClients.getAll,
+export const useTeachers = () => {
+  const teacherQuery = useTeacherStore();
+  return useQuery<Teacher[], Error>({
+    queryKey: [CACHE_KEY_TEACHER, teacherQuery],
+    queryFn: () =>
+      apiClients.getAll({
+        params: {
+          department_id: teacherQuery.teacherQuery.selectedDepartmentId,
+        },
+      }),
     staleTime: ms("24h"),
   });
+};
 
 export const useTeacher = (teacherId: number) => {
   return useQuery<Teacher, Error>({
@@ -54,10 +62,7 @@ export const useTeacherProfile = (teacherId: number) => {
 };
 
 type Data = FormData;
-export const useRegisterTeacher = (
-  onCreate: () => void,
-  reset: () => void
-) => {
+export const useRegisterTeacher = (onCreate: () => void, reset: () => void) => {
   const apiClients = apiClient<Data>(TEACHER_URL);
   const queryClient = useQueryClient();
   return useMutation<Data, Error, Data>({
@@ -78,8 +83,7 @@ export const useEditTeacher = (onUpdate: () => void, teacherId: number) => {
   const queryClient = useQueryClient();
 
   return useMutation<Data, Error, Data>({
-    mutationFn: (data: Data) =>
-      apiClients.patchFormData(data, teacherId),
+    mutationFn: (data: Data) => apiClients.patchFormData(data, teacherId),
 
     onSuccess: (existingData, newData) => {
       onUpdate();
