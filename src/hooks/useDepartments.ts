@@ -27,7 +27,7 @@ export interface DepartmentContact {
   email: string;
 }
 
-interface Department {
+export interface Department {
   id: number;
   name: string;
   budget: number;

@@ -1,10 +1,11 @@
 import { Button, Flex, Input } from "@chakra-ui/react";
-import { blue } from "../../cacheKeysAndRoutes";
 import { useRef } from "react";
-import { useCourseStore } from "./courseStore";
+import { blue } from "../cacheKeysAndRoutes";
 
-const SearchBar = () => {
-  const setSearchText = useCourseStore((s) => s.setSearchText);
+interface Props {
+  setSearchText: (searchText: string) => void;
+}
+const SearchBar = ({ setSearchText }: Props) => {
   const ref = useRef<HTMLInputElement>(null);
   return (
     <>
@@ -13,7 +14,6 @@ const SearchBar = () => {
           e.preventDefault();
           if (ref.current) {
             setSearchText(ref.current.value);
-            ref.current.value = "";
           }
         }}
       >
@@ -23,7 +23,7 @@ const SearchBar = () => {
             borderRadius={20}
             variant="filled"
             mr={1}
-            placeholder="Search Course"
+            placeholder="Search Records"
             size="md"
           />
           <Button borderRadius={20} type="submit" colorScheme={blue}>

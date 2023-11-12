@@ -4,6 +4,7 @@ import { CACHE_KEY_STUDENT } from "../cacheKeysAndRoutes";
 import apiClient, { formDataConfig } from "../services/httpService";
 import { Address } from "./useAddress";
 import { UserProfile } from "./useUsers";
+import { useStudentStore } from "../accounts/students/studentStore";
 
 export interface Student {
   user: UserProfile;
@@ -25,9 +26,18 @@ const STUDENT_URL = "/school/students/";
 const apiClients = apiClient<Student>(STUDENT_URL);
 
 export const useStudents = () => {
+  const studentQuery = useStudentStore();
+
   return useQuery<Student[], Error>({
-    queryKey: [CACHE_KEY_STUDENT],
-    queryFn: apiClients.getAll,
+    queryKey: [CACHE_KEY_STUDENT, studentQuery],
+    queryFn: () =>
+      apiClients.getAll({
+        params: {
+          department_id: studentQuery.studentQuery.departmentId,
+          major_id: studentQuery.studentQuery.majorId,
+          search: studentQuery.studentQuery.searchText,
+        },
+      }),
     staleTime: ms("24h"),
   });
 };

@@ -15,14 +15,16 @@ import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import { useCourses } from "../../hooks/useCourses";
 import DepartmentFilter from "../departments/DepartmentFilter";
 import PrerequisiteFilter from "./PrerequisiteFilter";
-import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
 import {
   AUTH_LAYOUT_ROUTE,
   COURSES_LIST_ROUTE,
 } from "../../cacheKeysAndRoutes";
+import SearchBar from "../searchBar";
+import { useCourseStore } from "./courseStore";
 
 const CourseListPage = () => {
+  const setSearchText = useCourseStore((s) => s.setSearchText);
   const { data: courses, isLoading } = useCourses();
   if (isLoading) return <Spinner />;
 
@@ -39,7 +41,7 @@ const CourseListPage = () => {
       }}
     >
       <GridItem area="searchBar">
-        <SearchBar />
+        <SearchBar setSearchText={setSearchText} />
       </GridItem>
 
       <GridItem area="main">
@@ -51,7 +53,6 @@ const CourseListPage = () => {
                   <Th>Code</Th>
                   <Th>Title</Th>
                   <Th>Level</Th>
-                  <Th>Price per Credit </Th>
                   <Th>Credit</Th>
                 </Tr>
               </Thead>
@@ -77,13 +78,6 @@ const CourseListPage = () => {
                         to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
                       >
                         {course.level}
-                      </Link>
-                    </Td>
-                    <Td>
-                      <Link
-                        to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
-                      >
-                        $ {course.price_per_credit.toFixed(2)}
                       </Link>
                     </Td>
                     <Td>
