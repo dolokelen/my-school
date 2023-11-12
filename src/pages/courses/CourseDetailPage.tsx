@@ -5,6 +5,7 @@ import { useCourse, useDeleteCourse } from "../../hooks/useCourses";
 import CourseEditForm from "./CourseEditForm";
 import { red } from "../../cacheKeysAndRoutes";
 import { toast } from "react-toastify";
+import { deletionErrorMessage } from "../deletionErrorMessage";
 
 const CourseDetailPage = () => {
   const { pk } = useParams();
@@ -21,6 +22,10 @@ const CourseDetailPage = () => {
 
   const fontSize = "1.3rem";
   const marginBottom = "1rem";
+
+  const handleMutationError = () => {
+    if (mutation.isError) toast.error(`Course ${deletionErrorMessage}`);
+  };
 
   return (
     <Grid
@@ -41,7 +46,8 @@ const CourseDetailPage = () => {
         <Text fontSize={fontSize}>Level: {course?.level}</Text>
         <Text fontSize={fontSize}>Department: {course?.department.name}</Text>
         <Text fontSize={fontSize}>
-          Prerequisite: {course?.prerequisite?.code ? course?.prerequisite?.code : "None"}
+          Prerequisite:{" "}
+          {course?.prerequisite?.code ? course?.prerequisite?.code : "None"}
         </Text>
         <Text fontSize={fontSize}>Credit hours: {course?.credit}</Text>
         <Text fontSize={fontSize}>
@@ -58,7 +64,10 @@ const CourseDetailPage = () => {
             isActive
             mt="1rem"
             colorScheme={red}
-            onClick={() => mutation.mutate(courseId)}
+            onClick={() => {
+              mutation.mutate(courseId);
+              handleMutationError();
+            }}
           >
             Delete Course
           </Button>

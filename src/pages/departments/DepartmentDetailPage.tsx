@@ -9,6 +9,7 @@ import DepartmentAddressListPage from "./DepartmentAddressListPage";
 import DepartmentContactListPage from "./DepartmentContactListPage";
 import DepartmentContactEditForm from "./DepartmentContactEditForm";
 import { useDepartmentContactStore } from "./departmentStore";
+import { deletionErrorMessage } from "../deletionErrorMessage";
 
 const DepartmentDetailPage = () => {
   const { pk } = useParams();
@@ -31,6 +32,10 @@ const DepartmentDetailPage = () => {
   const fontSize = "1rem";
   const marginBottom = "1rem";
   if (isLoading) return <Spinner />;
+
+  const handleMutationError = () => {
+    if (mutation.isError) toast.error(`Department ${deletionErrorMessage}`);
+  };
 
   return (
     <Grid
@@ -85,7 +90,10 @@ const DepartmentDetailPage = () => {
               mt="4rem"
               width="45%"
               colorScheme={red}
-              onClick={() => mutation.mutate(departmentPk)}
+              onClick={() => {
+                mutation.mutate(departmentPk);
+                handleMutationError();
+              }}
             >
               Delete Department
             </Button>

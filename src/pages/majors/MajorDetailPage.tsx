@@ -4,6 +4,8 @@ import { Button, Grid, GridItem, Text } from "@chakra-ui/react";
 import { red } from "../../cacheKeysAndRoutes";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import MajorEditForm from "./MajorEditForm";
+import { toast } from "react-toastify";
+import { deletionErrorMessage } from "../deletionErrorMessage";
 
 const MajorDetailPage = () => {
   const { id } = useParams();
@@ -14,6 +16,10 @@ const MajorDetailPage = () => {
   const canChangeMajor = hasPermission("Can change major");
   const fontSize = "1.3rem";
 
+  const handleMutationError = () => {
+    if (mutation.isError) toast.error(`Major ${deletionErrorMessage}`);
+  };
+  
   return (
     <>
       <Grid
@@ -35,7 +41,10 @@ const MajorDetailPage = () => {
               isActive
               colorScheme={red}
               type="submit"
-              onClick={() => mutation.mutate(majorId)}
+              onClick={() => {
+                mutation.mutate(majorId);
+                handleMutationError();
+              }}
             >
               Delete Major
             </Button>

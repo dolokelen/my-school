@@ -19,6 +19,7 @@ import SemesterEditForm from "./SemesterEditForm";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import { toast } from "react-toastify";
 import AddSemesterSpecificCourses from "./AddSemesterSpecificCourses";
+import { deletionErrorMessage } from "../deletionErrorMessage";
 
 const SemesterDetailPage = () => {
   const { id } = useParams();
@@ -32,6 +33,10 @@ const SemesterDetailPage = () => {
 
   const fontSize = "1.1rem";
   const marginBottom = "1rem";
+
+  const handleMutationError = () => {
+    if (mutation.isError) toast.error(`Semester ${deletionErrorMessage}`);
+  };
 
   return (
     <Grid
@@ -82,7 +87,10 @@ const SemesterDetailPage = () => {
             isActive
             mt="1rem"
             colorScheme={red}
-            onClick={() => mutation.mutate(semesterId)}
+            onClick={() => {
+              mutation.mutate(semesterId);
+              handleMutationError();
+            }}
           >
             Delete Semester
           </Button>
