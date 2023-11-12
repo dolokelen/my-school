@@ -7,7 +7,7 @@ import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorSt
 import { blue } from "../../cacheKeysAndRoutes";
 import { useCourses, useCreateCourse } from "../../hooks/useCourses";
 import { useDepartments } from "../../hooks/useDepartments";
-import { levels } from "./courseData";
+import { levels } from "../../accounts/data";
 
 const schema = z.object({
   code: z
