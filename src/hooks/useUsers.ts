@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
+import getUserId from "../Utilities/getUserId";
 import { CACHE_KEY_USER } from "../cacheKeysAndRoutes";
 import { UserEditFormData } from "../pages/users/UserEditForm";
 import apiClient from "../services/httpService";
-import getUserId from "../Utilities/getUserId";
 import { Permission } from "./usePermissions";
 
 interface Group {
@@ -56,9 +56,9 @@ export const useUserProfile = () => {
 };
 
 interface UserGroupsPermissions {
-    id: number;
-    name: string;
-    permissions: Permission[];
+  id: number;
+  name: string;
+  permissions: Permission[];
 }
 export const useUserGroupsPermissions = (userId: number) => {
   const apiClients = apiClient<UserGroupsPermissions>("/core/user_groups/");

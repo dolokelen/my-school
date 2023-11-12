@@ -32,6 +32,8 @@ import {
   SCH_YEAR_LIST_ROUTE,
   SEMESTERS_ROUTE,
   SEMESTER_CREATE_ROUTE,
+  STUDENTS_ROUTE,
+  STUDENT_REGISTER_ROUTE,
   TEACHERS_ROUTE,
   TEACHER_REGISTER_ROUTE,
   USER_ROUTE,
@@ -62,6 +64,9 @@ import UsersListPage from "./pages/users/UsersListPage";
 import MajorListPage from "./pages/majors/MajorListPage";
 import MajorCreateForm from "./pages/majors/MajorCreateForm";
 import MajorDetailPage from "./pages/majors/MajorDetailPage";
+import StudentListPage from "./accounts/students/StudentListPage";
+import StudentDetailPage from "./accounts/students/StudentDetailPage";
+import StudentRegistrationForm from "./accounts/students/StudentRegistrationForm";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +83,9 @@ const router = createBrowserRouter([
       { path: TEACHERS_ROUTE, element: <TeacherListPage /> },
       { path: `${TEACHERS_ROUTE}/:id/`, element: <TeacherDetailPage /> },
       { path: TEACHER_REGISTER_ROUTE, element: <TeacherRegistrationForm /> },
+      { path: STUDENTS_ROUTE, element: <StudentListPage /> },
+      { path: `${STUDENTS_ROUTE}/:id/`, element: <StudentDetailPage /> },
+      { path: STUDENT_REGISTER_ROUTE, element: <StudentRegistrationForm /> },
       { path: GROUP_ROUTE, element: <GroupListPage /> },
       { path: `${GROUP_ROUTE}/:id`, element: <GroupDetailPage /> },
       { path: REGISTER_ROUTE, element: <RegistrationForm /> },

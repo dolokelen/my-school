@@ -9,6 +9,7 @@ export const CACHE_KEY_BUILDING = "building";
 export const CACHE_KEY_OFFICE = "office";
 export const CACHE_KEY_EMPLOYEE = "employee";
 export const CACHE_KEY_TEACHER = "teacher";
+export const CACHE_KEY_STUDENT = "student";
 export const CACHE_KEY_MAJOR = "major";
 
 export const HOME_ROUTE = "/";
@@ -31,14 +32,13 @@ export const OFFICES_ROUTE = "office-list";
 export const OFFICES_CREATE_ROUTE = "office-create-form";
 export const EMPLOYEES_ROUTE = "employees-list";
 export const EMPLOYEE_REGISTER_ROUTE = "employee-registration";
-export const EMPLOYEE_PROFILE_ROUTE = "employee-profile";
 export const TEACHERS_ROUTE = "teachers-list";
 export const TEACHER_REGISTER_ROUTE = "teacher-registration";
-export const TEACHER_PROFILE_ROUTE = "teacher-profile";
+export const STUDENTS_ROUTE = "students-list";
+export const STUDENT_REGISTER_ROUTE = "student-registration";
 export const PROFILE_ROUTE = "profile";
 export const MAJORS_ROUTE = "majors-list";
 export const MAJORS_CREATE_ROUTE = "majors-create-form";
-
 
 export const red = "red";
 export const blue = "blue";

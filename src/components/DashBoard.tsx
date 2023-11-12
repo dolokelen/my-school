@@ -20,6 +20,8 @@ import {
   SCH_YEAR_LIST_ROUTE,
   SEMESTERS_ROUTE,
   SEMESTER_CREATE_ROUTE,
+  STUDENTS_ROUTE,
+  STUDENT_REGISTER_ROUTE,
   TEACHERS_ROUTE,
   TEACHER_REGISTER_ROUTE,
   USER_ROUTE,
@@ -51,6 +53,14 @@ const DashBoard = () => {
         {hasPermission("Can add teacher") && (
           <MenuItem>
             {<Link to={TEACHER_REGISTER_ROUTE}>Teacher Registration Form</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can view student") && (
+          <MenuItem>{<Link to={STUDENTS_ROUTE}>Students</Link>}</MenuItem>
+        )}
+        {hasPermission("Can add student") && (
+          <MenuItem>
+            {<Link to={STUDENT_REGISTER_ROUTE}>Student Registration Form</Link>}
           </MenuItem>
         )}
         {hasPermission("Can view group") && (
