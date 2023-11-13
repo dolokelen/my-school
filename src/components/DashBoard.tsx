@@ -126,7 +126,9 @@ const DashBoard = () => {
             {<Link to={OFFICES_CREATE_ROUTE}>Office Create Form</Link>}
           </MenuItem>
         )}
-        <MenuItem>{<Link to={MAJORS_ROUTE}>Majors</Link>}</MenuItem>
+        {hasPermission("Can view major") && (
+          <MenuItem>{<Link to={MAJORS_ROUTE}>Majors</Link>}</MenuItem>
+        )}
         {hasPermission("Can add major") && (
           <MenuItem>
             {<Link to={MAJORS_CREATE_ROUTE}>Major Create Form</Link>}

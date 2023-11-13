@@ -1,26 +1,26 @@
 import {
-  Card,
-  CardBody,
-  Grid,
-  GridItem,
-  Heading,
-  Image,
-  Spinner,
-  Text,
+    Card,
+    CardBody,
+    Grid,
+    GridItem,
+    Heading,
+    Image,
+    Spinner,
+    Text,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
-import { hasPermission } from "../../Utilities/hasPermissions";
-import UserGroupsPage from "../../pages/users/UserGroupsPage";
-import { useStudent } from "../../hooks/useStudents";
-import StudentEditForm from "./StudentEditForm";
+import getUserId from "../../Utilities/getUserId";
+import { useStudentProfile } from "../../hooks/useStudents";
 
-const StudentDetailPage = () => {
-  const { id } = useParams();
-  const studentId = parseInt(id!);
-  const { data: student, isLoading } = useStudent(studentId);
-  const canChangeStudent = hasPermission("Can change student");
+const StudentProfilePage = () => {
+  const {
+    data: student,
+    isLoading,
+    isError,
+    error,
+  } = useStudentProfile(getUserId()!);
 
   if (isLoading) return <Spinner />;
+  if (isError) throw error;
   return (
     <>
       <Grid
@@ -73,12 +73,12 @@ const StudentDetailPage = () => {
           </Card>
         </GridItem>
         <GridItem area="studentGroups">
-          <UserGroupsPage userPk={studentId} />
+          {/* <UserGroupsPage userPk={studentId} /> */}
         </GridItem>
       </Grid>
-      {canChangeStudent && <StudentEditForm student={student} />}
+      {/* {canChangeStudent && <StudentEditForm student={student} />} */}
     </>
   );
 };
 
-export default StudentDetailPage;
+export default StudentProfilePage;

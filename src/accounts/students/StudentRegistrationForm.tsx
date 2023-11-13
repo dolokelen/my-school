@@ -73,6 +73,7 @@ const schema = z.object({
   phone: z.string().min(10, { message: "Phone is required" }),
   birth_date: z.string().min(10, { message: "Birth date is required." }),
   level: z.string().min(1, { message: "Status is required." }),
+  is_transfer: z.boolean(),
   supervisor: z.number({ required_error: "Student supervisor is required" }),
   department: z.number({ required_error: "Student department is required" }),
   major: z.number({ required_error: "Student major is required" }),
@@ -135,6 +136,7 @@ const StudentRegistrationForm = () => {
     formData.append("gender", data.gender);
     formData.append("major", data.major.toString());
     formData.append("level", data.level);
+    formData.append("is_transfer", data.is_transfer.toString());
     formData.append("birth_date", data.birth_date);
     formData.append("religion", data.religion);
     formData.append("phone", data.phone);
@@ -246,6 +248,12 @@ const StudentRegistrationForm = () => {
             ))}
           </Select>
           {errors?.major && <Text color={red}>{errors.major.message}</Text>}
+        </Box>
+
+        <Box mb={marginButton}>
+          <Checkbox {...register("is_transfer")} name="is_transfer">
+            Transfer Student?
+          </Checkbox>
         </Box>
 
         <Box mb={marginButton}>
@@ -373,6 +381,7 @@ const StudentRegistrationForm = () => {
             Student can login?
           </Checkbox>
         </Box>
+
         <Box mb={marginButton}>
           <FormLabel htmlFor="password">Password</FormLabel>
           <Input

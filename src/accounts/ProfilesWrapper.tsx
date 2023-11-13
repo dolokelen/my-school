@@ -1,14 +1,17 @@
 import { useEmployeeProfile } from "../hooks/useEmployees";
+import { useStudentProfile } from "../hooks/useStudents";
 import { useTeacherProfile } from "../hooks/useTeachers";
 import AccessDenyPage from "../pages/AccessDenyPage";
 import getUserId from "./../Utilities/getUserId";
 import EmployeeProfilePage from "./employees/EmployeeProfilePage";
+import StudentProfilePage from "./students/StudentProfilePage";
 import TeacherProfilePage from "./teachers/TeacherProfilePage";
 
 const ProfilesWrapper = () => {
   const userId = getUserId();
   const { data: employee } = useEmployeeProfile(userId!);
   const { data: teacher } = useTeacherProfile(userId!);
+  const { data: student } = useStudentProfile(userId!);
 
   const handleCurrentUserProfile = () => {
     let currentUser;
@@ -18,7 +21,11 @@ const ProfilesWrapper = () => {
     } else if (teacher && userId) {
       currentUser = teacher.user.id === userId;
       if (currentUser) return <TeacherProfilePage />;
-    }return <AccessDenyPage />;
+    } else if (student && userId) {
+      currentUser = student.user.id === userId;
+      if (currentUser) return <StudentProfilePage />;
+    }
+    return <AccessDenyPage />;
   };
 
   return handleCurrentUserProfile();

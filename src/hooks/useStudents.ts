@@ -16,6 +16,8 @@ export interface Student {
   religion: string;
   image: string;
   level: string;
+  student_number: number;
+  is_transfer: boolean;
   major: { id: number; name: string };
   department: { id: number; name: string };
   supervisor: { id: number; full_name: string };
