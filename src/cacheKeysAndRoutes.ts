@@ -11,6 +11,7 @@ export const CACHE_KEY_EMPLOYEE = "employee";
 export const CACHE_KEY_TEACHER = "teacher";
 export const CACHE_KEY_STUDENT = "student";
 export const CACHE_KEY_MAJOR = "major";
+export const CACHE_KEY_CLASSROOM = "classroom";
 
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "login";
@@ -39,6 +40,8 @@ export const STUDENT_REGISTER_ROUTE = "student-registration";
 export const PROFILE_ROUTE = "profile";
 export const MAJORS_ROUTE = "majors-list";
 export const MAJORS_CREATE_ROUTE = "majors-create-form";
+export const CLASSROOMS_ROUTE = "classrooms-list";
+export const CLASSROOMS_CREATE_ROUTE = "classrooms-create-form";
 
 export const red = "red";
 export const blue = "blue";

@@ -14,6 +14,8 @@ import {
   AUTH_LAYOUT_ROUTE,
   BUILDINGS_CREATE_ROUTE,
   BUILDINGS_ROUTE,
+  CLASSROOMS_CREATE_ROUTE,
+  CLASSROOMS_ROUTE,
   COURSES_CREATE_ROUTE,
   COURSES_LIST_ROUTE,
   DEPARTMENTS_ROUTE,
@@ -67,6 +69,9 @@ import MajorDetailPage from "./pages/majors/MajorDetailPage";
 import StudentListPage from "./accounts/students/StudentListPage";
 import StudentDetailPage from "./accounts/students/StudentDetailPage";
 import StudentRegistrationForm from "./accounts/students/StudentRegistrationForm";
+import ClassroomListPage from "./pages/classrooms/ClassroomListPage";
+import ClassroomCreateForm from "./pages/classrooms/ClassroomCreateForm";
+import ClassroomDetailPage from "./pages/classrooms/ClassroomDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -109,6 +114,9 @@ const router = createBrowserRouter([
       { path: OFFICES_ROUTE, element: <OfficeListPage /> },
       { path: `${OFFICES_ROUTE}/:id/`, element: <OfficeDetailPage /> },
       { path: OFFICES_CREATE_ROUTE, element: <OfficeCreateForm /> },
+      { path: CLASSROOMS_ROUTE, element: <ClassroomListPage /> },
+      { path: CLASSROOMS_CREATE_ROUTE, element: <ClassroomCreateForm /> },
+      { path: `${CLASSROOMS_ROUTE}/:id/`, element: <ClassroomDetailPage /> },
     ],
   },
 

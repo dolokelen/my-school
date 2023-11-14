@@ -4,6 +4,8 @@ import { hasPermission } from "../Utilities/hasPermissions";
 import {
   BUILDINGS_CREATE_ROUTE,
   BUILDINGS_ROUTE,
+  CLASSROOMS_CREATE_ROUTE,
+  CLASSROOMS_ROUTE,
   COURSES_CREATE_ROUTE,
   COURSES_LIST_ROUTE,
   DEPARTMENTS_ROUTE,
@@ -132,6 +134,14 @@ const DashBoard = () => {
         {hasPermission("Can add major") && (
           <MenuItem>
             {<Link to={MAJORS_CREATE_ROUTE}>Major Create Form</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can view class room") && (
+          <MenuItem>{<Link to={CLASSROOMS_ROUTE}>Classrooms</Link>}</MenuItem>
+        )}
+        {hasPermission("Can add class room") && (
+          <MenuItem>
+            {<Link to={CLASSROOMS_CREATE_ROUTE}>Classroom Create Form</Link>}
           </MenuItem>
         )}
       </DashBoardMenu>
