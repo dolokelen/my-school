@@ -1,12 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
 import { useNavigate } from "react-router-dom";
-import { AUTH_LAYOUT_ROUTE, BUILDINGS_ROUTE, CACHE_KEY_BUILDING } from "../cacheKeysAndRoutes";
+import {
+  AUTH_LAYOUT_ROUTE,
+  BUILDINGS_ROUTE,
+  CACHE_KEY_BUILDING,
+} from "../cacheKeysAndRoutes";
 import { BuildingAddressEditFormData } from "../pages/buildings/BuildingAddressEditForm";
 import { BuildingCreateFormData } from "../pages/buildings/BuildingCreateForm";
 import { BuildingEditFormData } from "../pages/buildings/BuildingEditForm";
 import apiClient from "../services/httpService";
 import { Address } from "./useAddress";
+
+export interface BuildingClassroom {
+  id: number;
+  name: string;
+  dimension: string;
+}
 
 export interface Building {
   id: number;
@@ -17,6 +27,7 @@ export interface Building {
   toilet_counts: number;
   date_constructed: string;
   buildingaddress: Address;
+  classrooms: BuildingClassroom[];
 }
 
 const BUILDING_URL = "/school/buildings/";
@@ -31,33 +42,27 @@ export const useBuildings = () => {
 };
 
 export const useBuilding = (buildingId: number) => {
-
   return useQuery<Building, Error>({
     queryKey: [CACHE_KEY_BUILDING, buildingId],
     queryFn: () => apiClients.get(buildingId),
   });
 };
 
-export const useCreateBuilding = (
-  onCreate: () => void,
-  reset: () => void
-) => {
+export const useCreateBuilding = (onCreate: () => void, reset: () => void) => {
   const apiClients = apiClient<BuildingCreateFormData>(BUILDING_URL);
 
   const queryClient = useQueryClient();
-  return useMutation<BuildingCreateFormData, Error, BuildingCreateFormData>(
-    {
-      mutationFn: (data: BuildingCreateFormData) => apiClients.post(data),
+  return useMutation<BuildingCreateFormData, Error, BuildingCreateFormData>({
+    mutationFn: (data: BuildingCreateFormData) => apiClients.post(data),
 
-      onSuccess: (existingData, newData) => {
-        onCreate();
-        reset();
-        return queryClient.invalidateQueries({
-          queryKey: [CACHE_KEY_BUILDING],
-        });
-      },
-    }
-  );
+    onSuccess: (existingData, newData) => {
+      onCreate();
+      reset();
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_BUILDING],
+      });
+    },
+  });
 };
 
 export const useEditBuilding = (onUpdate: () => void) => {

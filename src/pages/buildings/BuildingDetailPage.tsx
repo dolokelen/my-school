@@ -1,12 +1,21 @@
-import { Box, Button, Grid, GridItem, Spinner, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Grid,
+  GridItem,
+  Heading,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { hasPermission } from "../../Utilities/hasPermissions";
-import { useBuilding, useDeleteBuilding } from "../../hooks/useBuildings";
-import BuildingEditForm from "./BuildingEditForm";
-import BuildingAddressPage from "./BuildingAddressPage";
-import BuildingAddressEditForm from "./BuildingAddressEditForm";
-import { red } from "../../cacheKeysAndRoutes";
 import { toast } from "react-toastify";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import { red } from "../../cacheKeysAndRoutes";
+import { useBuilding, useDeleteBuilding } from "../../hooks/useBuildings";
+import BuildingAddressEditForm from "./BuildingAddressEditForm";
+import BuildingAddressPage from "./BuildingAddressPage";
+import BuildingClassroomListPage from "./BuildingClassroomListPage";
+import BuildingEditForm from "./BuildingEditForm";
 
 const BuildingDetailPage = () => {
   const { id } = useParams();
@@ -58,6 +67,17 @@ const BuildingDetailPage = () => {
             {building?.name} Building Address
           </Box>
           <BuildingAddressPage buildingAddress={building?.buildingaddress} />
+          {building?.classrooms.length !== 0 ? (
+            <>
+              <Heading mt="2rem" size="sm">
+                Classes Assigned To This Building
+              </Heading>
+
+              <BuildingClassroomListPage classrooms={building?.classrooms} />
+            </>
+          ) : (
+            <></>
+          )}
         </GridItem>
 
         <GridItem area="buildingEditForm">
@@ -82,8 +102,6 @@ const BuildingDetailPage = () => {
         <Button
           isActive
           mt="4rem"
-          width="60%"
-          ml="9rem"
           colorScheme={red}
           onClick={() => {
             mutation.mutate(buildingId);
