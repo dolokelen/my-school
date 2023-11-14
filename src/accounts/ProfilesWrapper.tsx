@@ -1,7 +1,6 @@
 import { useEmployeeProfile } from "../hooks/useEmployees";
 import { useStudentProfile } from "../hooks/useStudents";
 import { useTeacherProfile } from "../hooks/useTeachers";
-import AccessDenyPage from "../pages/AccessDenyPage";
 import getUserId from "./../Utilities/getUserId";
 import EmployeeProfilePage from "./employees/EmployeeProfilePage";
 import StudentProfilePage from "./students/StudentProfilePage";
@@ -25,7 +24,7 @@ const ProfilesWrapper = () => {
       currentUser = student.user.id === userId;
       if (currentUser) return <StudentProfilePage />;
     }
-    return <AccessDenyPage />;
+    return <></>;
   };
 
   return handleCurrentUserProfile();

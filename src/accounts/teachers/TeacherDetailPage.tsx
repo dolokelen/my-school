@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardBody,
   Grid,
@@ -13,6 +14,7 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import UserGroupsPage from "../../pages/users/UserGroupsPage";
 import { useTeacher } from "../../hooks/useTeachers";
 import TeacherEditForm from "./TeacherEditForm";
+import TeacherMenteesPage from "./TeacherMenteesPage";
 
 const TeacherDetailPage = () => {
   const { id } = useParams();
@@ -90,6 +92,16 @@ const TeacherDetailPage = () => {
         </GridItem>
         <GridItem area="teacherGroups">
           <UserGroupsPage userPk={teacherId} />
+          {teacher?.mentees.length !== 0 ? (
+            <>
+              <Box ml="20%" fontWeight={500} my={4} fontSize={25} mt={20}>
+                {`Prof. ${teacher?.user.last_name}'s Mentees`}
+              </Box>
+              <TeacherMenteesPage mentees={teacher?.mentees} />
+            </>
+          ) : (
+          <></>
+          )}
         </GridItem>
       </Grid>
       {canChangeTeacher && <TeacherEditForm teacher={teacher} />}

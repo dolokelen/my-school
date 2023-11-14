@@ -7,6 +7,12 @@ import { Address } from "./useAddress";
 import { CACHE_KEY_TEACHER } from "../cacheKeysAndRoutes";
 import { useTeacherStore } from "../accounts/teachers/teacherStore";
 
+export interface TeacherMentee {
+  user: UserProfile;
+  level: string;
+  phone: string;
+}
+
 export interface Teacher {
   user: UserProfile;
   teacheraddress: Address;
@@ -22,6 +28,7 @@ export interface Teacher {
   image: string;
   department: { id: number; name: string };
   supervisor: { id: number; full_name: string };
+  mentees: TeacherMentee[];
   office: Office;
   joined_at: string;
 }
