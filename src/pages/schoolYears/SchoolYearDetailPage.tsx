@@ -6,6 +6,8 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import AccessDenyPage from "../AccessDenyPage";
 
 const SchoolYearDetailPage = () => {
+  if (!hasPermission("Can view school year")) return <AccessDenyPage />;
+
   const { id } = useParams();
   const schId = parseInt(id!);
   const { data, isLoading, error } = useSchoolYear(schId);

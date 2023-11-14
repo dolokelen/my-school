@@ -5,8 +5,10 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import { red } from "../../cacheKeysAndRoutes";
 import { useClasstime, useDeleteClasstime } from "../../hooks/useClasstimes";
 import ClasstimeEditForm from "./ClasstimeEditForm";
+import AccessDenyPage from "../AccessDenyPage";
 
 const ClasstimeDetailPage = () => {
+  if (!hasPermission("Can view class time")) return <AccessDenyPage />;
   const { id } = useParams();
   const classtimeId = parseInt(id!);
   const { data: classtime, isLoading } = useClasstime(classtimeId);

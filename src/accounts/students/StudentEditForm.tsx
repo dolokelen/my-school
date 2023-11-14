@@ -19,6 +19,8 @@ import { useMajors } from "../../hooks/useMajors";
 import { Student, useEditStudent } from "../../hooks/useStudents";
 import { useTeachers } from "../../hooks/useTeachers";
 import { genders, levels, religions } from "../data";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../../pages/AccessDenyPage";
 
 const userSchema = z.object({
   username: z.string().min(1, { message: "Username is required." }),
@@ -74,6 +76,8 @@ interface Props {
   student?: Student;
 }
 const StudentEditForm = ({ student }: Props) => {
+  if (!hasPermission("Can change student")) return <AccessDenyPage />;
+  
   const { data: departments } = useDepartments();
   const { data: majors } = useMajors();
   const { data: teachers } = useTeachers();

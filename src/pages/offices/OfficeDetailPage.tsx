@@ -5,8 +5,11 @@ import { useDeleteOffice, useOffice } from "../../hooks/useOffices";
 import OfficeEditForm from "./OfficeEditForm";
 import { red } from "../../cacheKeysAndRoutes";
 import { toast } from "react-toastify";
+import AccessDenyPage from "../AccessDenyPage";
 
 const OfficeDetailPage = () => {
+  if (!hasPermission("Can view office")) return <AccessDenyPage />;
+
   const { id } = useParams();
   const officeId = parseInt(id!);
   const { data: office, isLoading } = useOffice(officeId);

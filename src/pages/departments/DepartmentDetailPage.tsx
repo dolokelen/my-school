@@ -10,8 +10,11 @@ import DepartmentContactListPage from "./DepartmentContactListPage";
 import DepartmentContactEditForm from "./DepartmentContactEditForm";
 import { useDepartmentContactStore } from "./departmentStore";
 import { deletionErrorMessage } from "../deletionErrorMessage";
+import AccessDenyPage from "../AccessDenyPage";
 
 const DepartmentDetailPage = () => {
+  if (!hasPermission("Can view department")) return <AccessDenyPage />;
+
   const { pk } = useParams();
   const departmentPk = parseInt(pk!);
   const { data: department, isLoading } = useDepartment(departmentPk);

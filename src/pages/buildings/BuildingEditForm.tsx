@@ -7,6 +7,8 @@ import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { red, teal } from "../../cacheKeysAndRoutes";
 import { Building, useEditBuilding } from "../../hooks/useBuildings";
+import AccessDenyPage from "../AccessDenyPage";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -37,8 +39,9 @@ interface Props {
   building?: Building;
 }
 const BuildingEditForm = ({ building }: Props) => {
-  const onCreate = () => toast.success("Building Updated Successfully!");
+  if (!hasPermission("Can change building")) return <AccessDenyPage />;
 
+  const onCreate = () => toast.success("Building Updated Successfully!");
   const {
     register,
     handleSubmit,

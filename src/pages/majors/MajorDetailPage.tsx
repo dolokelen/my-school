@@ -6,8 +6,11 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import MajorEditForm from "./MajorEditForm";
 import { toast } from "react-toastify";
 import { deletionErrorMessage } from "../deletionErrorMessage";
+import AccessDenyPage from "../AccessDenyPage";
 
 const MajorDetailPage = () => {
+  if (!hasPermission("Can view major")) return <AccessDenyPage />;
+
   const { id } = useParams();
   const majorId = parseInt(id!);
   const { data: major } = useMajor(majorId);

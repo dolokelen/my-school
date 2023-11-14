@@ -16,8 +16,12 @@ import { AUTH_LAYOUT_ROUTE, MAJORS_ROUTE } from "../../cacheKeysAndRoutes";
 import { useMajors } from "../../hooks/useMajors";
 import { useMajorStore } from "./majorStore";
 import { useDepartments } from "../../hooks/useDepartments";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const MajorListPage = () => {
+  if (!hasPermission("Can view major")) return <AccessDenyPage />;
+
   const { data: majors, error, isLoading } = useMajors();
   const { data: departments } = useDepartments();
   const setSelectedDepartmentId = useMajorStore(

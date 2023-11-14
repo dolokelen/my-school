@@ -7,6 +7,8 @@ import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { red, teal } from "../../cacheKeysAndRoutes";
 import { Classtime, useEditClasstime } from "../../hooks/useClasstimes";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -29,8 +31,9 @@ interface Props {
 }
 
 const ClasstimeEditForm = ({ classtime }: Props) => {
-  const onUpdate = () => toast.success("Classtime Updated Successfully!");
+  if (!hasPermission("Can change class time")) return <AccessDenyPage />;
 
+  const onUpdate = () => toast.success("Classtime Updated Successfully!");
   const {
     register,
     handleSubmit,

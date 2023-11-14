@@ -8,6 +8,8 @@ import { z } from "zod";
 import { teal } from "../cacheKeysAndRoutes";
 import { useEditGroup, useGroup } from "../hooks/useGroups";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../Utilities/httpErrorStatus";
+import { hasPermission } from "../Utilities/hasPermissions";
+import AccessDenyPage from "../pages/AccessDenyPage";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -19,6 +21,8 @@ const schema = z.object({
 export type GroupEditFormData = z.infer<typeof schema>;
 
 const GroupEditForm = () => {
+  if (!hasPermission("Can change group")) return <AccessDenyPage />;
+
   const {
     register,
     handleSubmit,

@@ -8,6 +8,8 @@ import { blue } from "../../cacheKeysAndRoutes";
 import { useCourses, useCreateCourse } from "../../hooks/useCourses";
 import { useDepartments } from "../../hooks/useDepartments";
 import { levels } from "../../accounts/data";
+import AccessDenyPage from "../AccessDenyPage";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const schema = z.object({
   code: z
@@ -36,6 +38,7 @@ const schema = z.object({
 export type CourseCreateFormData = z.infer<typeof schema>;
 
 const CourseCreateForm = () => {
+  if (!hasPermission("Can add course")) return <AccessDenyPage />;
   const { data: departments } = useDepartments();
   const { data: courses } = useCourses();
 

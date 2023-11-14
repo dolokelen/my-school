@@ -8,6 +8,8 @@ import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorSt
 import { blue } from "../../cacheKeysAndRoutes";
 import { useDepartments } from "../../hooks/useDepartments";
 import { Major, useEditMajor } from "../../hooks/useMajors";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -25,10 +27,10 @@ interface Props {
   major?: Major;
 }
 const MajorEditForm = ({ major }: Props) => {
+  if (!hasPermission("Can change major")) return <AccessDenyPage />;
+
   const { data: departments } = useDepartments();
-
   const onUpdate = () => toast.success("Major Updated Successfully!");
-
   const {
     register,
     handleSubmit,

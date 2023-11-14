@@ -11,8 +11,12 @@ import {
   import { Link } from "react-router-dom";
 import { AUTH_LAYOUT_ROUTE, OFFICES_ROUTE } from "../../cacheKeysAndRoutes";
 import { useOffices } from "../../hooks/useOffices";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
   
   const OfficeListPage = () => {
+    if (!hasPermission("Can view office")) return <AccessDenyPage />;
+    
     const { data: offices, isLoading } = useOffices();
   
     if (isLoading) return <Spinner />;

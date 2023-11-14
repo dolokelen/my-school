@@ -6,6 +6,8 @@ import { z } from "zod";
 import { useCreateSchoolYear } from "../../hooks/useSchoolYears";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { blue } from "../../cacheKeysAndRoutes";
+import AccessDenyPage from "../AccessDenyPage";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const schema = z.object({
   year: z
@@ -16,6 +18,7 @@ const schema = z.object({
 export type SchoolYearCreateFormData = z.infer<typeof schema>;
 
 const SchoolYearCreateForm = () => {
+  if (!hasPermission("Can add school year")) return <AccessDenyPage />;
   const onCreate = () => toast.success("School year Created Successfully!");
 
   const {

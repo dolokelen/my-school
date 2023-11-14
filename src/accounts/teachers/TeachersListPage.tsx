@@ -18,8 +18,11 @@ import AccessDenyPage from "../../pages/AccessDenyPage";
 import { useTeachers } from "../../hooks/useTeachers";
 import { useDepartments } from "../../hooks/useDepartments";
 import { useTeacherStore } from "./teacherStore";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const TeacherListPage = () => {
+  if (!hasPermission("Can view teacher")) return <AccessDenyPage />;
+  
   const { data: teachers, error, isLoading } = useTeachers();
   const { data: departments } = useDepartments();
   const setSelectedDepartmentId = useTeacherStore(

@@ -6,6 +6,8 @@ import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { blue, red } from "../../cacheKeysAndRoutes";
 import { useCreateClasstime } from "../../hooks/useClasstimes";
+import AccessDenyPage from "../AccessDenyPage";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const schema = z.object({
   start_time: z.string().min(1, {
@@ -23,8 +25,9 @@ const schema = z.object({
 export type ClasstimeCreateFormData = z.infer<typeof schema>;
 
 const ClasstimeCreateForm = () => {
-  const onCreate = () => toast.success("Classtime Created Successfully!");
+  if (!hasPermission("Can add class time")) return <AccessDenyPage />;
 
+  const onCreate = () => toast.success("Classtime Created Successfully!");
   const {
     register,
     handleSubmit,

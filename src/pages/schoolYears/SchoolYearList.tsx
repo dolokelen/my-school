@@ -9,8 +9,11 @@ import {
 import { useSchoolYears } from "../../hooks/useSchoolYears";
 import SchoolYearCreateForm from "./SchoolYearCreateForm";
 import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const SchoolYearList = () => {
+  if (!hasPermission("Can view school year")) return <AccessDenyPage />;
+
   const [params, setParams] = useSearchParams();
   const { data, isLoading, error } = useSchoolYears();
   

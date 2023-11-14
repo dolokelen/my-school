@@ -8,6 +8,8 @@ import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorSt
 import { red, teal } from "../../cacheKeysAndRoutes";
 import { useBuildings } from "../../hooks/useBuildings";
 import { Classroom, useEditClassroom } from "./../../hooks/useClassrooms";
+import AccessDenyPage from "../AccessDenyPage";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const schema = z.object({
   id: number().optional(),
@@ -26,9 +28,9 @@ interface Props {
   classroom?: Classroom;
 }
 const ClassroomEidtForm = ({ classroom }: Props) => {
+  if (!hasPermission("Can change class room")) return <AccessDenyPage />;
+  
   const { data: buildings } = useBuildings();
-  const onCreate = () => toast.success("Classroom Created Successfully!");
-
   const {
     register,
     handleSubmit,

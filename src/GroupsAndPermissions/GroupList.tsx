@@ -18,8 +18,11 @@ import { useDeleteAllGroup, useGroups } from "../hooks/useGroups";
 import GroupCreateForm from "./GroupCreateForm";
 import OverflowYContainer from "./OverflowYContainer";
 import { hasPermission } from "../Utilities/hasPermissions";
+import AccessDenyPage from "../pages/AccessDenyPage";
 
 const GroupListPage = () => {
+  if (!hasPermission("Can view group")) return <AccessDenyPage />;
+  
   const { data: groups, isLoading, error } = useGroups();
 
   const [selectedGroups, setSelectedGroups] = useState<number[]>([]);

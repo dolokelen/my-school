@@ -19,6 +19,8 @@ import { useMajors } from "../../hooks/useMajors";
 import { useRegisterStudent } from "../../hooks/useStudents";
 import { useTeachers } from "../../hooks/useTeachers";
 import { genders, levels, religions } from "../data";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../../pages/AccessDenyPage";
 
 const userSchema = z
   .object({
@@ -87,6 +89,8 @@ const schema = z.object({
 export type StudentRegistrationFormData = z.infer<typeof schema>;
 
 const StudentRegistrationForm = () => {
+  if (!hasPermission("Can add student")) return <AccessDenyPage />;
+
   const { data: departments } = useDepartments();
   const { data: majors } = useMajors();
   const { data: teachers } = useTeachers();

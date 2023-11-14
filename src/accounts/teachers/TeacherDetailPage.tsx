@@ -15,8 +15,10 @@ import UserGroupsPage from "../../pages/users/UserGroupsPage";
 import { useTeacher } from "../../hooks/useTeachers";
 import TeacherEditForm from "./TeacherEditForm";
 import TeacherMenteesPage from "./TeacherMenteesPage";
+import AccessDenyPage from "../../pages/AccessDenyPage";
 
 const TeacherDetailPage = () => {
+  if (!hasPermission("Can view teacher")) return <AccessDenyPage />;
   const { id } = useParams();
   const teacherId = parseInt(id!);
   const { data: teacher, isLoading } = useTeacher(teacherId);

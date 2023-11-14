@@ -20,8 +20,11 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import { toast } from "react-toastify";
 import AddSemesterSpecificCourses from "./AddSemesterSpecificCourses";
 import { deletionErrorMessage } from "../deletionErrorMessage";
+import AccessDenyPage from "../AccessDenyPage";
 
 const SemesterDetailPage = () => {
+  if (!hasPermission("Can view semester")) return <AccessDenyPage />;
+
   const { id } = useParams();
   const semesterId = parseInt(id!);
   const { data: semester } = useSemester(semesterId);

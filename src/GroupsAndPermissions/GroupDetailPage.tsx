@@ -27,6 +27,8 @@ import { hasPermission } from "../Utilities/hasPermissions";
 import AccessDenyPage from "../pages/AccessDenyPage";
 
 const GroupDetailPage = () => {
+  if (!hasPermission("Can view group")) return <AccessDenyPage />;
+  
   const { id } = useParams();
   const groupId = parseInt(id!);
   const { data: group, isLoading, error } = useGroup(groupId);

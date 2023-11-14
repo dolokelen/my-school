@@ -24,6 +24,8 @@ import {
   maritalStatuses,
   religions,
 } from "../data";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../../pages/AccessDenyPage";
 
 const userSchema = z
   .object({
@@ -96,6 +98,8 @@ const schema = z.object({
 export type EmployeeRegistrationFormData = z.infer<typeof schema>;
 
 const EmployeeRegistrationForm = () => {
+  if (!hasPermission("Can add employee")) return <AccessDenyPage />;
+  
   const { data: departments } = useDepartments();
   const { data: employees } = useEmployees();
   const { data: offices } = useOffices();

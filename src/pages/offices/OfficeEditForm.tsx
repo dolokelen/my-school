@@ -7,6 +7,8 @@ import { z } from "zod";
 import { red, teal } from "../../cacheKeysAndRoutes";
 import { useBuildings } from "../../hooks/useBuildings";
 import { Office, useEditOffice } from "../../hooks/useOffices";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -25,6 +27,8 @@ interface Props {
 }
 
 const OfficeEditForm = ({ office }: Props) => {
+  if (!hasPermission("Can change office")) return <AccessDenyPage />;
+  
   const { data: buildings } = useBuildings();
   const {
     register,

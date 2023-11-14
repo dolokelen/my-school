@@ -11,8 +11,12 @@ import {
 import { Link } from "react-router-dom";
 import { useBuildings } from "../../hooks/useBuildings";
 import { AUTH_LAYOUT_ROUTE, BUILDINGS_ROUTE } from "../../cacheKeysAndRoutes";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const BuildingListPage = () => {
+  if (!hasPermission("Can view building")) return <AccessDenyPage />;
+  
   const { data: buildings, isLoading } = useBuildings();
 
   if (isLoading) return <Spinner />;

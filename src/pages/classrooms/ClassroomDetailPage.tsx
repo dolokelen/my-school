@@ -5,8 +5,11 @@ import { red } from "../../cacheKeysAndRoutes";
 import { toast } from "react-toastify";
 import { useClassroom, useDeleteClassroom } from "../../hooks/useClassrooms";
 import ClassroomEditForm from "./ClassroomEditForm";
+import AccessDenyPage from "../AccessDenyPage";
 
 const ClassroomDetailPage = () => {
+  if (!hasPermission("Can view class room")) return <AccessDenyPage />;
+
   const { id } = useParams();
   const classroomId = parseInt(id!);
   const { data: classroom, isLoading } = useClassroom(classroomId);

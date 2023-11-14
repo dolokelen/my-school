@@ -6,6 +6,8 @@ import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { blue, red } from "../../cacheKeysAndRoutes";
 import { useCreateBuilding } from "../../hooks/useBuildings";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const address = z.object({
   country: z.string().min(4, {
@@ -51,6 +53,8 @@ const schema = z.object({
 export type BuildingCreateFormData = z.infer<typeof schema>;
 
 const BuildingCreateForm = () => {
+  if (!hasPermission("Can add building")) return <AccessDenyPage />;
+  
   const onCreate = () => toast.success("Building Added Successfully!");
 
   const {

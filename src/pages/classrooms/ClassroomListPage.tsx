@@ -11,8 +11,12 @@ import {
 import { Link } from "react-router-dom";
 import { AUTH_LAYOUT_ROUTE, CLASSROOMS_ROUTE } from "../../cacheKeysAndRoutes";
 import { useClassrooms } from "../../hooks/useClassrooms";
+import AccessDenyPage from "../AccessDenyPage";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const ClassroomListPage = () => {
+  if (!hasPermission("Can view class room")) return <AccessDenyPage />;
+  
   const { data: classrooms, isLoading } = useClassrooms();
 
   if (isLoading) return <Spinner />;

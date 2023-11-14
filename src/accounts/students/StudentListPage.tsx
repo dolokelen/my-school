@@ -20,8 +20,11 @@ import { useStudents } from "../../hooks/useStudents";
 import AccessDenyPage from "../../pages/AccessDenyPage";
 import SearchBar from "../../pages/searchBar";
 import studentFilters from "./studentFilters";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const StudentListPage = () => {
+  if (!hasPermission("Can view student")) return <AccessDenyPage />;
+  
   const { data: students, error, isLoading } = useStudents();
   const { data: departments } = useDepartments();
   const { data: majors } = useMajors();

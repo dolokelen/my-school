@@ -17,6 +17,8 @@ import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorSt
 import { red, teal } from "../../cacheKeysAndRoutes";
 import { useDepartment, useEditDepartment } from "../../hooks/useDepartments";
 import DepartmentAddressEditForm from "./DepartmentAddressEditForm";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -34,6 +36,8 @@ const schema = z.object({
 export type DepartmentEditFormData = z.infer<typeof schema>;
 
 const DepartmentEditForm = () => {
+  if (!hasPermission("Can change department")) return <AccessDenyPage />;
+  
   const {
     register,
     handleSubmit,

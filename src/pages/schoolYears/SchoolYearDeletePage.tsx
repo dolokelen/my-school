@@ -11,6 +11,8 @@ import {
   Heading,
   useDisclosure,
 } from "@chakra-ui/react";
+import AccessDenyPage from "../AccessDenyPage";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 interface Props {
   schoolYearId: number;
@@ -18,8 +20,9 @@ interface Props {
 }
 
 const ConfirmationAlert = ({ schoolYearId, schoolYear }: Props) => {
+  if (!hasPermission("Can delete school year")) return <AccessDenyPage />;
+  
   const deleteSchoolYear = useDeleteSchoolYear();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef(null);
 

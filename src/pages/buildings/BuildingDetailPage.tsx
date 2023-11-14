@@ -16,8 +16,11 @@ import BuildingAddressEditForm from "./BuildingAddressEditForm";
 import BuildingAddressPage from "./BuildingAddressPage";
 import BuildingClassroomListPage from "./BuildingClassroomListPage";
 import BuildingEditForm from "./BuildingEditForm";
+import AccessDenyPage from "../AccessDenyPage";
 
 const BuildingDetailPage = () => {
+  if (!hasPermission("Can view building")) return <AccessDenyPage />;
+
   const { id } = useParams();
   const buildingId = parseInt(id!);
   const { data: building, isLoading } = useBuilding(buildingId);

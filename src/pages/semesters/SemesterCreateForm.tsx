@@ -8,6 +8,8 @@ import { blue, red } from "../../cacheKeysAndRoutes";
 import { semesterNames } from "./data";
 import { useSchoolYears } from "../../hooks/useSchoolYears";
 import { useCreateSemester } from "../../hooks/useSemesters";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   name: z.string().min(1, {
@@ -33,6 +35,8 @@ const schema = z.object({
 export type SemesterCreateFormData = z.infer<typeof schema>;
 
 const SemesterCreateForm = () => {
+  if (!hasPermission("Can add semester")) return <AccessDenyPage />;
+
   const { data: schoolYears } = useSchoolYears();
   const {
     register,

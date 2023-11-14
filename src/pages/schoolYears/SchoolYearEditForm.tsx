@@ -12,6 +12,8 @@ import {
 } from "../../hooks/useSchoolYears";
 import { teal } from "../../cacheKeysAndRoutes";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -23,6 +25,8 @@ const schema = z.object({
 export type SchoolYearEditFormData = z.infer<typeof schema>;
 
 const SchoolYearEditForm = () => {
+  if (!hasPermission("Can change school year")) return <AccessDenyPage />;
+
   const deleteMutation = useDeleteSchoolYear();
   const {
     register,

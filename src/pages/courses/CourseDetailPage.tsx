@@ -6,8 +6,11 @@ import CourseEditForm from "./CourseEditForm";
 import { red } from "../../cacheKeysAndRoutes";
 import { toast } from "react-toastify";
 import { deletionErrorMessage } from "../deletionErrorMessage";
+import AccessDenyPage from "../AccessDenyPage";
 
 const CourseDetailPage = () => {
+  if (!hasPermission("Can view course")) return <AccessDenyPage />;
+  
   const { pk } = useParams();
   const courseId = parseInt(pk!);
 

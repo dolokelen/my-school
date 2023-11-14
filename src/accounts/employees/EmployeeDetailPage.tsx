@@ -13,8 +13,11 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import { useEmployee } from "../../hooks/useEmployees";
 import UserGroupsPage from "../../pages/users/UserGroupsPage";
 import EmployeeEditForm from "./EmployeeEditForm";
+import AccessDenyPage from "../../pages/AccessDenyPage";
 
 const EmployeeDetailPage = () => {
+  if (!hasPermission("Can view employee")) return <AccessDenyPage />;
+  
   const { id } = useParams();
   const employeeId = parseInt(id!);
   const { data: employee, isLoading } = useEmployee(employeeId);

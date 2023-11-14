@@ -24,6 +24,8 @@ import {
   maritalStatuses,
   religions,
 } from "../data";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../../pages/AccessDenyPage";
 
 const userSchema = z.object({
   username: z.string().min(1, { message: "Username is required." }),
@@ -86,6 +88,8 @@ interface Props {
 }
 
 const TeacherEditForm = ({ teacher }: Props) => {
+  if (!hasPermission("Can change teacher")) return <AccessDenyPage />;
+
   const { data: departments } = useDepartments();
   const { data: teachers } = useTeachers();
   const { data: offices } = useOffices();

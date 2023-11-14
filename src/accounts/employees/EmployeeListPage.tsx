@@ -18,8 +18,11 @@ import { useEmployees } from "../../hooks/useEmployees";
 import AccessDenyPage from "../../pages/AccessDenyPage";
 import { useDepartments } from "../../hooks/useDepartments";
 import { useEmployeeStore } from "./employeeStore";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const EmployeeListPage = () => {
+  if (!hasPermission("Can view employee")) return <AccessDenyPage />;
+  
   const { data: employees, error, isLoading } = useEmployees();
   const { data: departments } = useDepartments();
   const setSelectedDepartmentId = useEmployeeStore(

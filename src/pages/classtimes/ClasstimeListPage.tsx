@@ -11,8 +11,12 @@ import {
 import { Link } from "react-router-dom";
 import { useClasstimes } from "../../hooks/useClasstimes";
 import { AUTH_LAYOUT_ROUTE, CLASSTIMES_ROUTE } from "../../cacheKeysAndRoutes";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const ClasstimeListPage = () => {
+  if (!hasPermission("Can view class time")) return <AccessDenyPage />;
+  
   const { data: classtimes, isLoading } = useClasstimes();
 
   if (isLoading) return <Spinner />;

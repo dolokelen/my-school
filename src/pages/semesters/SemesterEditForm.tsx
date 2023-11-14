@@ -21,6 +21,8 @@ import {
   useSemester
 } from "../../hooks/useSemesters";
 import { semesterNames } from "./data";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -47,6 +49,8 @@ const schema = z.object({
 export type SemesterEditFormData = z.infer<typeof schema>;
 
 const SemesterEditForm = () => {
+  if (!hasPermission("Can change semester")) return <AccessDenyPage />;
+
   const { data: schoolYears } = useSchoolYears();
   const {
     register,

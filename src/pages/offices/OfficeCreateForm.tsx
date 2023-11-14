@@ -6,6 +6,8 @@ import { z } from "zod";
 import { blue, red } from "../../cacheKeysAndRoutes";
 import { useBuildings } from "../../hooks/useBuildings";
 import { useCreateOffice } from "../../hooks/useOffices";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   dimension: z.string().min(3, {
@@ -20,6 +22,8 @@ const schema = z.object({
 export type OfficeCreateFormData = z.infer<typeof schema>;
 
 const OfficeCreateForm = () => {
+  if (!hasPermission("Can add office")) return <AccessDenyPage />;
+
     const { data: buildings } = useBuildings();
   const onCreate = () => toast.success("Office created Successfully!");
 

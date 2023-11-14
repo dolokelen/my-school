@@ -6,6 +6,8 @@ import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { blue, red } from "../../cacheKeysAndRoutes";
 import { useCreateDepartment } from "../../hooks/useDepartments";
+import AccessDenyPage from "../AccessDenyPage";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const departmentContact = z.object({
   phone: z.string().min(10, {
@@ -52,8 +54,9 @@ const schema = z.object({
 export type DepartmentCreateFormData = z.infer<typeof schema>;
 
 const DepartmentCreateForm = () => {
+  if (!hasPermission("Can add department")) return <AccessDenyPage />;
+  
   const onCreate = () => toast.success("Department Created Successfully!");
-
   const {
     register,
     handleSubmit,

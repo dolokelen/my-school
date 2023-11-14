@@ -13,8 +13,11 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import UserGroupsPage from "../../pages/users/UserGroupsPage";
 import { useStudent } from "../../hooks/useStudents";
 import StudentEditForm from "./StudentEditForm";
+import AccessDenyPage from "../../pages/AccessDenyPage";
 
 const StudentDetailPage = () => {
+  if (!hasPermission("Can view student")) return <AccessDenyPage />;
+
   const { id } = useParams();
   const studentId = parseInt(id!);
   const { data: student, isLoading } = useStudent(studentId);

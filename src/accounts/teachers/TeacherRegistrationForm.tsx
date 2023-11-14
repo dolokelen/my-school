@@ -18,6 +18,8 @@ import {
   import { useOffices } from "../../hooks/useOffices";
 import { useRegisterTeacher, useTeachers } from "../../hooks/useTeachers";
 import { employmentStatuses, genders, highestEducations, maritalStatuses, religions } from "../data";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../../pages/AccessDenyPage";
  
   
   const userSchema = z
@@ -88,6 +90,8 @@ import { employmentStatuses, genders, highestEducations, maritalStatuses, religi
   export type TeacherRegistrationFormData = z.infer<typeof schema>;
   
   const TeacherRegistrationForm = () => {
+    if (!hasPermission("Can add teacher")) return <AccessDenyPage />;
+
     const { data: departments } = useDepartments();
     const { data: teachers } = useTeachers();
     const { data: offices } = useOffices();

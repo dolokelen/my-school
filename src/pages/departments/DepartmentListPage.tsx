@@ -10,8 +10,12 @@ import {
 import { useDepartments } from "../../hooks/useDepartments";
 import { Link } from "react-router-dom";
 import { AUTH_LAYOUT_ROUTE, DEPARTMENTS_ROUTE } from "../../cacheKeysAndRoutes";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const DepartmentListPage = () => {
+  if (!hasPermission("Can view department")) return <AccessDenyPage />;
+  
   const { data: departments } = useDepartments();
   return (
     <TableContainer>

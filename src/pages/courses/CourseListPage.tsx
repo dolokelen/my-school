@@ -22,8 +22,12 @@ import {
 } from "../../cacheKeysAndRoutes";
 import SearchBar from "../searchBar";
 import { useCourseStore } from "./courseStore";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import AccessDenyPage from "../AccessDenyPage";
 
 const CourseListPage = () => {
+  if (!hasPermission("Can view course")) return <AccessDenyPage />;
+
   const setSearchText = useCourseStore((s) => s.setSearchText);
   const { data: courses, isLoading } = useCourses();
   if (isLoading) return <Spinner />;

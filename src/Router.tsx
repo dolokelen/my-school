@@ -75,7 +75,7 @@ import ClassroomListPage from "./pages/classrooms/ClassroomListPage";
 import ClassroomCreateForm from "./pages/classrooms/ClassroomCreateForm";
 import ClassroomDetailPage from "./pages/classrooms/ClassroomDetailPage";
 import ClasstimeListPage from "./pages/classtimes/ClasstimeListPage";
-import ClasstimeDetailPage from "./pages/classtimes/ClassroomDetailPage";
+import ClasstimeDetailPage from "./pages/classtimes/ClasstimeDetailPage";
 import ClasstimeCreateForm from "./pages/classtimes/ClasstimeCreateForm";
 
 const router = createBrowserRouter([
