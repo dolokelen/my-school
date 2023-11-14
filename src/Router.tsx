@@ -16,6 +16,8 @@ import {
   BUILDINGS_ROUTE,
   CLASSROOMS_CREATE_ROUTE,
   CLASSROOMS_ROUTE,
+  CLASSTIMES_CREATE_ROUTE,
+  CLASSTIMES_ROUTE,
   COURSES_CREATE_ROUTE,
   COURSES_LIST_ROUTE,
   DEPARTMENTS_ROUTE,
@@ -72,6 +74,9 @@ import StudentRegistrationForm from "./accounts/students/StudentRegistrationForm
 import ClassroomListPage from "./pages/classrooms/ClassroomListPage";
 import ClassroomCreateForm from "./pages/classrooms/ClassroomCreateForm";
 import ClassroomDetailPage from "./pages/classrooms/ClassroomDetailPage";
+import ClasstimeListPage from "./pages/classtimes/ClasstimeListPage";
+import ClasstimeDetailPage from "./pages/classtimes/ClassroomDetailPage";
+import ClasstimeCreateForm from "./pages/classtimes/ClasstimeCreateForm";
 
 const router = createBrowserRouter([
   {
@@ -117,6 +122,9 @@ const router = createBrowserRouter([
       { path: CLASSROOMS_ROUTE, element: <ClassroomListPage /> },
       { path: CLASSROOMS_CREATE_ROUTE, element: <ClassroomCreateForm /> },
       { path: `${CLASSROOMS_ROUTE}/:id/`, element: <ClassroomDetailPage /> },
+      { path: CLASSTIMES_ROUTE, element: <ClasstimeListPage /> },
+      { path: `${CLASSTIMES_ROUTE}/:id/`, element: <ClasstimeDetailPage /> },
+      { path: CLASSTIMES_CREATE_ROUTE, element: <ClasstimeCreateForm /> },
     ],
   },
 

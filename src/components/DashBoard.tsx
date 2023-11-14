@@ -6,6 +6,8 @@ import {
   BUILDINGS_ROUTE,
   CLASSROOMS_CREATE_ROUTE,
   CLASSROOMS_ROUTE,
+  CLASSTIMES_CREATE_ROUTE,
+  CLASSTIMES_ROUTE,
   COURSES_CREATE_ROUTE,
   COURSES_LIST_ROUTE,
   DEPARTMENTS_ROUTE,
@@ -142,6 +144,16 @@ const DashBoard = () => {
         {hasPermission("Can add class room") && (
           <MenuItem>
             {<Link to={CLASSROOMS_CREATE_ROUTE}>Classroom Create Form</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can view class time") && (
+          <MenuItem>
+            {<Link to={CLASSTIMES_ROUTE}>Classtimes</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can add class time") && (
+          <MenuItem>
+            {<Link to={CLASSTIMES_CREATE_ROUTE}>Classtime Create Form</Link>}
           </MenuItem>
         )}
       </DashBoardMenu>
