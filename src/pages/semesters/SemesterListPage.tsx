@@ -7,6 +7,7 @@ import {
   Th,
   Thead,
   Tr,
+  Badge,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -59,7 +60,11 @@ const SemesterListPage = () => {
                 <Link
                   to={`${AUTH_LAYOUT_ROUTE}/${SEMESTERS_ROUTE}/${semester.id}`}
                 >
-                  {semester.name}
+                  {semester.is_current ? (
+                    <Badge colorScheme="green">{semester.name}</Badge>
+                  ) : (
+                    semester.name
+                  )}
                 </Link>
               </Td>
               <Td>
@@ -99,7 +104,6 @@ const SemesterListPage = () => {
               </Td>
             </Tr>
           ))}
-          
         </Tbody>
       </Table>
     </TableContainer>

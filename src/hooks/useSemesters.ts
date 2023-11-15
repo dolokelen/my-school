@@ -117,3 +117,22 @@ export const useAddSemesterCourses = (
   return handleCoursesAddition;
 };
 
+
+export const useRemoveSemesterCourses = (
+  data: { id: number, courses_to_remove_ids: number[] },
+  onDeleteSelectedItems: () => void
+) => {
+  const queryClient = useQueryClient();
+  const handleCoursesRemoval = async () => {
+    try {
+      await apiClients.patchJsonData(JSON.stringify(data), data.id);
+      onDeleteSelectedItems();
+      queryClient.invalidateQueries([CACHE_KEY_SEMESTER]);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  return handleCoursesRemoval;
+};
+

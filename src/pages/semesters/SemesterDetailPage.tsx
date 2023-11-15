@@ -6,13 +6,19 @@ import {
   Box,
   List,
   ListItem,
+  Checkbox,
 } from "@chakra-ui/react";
 import {
   AUTH_LAYOUT_ROUTE,
   COURSES_LIST_ROUTE,
   red,
+  teal,
 } from "../../cacheKeysAndRoutes";
-import { useDeleteSemester, useSemester } from "../../hooks/useSemesters";
+import {
+  useDeleteSemester,
+  useRemoveSemesterCourses,
+  useSemester,
+} from "../../hooks/useSemesters";
 import { Link, useParams } from "react-router-dom";
 import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import SemesterEditForm from "./SemesterEditForm";
@@ -21,10 +27,10 @@ import { toast } from "react-toastify";
 import AddSemesterSpecificCourses from "./AddSemesterSpecificCourses";
 import { deletionErrorMessage } from "../deletionErrorMessage";
 import AccessDenyPage from "../AccessDenyPage";
+import { useEffect, useState } from "react";
 
 const SemesterDetailPage = () => {
-  if (!hasPermission("Can view semester")) return <AccessDenyPage />;
-
+  const [selectedCourses, setSelectedCoursesId] = useState<number[]>([]);
   const { id } = useParams();
   const semesterId = parseInt(id!);
   const { data: semester } = useSemester(semesterId);
@@ -34,12 +40,30 @@ const SemesterDetailPage = () => {
   const canChangeSemester = hasPermission("Can change semester");
   const canDeleteSemester = hasPermission("Can delete semester");
 
-  const fontSize = "1.1rem";
-  const marginBottom = "1rem";
+  const handleCourseRemoval = useRemoveSemesterCourses(
+    { id: semesterId, courses_to_remove_ids: selectedCourses },
+    () => {
+      setSelectedCoursesId([]);
+      toast.success("Courses removed successfully!");
+    }
+  );
 
   const handleMutationError = () => {
     if (mutation.isError) toast.error(`Semester ${deletionErrorMessage}`);
   };
+
+  if (!hasPermission("Can view semester")) return <AccessDenyPage />;
+
+  const handleCheckboxChange = (courseId: number) => {
+    if (selectedCourses.includes(courseId)) {
+      setSelectedCoursesId(selectedCourses.filter((id) => id !== courseId));
+    } else {
+      setSelectedCoursesId([...selectedCourses, courseId]);
+    }
+  };
+
+  const fontSize = "1.1rem";
+  const marginBottom = "1rem";
 
   return (
     <Grid
@@ -75,11 +99,16 @@ const SemesterDetailPage = () => {
           {semester?.courses?.map((course) => (
             <List key={course.id}>
               <ListItem fontSize={fontSize}>
-                <Link
-                  to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
+                <Checkbox
+                  isChecked={selectedCourses.includes(course.id)}
+                  onChange={() => handleCheckboxChange(course.id)}
                 >
-                  {course.code}
-                </Link>
+                  <Link
+                    to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
+                  >
+                    {course.code}
+                  </Link>
+                </Checkbox>
               </ListItem>
             </List>
           ))}
@@ -98,6 +127,17 @@ const SemesterDetailPage = () => {
             Delete Semester
           </Button>
         )}
+
+        <Button
+          ml="1rem"
+          mt="1rem"
+          isActive
+          type="submit"
+          colorScheme={teal}
+          onClick={handleCourseRemoval}
+        >
+          Remove Courses
+        </Button>
       </GridItem>
 
       <GridItem area="semesterEditForm">
