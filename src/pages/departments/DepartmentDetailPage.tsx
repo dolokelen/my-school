@@ -9,12 +9,10 @@ import DepartmentAddressListPage from "./DepartmentAddressListPage";
 import DepartmentContactListPage from "./DepartmentContactListPage";
 import DepartmentContactEditForm from "./DepartmentContactEditForm";
 import { useDepartmentContactStore } from "./departmentStore";
-import { deletionErrorMessage } from "../deletionErrorMessage";
 import AccessDenyPage from "../AccessDenyPage";
+import { deletionErrorMessage } from "../../Utilities/httpErrorStatus";
 
 const DepartmentDetailPage = () => {
-  if (!hasPermission("Can view department")) return <AccessDenyPage />;
-
   const { pk } = useParams();
   const departmentPk = parseInt(pk!);
   const { data: department, isLoading } = useDepartment(departmentPk);
@@ -24,6 +22,7 @@ const DepartmentDetailPage = () => {
 
   const canDeleteDepartment = hasPermission("Can delete department");
   const canChangeDepartment = hasPermission("Can change department");
+  if (!hasPermission("Can view department")) return <AccessDenyPage />;
 
   const selectedDepartmentContactId = useDepartmentContactStore(
     (s) => s.departmentContactQuery.departmentContactId
@@ -35,10 +34,6 @@ const DepartmentDetailPage = () => {
   const fontSize = "1rem";
   const marginBottom = "1rem";
   if (isLoading) return <Spinner />;
-
-  const handleMutationError = () => {
-    if (mutation.isError) toast.error(`Department ${deletionErrorMessage}`);
-  };
 
   return (
     <Grid
@@ -95,7 +90,8 @@ const DepartmentDetailPage = () => {
               colorScheme={red}
               onClick={() => {
                 mutation.mutate(departmentPk);
-                handleMutationError();
+                mutation.isError &&
+                  toast.error(deletionErrorMessage(department?.name));
               }}
             >
               Delete Department

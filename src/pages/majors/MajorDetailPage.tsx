@@ -5,8 +5,8 @@ import { red } from "../../cacheKeysAndRoutes";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import MajorEditForm from "./MajorEditForm";
 import { toast } from "react-toastify";
-import { deletionErrorMessage } from "../deletionErrorMessage";
 import AccessDenyPage from "../AccessDenyPage";
+import { deletionErrorMessage } from "../../Utilities/httpErrorStatus";
 
 const MajorDetailPage = () => {
   if (!hasPermission("Can view major")) return <AccessDenyPage />;
@@ -19,10 +19,6 @@ const MajorDetailPage = () => {
   const canChangeMajor = hasPermission("Can change major");
   const fontSize = "1.3rem";
 
-  const handleMutationError = () => {
-    if (mutation.isError) toast.error(`Major ${deletionErrorMessage}`);
-  };
-  
   return (
     <>
       <Grid
@@ -46,7 +42,8 @@ const MajorDetailPage = () => {
               type="submit"
               onClick={() => {
                 mutation.mutate(majorId);
-                handleMutationError();
+                mutation.isError &&
+                  toast.error(deletionErrorMessage(major?.name));
               }}
             >
               Delete Major

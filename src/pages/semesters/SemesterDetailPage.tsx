@@ -1,13 +1,18 @@
 import {
+  Box,
+  Button,
+  Checkbox,
   Grid,
   GridItem,
-  Button,
-  Text,
-  Box,
   List,
   ListItem,
-  Checkbox,
+  Text,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
+import { hasPermission } from "../../Utilities/hasPermissions";
 import {
   AUTH_LAYOUT_ROUTE,
   COURSES_LIST_ROUTE,
@@ -19,15 +24,10 @@ import {
   useRemoveSemesterCourses,
   useSemester,
 } from "../../hooks/useSemesters";
-import { Link, useParams } from "react-router-dom";
-import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
-import SemesterEditForm from "./SemesterEditForm";
-import { hasPermission } from "../../Utilities/hasPermissions";
-import { toast } from "react-toastify";
-import AddSemesterSpecificCourses from "./AddSemesterSpecificCourses";
-import { deletionErrorMessage } from "../deletionErrorMessage";
 import AccessDenyPage from "../AccessDenyPage";
-import { useEffect, useState } from "react";
+import AddSemesterSpecificCourses from "./AddSemesterSpecificCourses";
+import SemesterEditForm from "./SemesterEditForm";
+import { deletionErrorMessage } from "../../Utilities/httpErrorStatus";
 
 const SemesterDetailPage = () => {
   const [selectedCourses, setSelectedCoursesId] = useState<number[]>([]);
@@ -47,10 +47,6 @@ const SemesterDetailPage = () => {
       toast.success("Courses removed successfully!");
     }
   );
-
-  const handleMutationError = () => {
-    if (mutation.isError) toast.error(`Semester ${deletionErrorMessage}`);
-  };
 
   if (!hasPermission("Can view semester")) return <AccessDenyPage />;
 
@@ -121,7 +117,7 @@ const SemesterDetailPage = () => {
             colorScheme={red}
             onClick={() => {
               mutation.mutate(semesterId);
-              handleMutationError();
+              mutation.isError && toast.error(deletionErrorMessage(semester?.name));
             }}
           >
             Delete Semester

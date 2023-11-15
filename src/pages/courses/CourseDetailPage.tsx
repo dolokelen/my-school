@@ -5,12 +5,10 @@ import { useCourse, useDeleteCourse } from "../../hooks/useCourses";
 import CourseEditForm from "./CourseEditForm";
 import { red } from "../../cacheKeysAndRoutes";
 import { toast } from "react-toastify";
-import { deletionErrorMessage } from "../deletionErrorMessage";
 import AccessDenyPage from "../AccessDenyPage";
+import { deletionErrorMessage } from "../../Utilities/httpErrorStatus";
 
 const CourseDetailPage = () => {
-  if (!hasPermission("Can view course")) return <AccessDenyPage />;
-  
   const { pk } = useParams();
   const courseId = parseInt(pk!);
 
@@ -18,17 +16,15 @@ const CourseDetailPage = () => {
   const mutation = useDeleteCourse(() =>
     toast.success("Deleted successfully!")
   );
+
   const canChangeCourse = hasPermission("Can change course");
   const canDeleteCourse = hasPermission("Can delete course");
+  if (!hasPermission("Can view course")) return <AccessDenyPage />;
 
   if (isLoading) return <Spinner />;
 
   const fontSize = "1.3rem";
   const marginBottom = "1rem";
-
-  const handleMutationError = () => {
-    if (mutation.isError) toast.error(`Course ${deletionErrorMessage}`);
-  };
 
   return (
     <Grid
@@ -69,7 +65,8 @@ const CourseDetailPage = () => {
             colorScheme={red}
             onClick={() => {
               mutation.mutate(courseId);
-              handleMutationError();
+              mutation.isError &&
+                toast.error(deletionErrorMessage(course?.code));
             }}
           >
             Delete Course
