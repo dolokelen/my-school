@@ -1,4 +1,13 @@
-import { Box, Button, Grid, GridItem, Spinner, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Grid,
+  GridItem,
+  List,
+  ListItem,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import { useCourse, useDeleteCourse } from "../../hooks/useCourses";
@@ -7,6 +16,7 @@ import { red } from "../../cacheKeysAndRoutes";
 import { toast } from "react-toastify";
 import AccessDenyPage from "../AccessDenyPage";
 import { deletionErrorMessage } from "../../Utilities/httpErrorStatus";
+import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 
 const CourseDetailPage = () => {
   const { pk } = useParams();
@@ -58,6 +68,21 @@ const CourseDetailPage = () => {
         <Text fontSize={fontSize}>
           Totial price: $ {course?.total_price.toFixed(2)}
         </Text>
+        <Text fontSize={fontSize}>
+          Number of Sections: {course?.sections.length}
+        </Text>
+        {course?.sections.length !== 0 ? (
+          <OverflowYContainer maxH="200px">
+            <List>
+              {course?.sections.map((sec) => (
+                <ListItem key={sec.id}>{sec.name}</ListItem>
+              ))}
+            </List>
+          </OverflowYContainer>
+        ) : (
+          <></>
+        )}
+
         {canDeleteCourse && (
           <Button
             isActive

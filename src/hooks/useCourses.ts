@@ -16,10 +16,11 @@ interface Course {
   code: string;
   title: string;
   level: string;
-  department: {id: number, name: string};
   price_per_credit: number;
   credit: number;
-  prerequisite: {id: number, code: string};
+  department: { id: number; name: string };
+  prerequisite: { id: number; code: string };
+  sections: { id: number; name: string }[];
   additional_fee: number;
   total_price: number;
 }
