@@ -8,18 +8,18 @@ import ClassroomEditForm from "./ClassroomEditForm";
 import AccessDenyPage from "../AccessDenyPage";
 
 const ClassroomDetailPage = () => {
-  if (!hasPermission("Can view class room")) return <AccessDenyPage />;
-
+  
   const { id } = useParams();
   const classroomId = parseInt(id!);
   const { data: classroom, isLoading } = useClassroom(classroomId);
-
+  
   const mutation = useDeleteClassroom(() =>
-    toast.success("Deleted successfully!")
+  toast.success("Deleted successfully!")
   );
-
+  
   const canDeleteClassroom = hasPermission("Can delete class room");
   const canChangeClassroom = hasPermission("Can change class room");
+  if (!hasPermission("Can view class room")) return <AccessDenyPage />;
 
   const fontSize = "1rem";
   const marginBottom = "1rem";

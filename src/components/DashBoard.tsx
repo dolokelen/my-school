@@ -22,6 +22,8 @@ import {
   PROFILE_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
+  SECTIONS_CREATE_ROUTE,
+  SECTIONS_ROUTE,
   SEMESTERS_ROUTE,
   SEMESTER_CREATE_ROUTE,
   STUDENTS_ROUTE,
@@ -154,6 +156,16 @@ const DashBoard = () => {
         {hasPermission("Can add class time") && (
           <MenuItem>
             {<Link to={CLASSTIMES_CREATE_ROUTE}>Classtime Create Form</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can view section") && (
+          <MenuItem>
+            {<Link to={SECTIONS_ROUTE}>Sections</Link>}
+          </MenuItem>
+        )}
+        {hasPermission("Can add section") && (
+          <MenuItem>
+            {<Link to={SECTIONS_CREATE_ROUTE}>Section Create Form</Link>}
           </MenuItem>
         )}
       </DashBoardMenu>

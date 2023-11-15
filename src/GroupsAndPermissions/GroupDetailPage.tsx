@@ -27,10 +27,9 @@ import { hasPermission } from "../Utilities/hasPermissions";
 import AccessDenyPage from "../pages/AccessDenyPage";
 
 const GroupDetailPage = () => {
-  if (!hasPermission("Can view group")) return <AccessDenyPage />;
-  
   const { id } = useParams();
   const groupId = parseInt(id!);
+
   const { data: group, isLoading, error } = useGroup(groupId);
 
   const mutation = useDeleteGroup(() => toast.success("Deleted successfully."));
@@ -46,7 +45,8 @@ const GroupDetailPage = () => {
 
   const canChangeGroup = hasPermission("Can change group");
   const canChangePermission = hasPermission("Can change permission");
-
+  
+  if (!hasPermission("Can view group")) return <AccessDenyPage />;
   if (error) throw error;
   if (isLoading) return <Spinner />;
 

@@ -6,6 +6,7 @@ import { red } from "../../cacheKeysAndRoutes";
 import { useClasstime, useDeleteClasstime } from "../../hooks/useClasstimes";
 import ClasstimeEditForm from "./ClasstimeEditForm";
 import AccessDenyPage from "../AccessDenyPage";
+import { deletionErrorMessage } from "../../Utilities/httpErrorStatus";
 
 const ClasstimeDetailPage = () => {
   if (!hasPermission("Can view class time")) return <AccessDenyPage />;
@@ -22,7 +23,6 @@ const ClasstimeDetailPage = () => {
 
   const fontSize = "1rem";
   const marginBottom = "1rem";
-  const mutationErrorMsg = `Classtime cannot be deleted because it may have dependencies!`;
   if (isLoading) return <Spinner />;
 
   return (
@@ -63,7 +63,7 @@ const ClasstimeDetailPage = () => {
           colorScheme={red}
           onClick={() => {
             mutation.mutate(classtimeId);
-            mutation.isError && toast.error(mutationErrorMsg);
+            mutation.isError && toast.error(deletionErrorMessage('Classtime'));
           }}
         >
           Delete Classtime

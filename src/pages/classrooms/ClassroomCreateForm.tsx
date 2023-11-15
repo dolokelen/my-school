@@ -12,7 +12,7 @@ import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   name: z.string().min(1, {
-    message: "Classroom name is required and must be at least a characters.",
+    message: "Classroom name is required and must be at least a character.",
   }),
   dimension: z.string().min(5, {
     message: "Classroom dimension is required, e.g: 20, 15",

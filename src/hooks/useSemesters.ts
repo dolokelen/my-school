@@ -14,7 +14,7 @@ import { SemesterEditFormData } from "../pages/semesters/SemesterEditForm";
 interface Semester {
   id: number;
   name: string;
-  school_year: {id: number, year: number};
+  school_year: { id: number; year: number };
   enrollment_start_date: string;
   enrollment_end_date: string;
   start_date: string;
@@ -69,8 +69,7 @@ export const useEditSemester = (onUpdate: () => void) => {
   const queryClient = useQueryClient();
 
   return useMutation<SemesterEditFormData, Error, SemesterEditFormData>({
-    mutationFn: (data: SemesterEditFormData) =>
-      apiClients.patch(data),
+    mutationFn: (data: SemesterEditFormData) => apiClients.patch(data),
 
     onSuccess: (existingData, newData) => {
       onUpdate();
@@ -100,7 +99,7 @@ export const useDeleteSemester = (onDelete: () => void) => {
 };
 
 export const useAddSemesterCourses = (
-  data: { id: number, courses_to_add_ids: number[] },
+  data: { id: number; courses_to_add_ids: number[] },
   onAddSelectedItems: () => void
 ) => {
   const queryClient = useQueryClient();
@@ -117,9 +116,24 @@ export const useAddSemesterCourses = (
   return handleCoursesAddition;
 };
 
+interface CurrentSemesterCourse {
+  id: number;
+  courses: { id: number; code: string }[];
+}
+
+export const useCurrentSemesterCourses = () => {
+  const apiClients = apiClient<CurrentSemesterCourse>(
+    "/school/current-semester-courses/"
+  );
+  return useQuery<CurrentSemesterCourse[], Error>({
+    queryKey: [CACHE_KEY_SEMESTER],
+    queryFn: apiClients.getAll,
+    staleTime: ms("24h"),
+  });
+};
 
 export const useRemoveSemesterCourses = (
-  data: { id: number, courses_to_remove_ids: number[] },
+  data: { id: number; courses_to_remove_ids: number[] },
   onDeleteSelectedItems: () => void
 ) => {
   const queryClient = useQueryClient();
@@ -135,4 +149,3 @@ export const useRemoveSemesterCourses = (
 
   return handleCoursesRemoval;
 };
-

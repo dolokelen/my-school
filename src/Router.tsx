@@ -34,6 +34,8 @@ import {
   PROFILE_ROUTE,
   REGISTER_ROUTE,
   SCH_YEAR_LIST_ROUTE,
+  SECTIONS_CREATE_ROUTE,
+  SECTIONS_ROUTE,
   SEMESTERS_ROUTE,
   SEMESTER_CREATE_ROUTE,
   STUDENTS_ROUTE,
@@ -77,6 +79,9 @@ import ClassroomDetailPage from "./pages/classrooms/ClassroomDetailPage";
 import ClasstimeListPage from "./pages/classtimes/ClasstimeListPage";
 import ClasstimeDetailPage from "./pages/classtimes/ClasstimeDetailPage";
 import ClasstimeCreateForm from "./pages/classtimes/ClasstimeCreateForm";
+import SectionListPage from "./pages/sections/SectionListPage";
+import SectionCreateForm from "./pages/sections/SectionCreateForm";
+import SectionDetailPage from "./pages/sections/SectionDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -125,6 +130,9 @@ const router = createBrowserRouter([
       { path: CLASSTIMES_ROUTE, element: <ClasstimeListPage /> },
       { path: `${CLASSTIMES_ROUTE}/:id/`, element: <ClasstimeDetailPage /> },
       { path: CLASSTIMES_CREATE_ROUTE, element: <ClasstimeCreateForm /> },
+      { path: SECTIONS_ROUTE, element: <SectionListPage /> },
+      { path: SECTIONS_CREATE_ROUTE, element: <SectionCreateForm /> },
+      { path: `${SECTIONS_ROUTE}/:id/`, element: <SectionDetailPage /> },
     ],
   },
 
