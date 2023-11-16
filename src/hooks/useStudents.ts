@@ -6,6 +6,12 @@ import { Address } from "./useAddress";
 import { UserProfile } from "./useUsers";
 import { useStudentStore } from "../accounts/students/studentStore";
 
+export interface SimpleStudent {
+  user: UserProfile;
+  level: string;
+  phone: string;
+}
+
 export interface Student {
   user: UserProfile;
   studentaddress: Address;

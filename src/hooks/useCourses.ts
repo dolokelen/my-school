@@ -11,6 +11,11 @@ import { CourseCreateFormData } from "../pages/courses/CourseCreateForm";
 import { CourseEditFormData } from "../pages/courses/CourseEditForm";
 import { useNavigate } from "react-router-dom";
 
+export interface SimpleCourse {
+  id: number;
+  code: string;
+}
+
 interface Course {
   id: number;
   code: string;

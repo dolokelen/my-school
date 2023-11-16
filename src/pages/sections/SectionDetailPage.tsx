@@ -1,7 +1,7 @@
 import { Box, Button, Grid, GridItem, Spinner, Text } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { hasPermission } from "../../Utilities/hasPermissions";
-import { red } from "../../cacheKeysAndRoutes";
+import { ATTENDANCES_ROUTE, AUTH_LAYOUT_ROUTE, red } from "../../cacheKeysAndRoutes";
 import { toast } from "react-toastify";
 import AccessDenyPage from "../AccessDenyPage";
 import { useDeleteSection, useSection } from "../../hooks/useSections";
@@ -38,7 +38,8 @@ const SectionDetailPage = () => {
       >
         <GridItem area="sectionDetail">
           <Box mb={marginBottom} fontSize="2rem">
-            {section?.course.code} Section {section?.name}
+            <Link to={`${AUTH_LAYOUT_ROUTE}/${ATTENDANCES_ROUTE}/${sectionId}`}>
+            {section?.course.code} Section {section?.name}</Link>
           </Box>
           <Text fontSize={fontSize}>Section Name: {section?.name}</Text>
           <Text fontSize={fontSize}>Course: {section?.course.code}</Text>

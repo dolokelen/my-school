@@ -14,6 +14,7 @@ export const CACHE_KEY_MAJOR = "major";
 export const CACHE_KEY_CLASSROOM = "classroom";
 export const CACHE_KEY_CLASSTIME = "classtime";
 export const CACHE_KEY_SECTION = "section";
+export const CACHE_KEY_ATTENDANCE = "section";
 
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "login";
@@ -48,6 +49,8 @@ export const CLASSTIMES_ROUTE = "classtimes-list";
 export const CLASSTIMES_CREATE_ROUTE = "classtimes-create-form";
 export const SECTIONS_ROUTE = "sections-list";
 export const SECTIONS_CREATE_ROUTE = "sections-create-form";
+export const ATTENDANCES_ROUTE = "attendances-list";
+export const ATTENDANCES_CREATE_ROUTE = "attendances-create-form";
 
 export const red = "red";
 export const blue = "blue";

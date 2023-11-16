@@ -11,6 +11,11 @@ import { SemesterCreateFormData } from "../pages/semesters/SemesterCreateForm";
 import { useSemesterseStore } from "../pages/semesters/semesterStore";
 import { SemesterEditFormData } from "../pages/semesters/SemesterEditForm";
 
+export interface SimpleSemester {
+  id: number;
+  name: string;
+}
+
 interface Semester {
   id: number;
   name: string;

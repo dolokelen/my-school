@@ -3,9 +3,18 @@ import ms from "ms";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../services/httpService";
 import { Classtime } from "./useClasstimes";
-import { AUTH_LAYOUT_ROUTE, CACHE_KEY_SECTION, SECTIONS_ROUTE } from "../cacheKeysAndRoutes";
+import {
+  AUTH_LAYOUT_ROUTE,
+  CACHE_KEY_SECTION,
+  SECTIONS_ROUTE,
+} from "../cacheKeysAndRoutes";
 import { SectionCreateFormData } from "../pages/sections/SectionCreateForm";
 import { SectionEditFormData } from "../pages/sections/SectionEditForm";
+
+export interface SimpleSection {
+  id: number;
+  name: string;
+}
 
 export interface Section {
   id: number;

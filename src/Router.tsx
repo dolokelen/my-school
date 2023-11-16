@@ -11,6 +11,7 @@ import TeacherDetailPage from "./accounts/teachers/TeacherDetailPage";
 import TeacherRegistrationForm from "./accounts/teachers/TeacherRegistrationForm";
 import TeacherListPage from "./accounts/teachers/TeachersListPage";
 import {
+  ATTENDANCES_ROUTE,
   AUTH_LAYOUT_ROUTE,
   BUILDINGS_CREATE_ROUTE,
   BUILDINGS_ROUTE,
@@ -82,6 +83,7 @@ import ClasstimeCreateForm from "./pages/classtimes/ClasstimeCreateForm";
 import SectionListPage from "./pages/sections/SectionListPage";
 import SectionCreateForm from "./pages/sections/SectionCreateForm";
 import SectionDetailPage from "./pages/sections/SectionDetailPage";
+import AttendanceListPage from "./pages/attendances/AttendanceListPage";
 
 const router = createBrowserRouter([
   {
@@ -133,6 +135,7 @@ const router = createBrowserRouter([
       { path: SECTIONS_ROUTE, element: <SectionListPage /> },
       { path: SECTIONS_CREATE_ROUTE, element: <SectionCreateForm /> },
       { path: `${SECTIONS_ROUTE}/:id/`, element: <SectionDetailPage /> },
+      { path: `${ATTENDANCES_ROUTE}/:sectionId/`, element: <AttendanceListPage /> },
     ],
   },
 
