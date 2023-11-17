@@ -6,17 +6,17 @@ import {
   List,
   ListItem,
   Spinner,
-  Text,
+  Text
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import { hasPermission } from "../../Utilities/hasPermissions";
-import { useCourse, useDeleteCourse } from "../../hooks/useCourses";
-import CourseEditForm from "./CourseEditForm";
-import { red } from "../../cacheKeysAndRoutes";
 import { toast } from "react-toastify";
-import AccessDenyPage from "../AccessDenyPage";
-import { deletionErrorMessage } from "../../Utilities/httpErrorStatus";
 import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import { deletionErrorMessage } from "../../Utilities/httpErrorStatus";
+import { red } from "../../cacheKeysAndRoutes";
+import { useCourse, useDeleteCourse } from "../../hooks/useCourses";
+import AccessDenyPage from "../AccessDenyPage";
+import CourseEditForm from "./CourseEditForm";
 
 const CourseDetailPage = () => {
   const { pk } = useParams();
@@ -53,7 +53,6 @@ const CourseDetailPage = () => {
         <Text fontSize="1.5rem">Code: {course?.code}</Text>
         <Text fontSize={fontSize}>Title: {course?.title}</Text>
         <Text fontSize={fontSize}>Level: {course?.level}</Text>
-        <Text fontSize={fontSize}>Department: {course?.department.name}</Text>
         <Text fontSize={fontSize}>
           Prerequisite:{" "}
           {course?.prerequisite?.code ? course?.prerequisite?.code : "None"}
@@ -68,6 +67,12 @@ const CourseDetailPage = () => {
         <Text fontSize={fontSize}>
           Totial price: $ {course?.total_price.toFixed(2)}
         </Text>
+        <Text fontSize={fontSize}>Department</Text>
+        <List h="30vh" w="20rem">
+          {course?.departments.map((dep) => (
+            <ListItem key={dep.id}>{dep.name}</ListItem>
+          ))}
+        </List>
         <Text fontSize={fontSize}>
           Number of Sections: {course?.sections.length}
         </Text>

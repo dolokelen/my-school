@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { DepartmentAddressEditFormData } from "../pages/departments/DepartmentAddressEditForm";
 import { DepartmentContactEditFormData } from "../pages/departments/DepartmentContactEditForm";
 import { useDepartmentContactStore } from "../pages/departments/departmentStore";
+import { SimpleCourse } from "./useCourses";
 
 export interface DepartmentAddress {
   country: string;
@@ -34,6 +35,7 @@ export interface Department {
   duty: string;
   number_of_courses: number;
   created_at: string;
+  courses: SimpleCourse[];
   majors: number[];
   departmentaddress: DepartmentAddress;
   departmentcontact: DepartmentContact[];

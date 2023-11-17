@@ -5,11 +5,11 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { blue, red } from "../../cacheKeysAndRoutes";
-import { semesterNames } from "./data";
 import { useSchoolYears } from "../../hooks/useSchoolYears";
 import { useCreateSemester } from "../../hooks/useSemesters";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import AccessDenyPage from "../AccessDenyPage";
+import { semesterNames } from "../../accounts/data";
 
 const schema = z.object({
   name: z.string().min(1, {

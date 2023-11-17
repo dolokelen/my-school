@@ -27,3 +27,15 @@ export const levels = [
   { name: "Senior" },
   { name: "Graduate" },
 ];
+
+export const enrollmentStatus = [
+  { id: 1, name: "Pending" },
+  { id: 2, name: "Approved" },
+  { id: 3, name: "Cancelled" },
+];
+
+export const semesterNames = [
+  {id: 1, name: "I"},
+  {id: 2, name: "II"},
+  {id: 3, name: "III"}
+]

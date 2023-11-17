@@ -6,6 +6,7 @@ import { SimpleCourse } from "./useCourses";
 import { SimpleSection } from "./useSections";
 import { SimpleSemester } from "./useSemesters";
 import { SimpleStudent } from "./useStudents";
+import { SimpleSchoolYear } from "./useSchoolYears";
 
 export interface Attendance {
   id: number;
@@ -13,7 +14,7 @@ export interface Attendance {
   semester: SimpleSemester;
   course: SimpleCourse;
   section: SimpleSection;
-  school_year: { id: number; year: string };
+  school_year: SimpleSchoolYear;
   mark: string;
   comment: string;
   created_at: string;

@@ -1,4 +1,13 @@
-import { Box, Text, Grid, GridItem, Spinner, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Grid,
+  GridItem,
+  Spinner,
+  Button,
+  List,
+  ListItem,
+} from "@chakra-ui/react";
 import { useDeleteDepartment, useDepartment } from "../../hooks/useDepartments";
 import { useParams } from "react-router-dom";
 import { red } from "../../cacheKeysAndRoutes";
@@ -22,7 +31,6 @@ const DepartmentDetailPage = () => {
 
   const canDeleteDepartment = hasPermission("Can delete department");
   const canChangeDepartment = hasPermission("Can change department");
-  if (!hasPermission("Can view department")) return <AccessDenyPage />;
 
   const selectedDepartmentContactId = useDepartmentContactStore(
     (s) => s.departmentContactQuery.departmentContactId
@@ -31,9 +39,11 @@ const DepartmentDetailPage = () => {
     (deptContact) => deptContact.id === selectedDepartmentContactId
   );
 
+  if (!hasPermission("Can view department")) return <AccessDenyPage />;
+  if (isLoading) return <Spinner />;
+
   const fontSize = "1rem";
   const marginBottom = "1rem";
-  if (isLoading) return <Spinner />;
 
   return (
     <Grid
@@ -63,6 +73,15 @@ const DepartmentDetailPage = () => {
         <Text fontSize={fontSize}>
           Created on: {department?.created_at.substring(0, 10)}
         </Text>
+        <Box mt="1.3rem" fontSize="1.5rem" fontWeight={500}>
+          {department?.name} Courses
+        </Box>
+        <List>
+          {department?.courses.map((cos) => (
+            <ListItem key={cos.id}>{cos.code}</ListItem>
+          ))}
+        </List>
+
         <Box mt="1.3rem" fontSize="1.5rem" fontWeight={500}>
           {department?.name} Department Address
         </Box>

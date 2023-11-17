@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardBody,
   Grid,
@@ -8,21 +9,32 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { hasPermission } from "../../Utilities/hasPermissions";
-import UserGroupsPage from "../../pages/users/UserGroupsPage";
+import {
+  ENROLLMENTS_CREATE_ROUTE,
+  ENROLLMENTS_ROUTE,
+} from "../../cacheKeysAndRoutes";
 import { useStudent } from "../../hooks/useStudents";
-import StudentEditForm from "./StudentEditForm";
 import AccessDenyPage from "../../pages/AccessDenyPage";
+import { useStudentEnrollmentStore } from "../../pages/enrollments/enrollmentStore";
+import UserGroupsPage from "../../pages/users/UserGroupsPage";
+import StudentEditForm from "./StudentEditForm";
 
 const StudentDetailPage = () => {
-  if (!hasPermission("Can view student")) return <AccessDenyPage />;
-
   const { id } = useParams();
   const studentId = parseInt(id!);
   const { data: student, isLoading } = useStudent(studentId);
   const canChangeStudent = hasPermission("Can change student");
+  const canEnrollStudent = hasPermission("Can add enrollment");
+  const { setSelectedStudentId } = useStudentEnrollmentStore();
 
+  useEffect(() => {
+    if (studentId) setSelectedStudentId(studentId);
+  }, [studentId]);
+
+  if (!hasPermission("Can view student")) return <AccessDenyPage />;
   if (isLoading) return <Spinner />;
   return (
     <>
@@ -77,6 +89,14 @@ const StudentDetailPage = () => {
         </GridItem>
         <GridItem area="studentGroups">
           <UserGroupsPage userPk={studentId} />
+          <Box mt={8} ml={20} color="blue.500">
+            <Link to={ENROLLMENTS_ROUTE}>Student Enrollments</Link>
+          </Box>
+          {canEnrollStudent && (
+            <Box mt={8} ml={20} color="blue.500">
+              <Link to={ENROLLMENTS_CREATE_ROUTE}>Enroll Student</Link>
+            </Box>
+          )}
         </GridItem>
       </Grid>
       {canChangeStudent && <StudentEditForm student={student} />}

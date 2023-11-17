@@ -26,16 +26,16 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import AccessDenyPage from "../AccessDenyPage";
 
 const CourseListPage = () => {
-  if (!hasPermission("Can view course")) return <AccessDenyPage />;
-
+  
   const setSearchText = useCourseStore((s) => s.setSearchText);
   const { data: courses, isLoading } = useCourses();
+  if (!hasPermission("Can view course")) return <AccessDenyPage />;
   if (isLoading) return <Spinner />;
-
+  
   return (
     <Grid
-      templateAreas={{
-        base: `"searchBar searchBar" "main filter"`,
+    templateAreas={{
+      base: `"searchBar searchBar" "main filter"`,
         // sm: `"nav nav" "aside main"`,
       }}
       templateColumns={{

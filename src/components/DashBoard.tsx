@@ -149,9 +149,7 @@ const DashBoard = () => {
           </MenuItem>
         )}
         {hasPermission("Can view class time") && (
-          <MenuItem>
-            {<Link to={CLASSTIMES_ROUTE}>Classtimes</Link>}
-          </MenuItem>
+          <MenuItem>{<Link to={CLASSTIMES_ROUTE}>Classtimes</Link>}</MenuItem>
         )}
         {hasPermission("Can add class time") && (
           <MenuItem>
@@ -159,9 +157,7 @@ const DashBoard = () => {
           </MenuItem>
         )}
         {hasPermission("Can view section") && (
-          <MenuItem>
-            {<Link to={SECTIONS_ROUTE}>Sections</Link>}
-          </MenuItem>
+          <MenuItem>{<Link to={SECTIONS_ROUTE}>Sections</Link>}</MenuItem>
         )}
         {hasPermission("Can add section") && (
           <MenuItem>

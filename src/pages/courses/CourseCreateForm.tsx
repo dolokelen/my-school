@@ -1,4 +1,13 @@
-import { Box, Button, Input, Select, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Input,
+  Select,
+  Stack,
+  Text,
+  Textarea,
+} from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -10,7 +19,9 @@ import { useDepartments } from "../../hooks/useDepartments";
 import { levels } from "../../accounts/data";
 import AccessDenyPage from "../AccessDenyPage";
 import { hasPermission } from "../../Utilities/hasPermissions";
+import { useEffect, useState } from "react";
 
+const justToSatisfyTypescript = z.object({});
 const schema = z.object({
   code: z
     .string()
@@ -23,14 +34,14 @@ const schema = z.object({
   }),
   price_per_credit: z
     .number({ invalid_type_error: "Price is required." })
-    .max(999, { message: "Course price cannot exceed $999" }),
-  credit: z.number({ invalid_type_error: "Credit hour is required." }),
+    .max(999, { message: "Course price cannot exceed $999" }).positive(),
+  credit: z.number({ invalid_type_error: "Credit hour is required." }).positive(),
   additional_fee: z
     .number({
       invalid_type_error: "Enter 0 if no additional fee for this course",
     })
-    .optional(),
-  department: z.string(),
+    .positive(),
+  departments: z.array(justToSatisfyTypescript).optional(),
   prerequisite: z.string(),
   level: z.string(),
 });
@@ -38,9 +49,9 @@ const schema = z.object({
 export type CourseCreateFormData = z.infer<typeof schema>;
 
 const CourseCreateForm = () => {
-  if (!hasPermission("Can add course")) return <AccessDenyPage />;
   const { data: departments } = useDepartments();
   const { data: courses } = useCourses();
+  const [selectedDepsIds, setSelectedDepsIds] = useState<number[]>([]);
 
   const onCreate = () => toast.success("Course Created Successfully!");
 
@@ -53,12 +64,14 @@ const CourseCreateForm = () => {
 
   const mutation = useCreateCourse(onCreate, () => reset());
   const onSubmit = (data: CourseCreateFormData) => {
-    mutation.mutate(data);
+    mutation.mutate({ ...data, departments: selectedDepsIds });
   };
 
   const customErrorMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
   const my = 2;
   const fontSize = "1rem";
+
+  if (!hasPermission("Can add course")) return <AccessDenyPage />;
 
   return (
     <>
@@ -113,20 +126,6 @@ const CourseCreateForm = () => {
           </Box>
 
           <Box my={my}>
-            <Text fontSize={fontSize}>Course department</Text>
-            <Select {...register("department")}>
-              {departments?.map((depar) => (
-                <option key={depar.id} value={depar.id}>
-                  {depar.name}
-                </option>
-              ))}
-            </Select>
-            {errors?.department && (
-              <Text color="red">{errors.department.message}</Text>
-            )}
-          </Box>
-
-          <Box my={my}>
             <Text fontSize={fontSize}>Course prerequisite</Text>
             <Select {...register("prerequisite")}>
               <option value="">----</option>
@@ -148,6 +147,27 @@ const CourseCreateForm = () => {
               ))}
             </Select>
             {errors?.level && <Text color="red">{errors.level.message}</Text>}
+          </Box>
+
+          <Box my={my}>
+            <Text fontSize={fontSize}>Course departments</Text>
+            <Select
+              onChange={(e) => {
+                const selectedOptions = Array.from(
+                  e.target.selectedOptions,
+                  (option) => parseInt(option.value)
+                );
+                setSelectedDepsIds(selectedOptions);
+              }}
+              multiple
+              h="30vh"
+            >
+              {departments?.map((depar) => (
+                <option key={depar.id} value={depar.id}>
+                  {depar.name}
+                </option>
+              ))}
+            </Select>
           </Box>
         </Stack>
         <Button type="submit" colorScheme={blue}>

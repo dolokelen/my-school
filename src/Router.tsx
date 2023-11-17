@@ -25,6 +25,8 @@ import {
   DEPARTMENT_CREATE_ROUTE,
   EMPLOYEES_ROUTE,
   EMPLOYEE_REGISTER_ROUTE,
+  ENROLLMENTS_CREATE_ROUTE,
+  ENROLLMENTS_ROUTE,
   GROUP_ROUTE,
   HOME_ROUTE,
   LOGIN_ROUTE,
@@ -84,6 +86,8 @@ import SectionListPage from "./pages/sections/SectionListPage";
 import SectionCreateForm from "./pages/sections/SectionCreateForm";
 import SectionDetailPage from "./pages/sections/SectionDetailPage";
 import AttendanceListPage from "./pages/attendances/AttendanceListPage";
+import EnrollmentListPage from "./pages/enrollments/EnrollmentListPage";
+import EnrollmentCreateForm from "./pages/enrollments/EnrollmentCreateForm";
 
 const router = createBrowserRouter([
   {
@@ -135,7 +139,18 @@ const router = createBrowserRouter([
       { path: SECTIONS_ROUTE, element: <SectionListPage /> },
       { path: SECTIONS_CREATE_ROUTE, element: <SectionCreateForm /> },
       { path: `${SECTIONS_ROUTE}/:id/`, element: <SectionDetailPage /> },
-      { path: `${ATTENDANCES_ROUTE}/:sectionId/`, element: <AttendanceListPage /> },
+      {
+        path: `${ATTENDANCES_ROUTE}/:sectionId/`,
+        element: <AttendanceListPage />,
+      },
+      {
+        path: `${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/:studentId/${ENROLLMENTS_ROUTE}/`,
+        element: <EnrollmentListPage />,
+      },
+      {
+        path: `${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/:studentId/${ENROLLMENTS_CREATE_ROUTE}/`,
+        element: <EnrollmentCreateForm />,
+      },
     ],
   },
 

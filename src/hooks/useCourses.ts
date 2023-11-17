@@ -23,7 +23,7 @@ interface Course {
   level: string;
   price_per_credit: number;
   credit: number;
-  department: { id: number; name: string };
+  departments: { id: number; name: string }[];
   prerequisite: { id: number; code: string };
   sections: { id: number; name: string }[];
   additional_fee: number;

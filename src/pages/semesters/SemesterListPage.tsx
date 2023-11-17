@@ -18,12 +18,12 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import AccessDenyPage from "../AccessDenyPage";
 
 const SemesterListPage = () => {
-  if (!hasPermission("Can view semester")) return <AccessDenyPage />;
-
+  
   const { data: semesters, isLoading } = useSemesters();
   const setOrdering = useSemesterseStore((s) => s.setOrdering);
   const [sortOrdering, setSortOrder] = useState(false);
-
+  
+  if (!hasPermission("Can view semester")) return <AccessDenyPage />;
   if (isLoading) return <Spinner />;
 
   return (

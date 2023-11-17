@@ -10,6 +10,11 @@ import { SchoolYearEditFormData } from "../pages/schoolYears/SchoolYearEditForm"
 import apiClient from "../services/httpService";
 import ms from "ms";
 
+export interface SimpleSchoolYear {
+  id: number;
+  year: string;
+}
+
 interface SchoolYear {
   id?: number;
   year: number;
@@ -20,7 +25,7 @@ export const useSchoolYears = () =>
   useQuery<SchoolYear[], Error>({
     queryKey: [CACHE_KEY_SCHOOL_YEAR],
     queryFn: apiClients.getAll,
-    staleTime: ms('24h')
+    staleTime: ms("24h"),
   });
 
 export const useSchoolYear = (schoolYearId: number) => {

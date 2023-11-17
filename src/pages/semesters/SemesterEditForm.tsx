@@ -20,9 +20,9 @@ import {
   useEditSemester,
   useSemester
 } from "../../hooks/useSemesters";
-import { semesterNames } from "./data";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import AccessDenyPage from "../AccessDenyPage";
+import { semesterNames } from "../../accounts/data";
 
 const schema = z.object({
   id: z.number().optional(),

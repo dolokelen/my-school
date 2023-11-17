@@ -94,13 +94,14 @@ const AddSemesterSpecificCourses = ({
                         </Link>
                       </Checkbox>
                     </Td>
-                    <Td>
+                    {/* <Td>
                       <Link
                         to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}
                       >
-                        {course.department.name}
+
+                        {course.departments.}
                       </Link>
-                    </Td>
+                    </Td> */}
                     <Td>
                       <Link
                         to={`${AUTH_LAYOUT_ROUTE}/${COURSES_LIST_ROUTE}/${course.id}`}

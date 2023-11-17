@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -20,6 +20,8 @@ import { useDepartments } from "../../hooks/useDepartments";
 import { levels } from "../../accounts/data";
 import AccessDenyPage from "../AccessDenyPage";
 import { hasPermission } from "../../Utilities/hasPermissions";
+
+const justToSatisfyTypescript = z.object({});
 
 const schema = z.object({
   id: z.number().optional(),
@@ -41,16 +43,15 @@ const schema = z.object({
       invalid_type_error: "Enter 0 if no additional fee for this course",
     })
     .optional(),
-  department: z.string(),
   prerequisite: z.string(),
   level: z.string(),
+  departments: z.array(justToSatisfyTypescript).optional(),
 });
 
 export type CourseEditFormData = z.infer<typeof schema>;
 
 const CourseEditForm = () => {
-  if (!hasPermission("Can change course")) return <AccessDenyPage />;
-  
+  const [selectedDepsIds, setSelectedDepsIds] = useState<number[]>([]);
   const { data: departments } = useDepartments();
   const { data: courses } = useCourses();
 
@@ -64,8 +65,12 @@ const CourseEditForm = () => {
   const { pk } = useParams();
   const { data: course, isLoading } = useCourse(parseInt(pk!));
   const mutation = useEditCourse(() => toast.success("Updated successfully."));
-  const onSubmit = (FormData: CourseEditFormData) => {
-    mutation.mutate({ ...FormData, id: course?.id });
+  const onSubmit = (data: CourseEditFormData) => {
+    mutation.mutate({
+      ...data,
+      departments: handleCourseDepartments(),
+      id: course?.id,
+    });
   };
 
   useEffect(() => {
@@ -75,13 +80,26 @@ const CourseEditForm = () => {
       setValue("credit", course?.credit);
       setValue("price_per_credit", course?.price_per_credit);
       setValue("additional_fee", course?.additional_fee);
-      setValue("department", course?.department.id.toString());
       setValue("prerequisite", course?.prerequisite?.id.toString());
       setValue("level", course?.level);
     }
   }, [course, setValue]);
 
   const customErrorMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
+  if (!hasPermission("Can change course")) return <AccessDenyPage />;
+
+  function handleCourseDepartments() {
+    if (course?.departments.length !== 0) {
+      const existingDepartIds = course?.departments.map((dep) => dep.id);
+      const combineDepartmentsIds = existingDepartIds
+        ? [...existingDepartIds, ...selectedDepsIds]
+        : selectedDepsIds;
+
+      return combineDepartmentsIds;
+    }
+    return selectedDepsIds;
+  }
+
   const my = 2;
   const fontSize = "1.3rem";
 
@@ -140,30 +158,21 @@ const CourseEditForm = () => {
           </Box>
 
           <Box my={my}>
-            <Text fontSize={fontSize}>Course department</Text>
-            <Select {...register("department")}>
-              <option value={course?.department.id}>{course?.department.name}</option>
-              {departments?.map((depar) => (depar.id !== course?.department.id ?
-                <option key={depar.id} value={depar.id}>
-                  {depar.name}
-                </option>
-              : depar.id))}
-            </Select>
-            {errors?.department && (
-              <Text color="red">{errors.department.message}</Text>
-            )}
-          </Box>
-
-          <Box my={my}>
             <Text fontSize={fontSize}>Course prerequisite</Text>
             <Select {...register("prerequisite")}>
-              <option value={course?.prerequisite?.id}>{course?.prerequisite?.code}</option>
+              <option value={course?.prerequisite?.id}>
+                {course?.prerequisite?.code}
+              </option>
               <option value="">----</option>
-              {courses?.map((cos) => (cos.prerequisite?.id !== course?.prerequisite?.id ?
-                <option key={cos.id} value={cos.id}>
-                  {cos.code}
-                </option>
-              : cos.prerequisite?.id))}
+              {courses?.map((cos) =>
+                cos.prerequisite?.id !== course?.prerequisite?.id ? (
+                  <option key={cos.id} value={cos.id}>
+                    {cos.code}
+                  </option>
+                ) : (
+                  cos.prerequisite?.id
+                )
+              )}
             </Select>
           </Box>
 
@@ -171,13 +180,38 @@ const CourseEditForm = () => {
             <Text fontSize={fontSize}>Course level</Text>
             <Select {...register("level")}>
               <option value={course?.level}>{course?.level}</option>
-              {levels?.map((level) => (level.name !== course?.level ?
-                <option key={level.name} value={level.name}>
-                  {level.name}
-                </option>
-              : level.name))}
+              {levels?.map((level) =>
+                level.name !== course?.level ? (
+                  <option key={level.name} value={level.name}>
+                    {level.name}
+                  </option>
+                ) : (
+                  level.name
+                )
+              )}
             </Select>
             {errors?.level && <Text color="red">{errors.level.message}</Text>}
+          </Box>
+
+          <Box my={my}>
+            <Text fontSize={fontSize}>Course departments</Text>
+            <Select
+              onChange={(e) => {
+                const selectedOptions = Array.from(
+                  e.target.selectedOptions,
+                  (option) => parseInt(option.value)
+                );
+                setSelectedDepsIds(selectedOptions);
+              }}
+              multiple
+              h="30vh"
+            >
+              {departments?.map((depar) => (
+                <option key={depar.id} value={depar.id}>
+                  {depar.name}
+                </option>
+              ))}
+            </Select>
           </Box>
         </Stack>
         <Button type="submit" colorScheme={teal}>
