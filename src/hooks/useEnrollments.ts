@@ -6,8 +6,10 @@ import { SimpleSection } from "./useSections";
 import { SimpleSemester } from "./useSemesters";
 import { SimpleStudent } from "./useStudents";
 import { SimpleSchoolYear } from "./useSchoolYears";
-import { CACHE_KEY_ENROLLMENT } from "../cacheKeysAndRoutes";
+import { AUTH_LAYOUT_ROUTE, CACHE_KEY_ENROLLMENT } from "../cacheKeysAndRoutes";
 import { EnrollmentCreateFormData } from "../pages/enrollments/EnrollmentCreateForm";
+import { EnrollmentEditFormData } from "../pages/enrollments/EnrollmentEditForm";
+import { useNavigate } from "react-router-dom";
 
 interface CourseAndSection {
   id: number;
@@ -46,18 +48,20 @@ export const useEnrollments = (sectionId: number) => {
 
 export const useEnrollmentCourses = (sectionId: number) => {
   return useQuery<CourseAndSection[], Error>({
-    queryKey: [CACHE_KEY_ENROLLMENT],
-    queryFn: getApiClient<CourseAndSection>(sectionId, "eligible-courses").getAll,
+    queryKey: [CACHE_KEY_ENROLLMENT, sectionId],
+    queryFn: getApiClient<CourseAndSection>(sectionId, "eligible-courses")
+      .getAll,
     staleTime: ms("24h"),
   });
 };
 
-// export const useEnrollment = (studentId: number, attendanceId: number) => {
-//   return useQuery<Enrollment, Error>({
-//     queryKey: [CACHE_KEY_ENROLLMENT, attendanceId],
-//     queryFn: () => getApiClient<>(studentId, 'eligible-courses').get(attendanceId),
-//   });
-// };
+export const useEnrollment = (studentId: number, enrollmentId: number) => {
+  return useQuery<Enrollment, Error>({
+    queryKey: [CACHE_KEY_ENROLLMENT, enrollmentId, studentId],
+    queryFn: () =>
+      getApiClient<Enrollment>(studentId, "enrollments").get(enrollmentId),
+  });
+};
 
 export const useCreateEnrollment = (
   studentId: number,
@@ -84,36 +88,39 @@ export const useCreateEnrollment = (
   );
 };
 
-// export const useEditAttendance = (onUpdate: () => void) => {
-//   const queryClient = useQueryClient();
+export const useEditEnrollment = (studentId: number, onUpdate: () => void) => {
+  const queryClient = useQueryClient();
 
-//   return useMutation<AttendanceEditFormData, Error, AttendanceEditFormData>({
-//     mutationFn: (data: AttendanceEditFormData) =>
-//       apiClients.patch<AttendanceEditFormData>(data),
+  return useMutation<EnrollmentEditFormData, Error, EnrollmentEditFormData>({
+    mutationFn: (data: EnrollmentEditFormData) =>
+      getApiClient<EnrollmentEditFormData>(studentId, ENROLLMENTS_URL).patch(
+        data
+      ),
 
-//     onSuccess: (existingData, newData) => {
-//       onUpdate();
+    onSuccess: (existingData, newData) => {
+      onUpdate();
 
-//       return queryClient.invalidateQueries({
-//         queryKey: [CACHE_KEY_ATTENDANCE],
-//       });
-//     },
-//   });
-// };
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_ENROLLMENT],
+      });
+    },
+  });
+};
 
-// export const useDeleteAttendance = (onDelete: () => void) => {
+//YOU ONLY NEED TO UNCOMMENT IT, IT'S FULLY CONFIGURED!
+// export const useDeleteAttendance = (studentId: number, onDelete: () => void) => {
 //   const navigate = useNavigate();
 
 //   const queryClient = useQueryClient();
 //   return useMutation<number, Error, number>({
-//     mutationFn: (id: number) => getApiClient().delete(id),
+//     mutationFn: (id: number) => getApiClient(studentId, ENROLLMENTS_URL).delete(id),
 
 //     onSuccess: (existingData, newData) => {
-//       navigate(`${AUTH_LAYOUT_ROUTE}/${ATTENDANCES_ROUTE}`);
+//       navigate(`${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_URL}`);
 //       onDelete();
 
 //       return queryClient.invalidateQueries({
-//         queryKey: [CACHE_KEY_ATTENDANCE],
+//         queryKey: [CACHE_KEY_ENROLLMENT],
 //       });
 //     },
 //   });

@@ -52,7 +52,7 @@ export const SECTIONS_ROUTE = "sections-list";
 export const SECTIONS_CREATE_ROUTE = "sections-create-form";
 export const ATTENDANCES_ROUTE = "attendances-list";
 export const ATTENDANCES_CREATE_ROUTE = "attendances-create-form";
-export const ENROLLMENTS_ROUTE = "enrollments";
+export const ENROLLMENTS_ROUTE = "enrollments-list";
 export const ENROLLMENTS_CREATE_ROUTE = "enrollments-create-form";
 
 export const red = "red";

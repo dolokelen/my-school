@@ -88,6 +88,7 @@ import SectionDetailPage from "./pages/sections/SectionDetailPage";
 import AttendanceListPage from "./pages/attendances/AttendanceListPage";
 import EnrollmentListPage from "./pages/enrollments/EnrollmentListPage";
 import EnrollmentCreateForm from "./pages/enrollments/EnrollmentCreateForm";
+import EnrollmentDetailPage from "./pages/enrollments/EnrollmentDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -150,6 +151,10 @@ const router = createBrowserRouter([
       {
         path: `${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/:studentId/${ENROLLMENTS_CREATE_ROUTE}/`,
         element: <EnrollmentCreateForm />,
+      },
+      {
+        path: `${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_ROUTE}/:enrollmentId/`,
+        element: <EnrollmentDetailPage />,
       },
     ],
   },
