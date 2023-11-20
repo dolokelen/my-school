@@ -69,7 +69,7 @@ const SectionCreateForm = () => {
             <Text fontSize={fontSize}>Course</Text>
             <Select {...register("course", { valueAsNumber: true })}>
               {hanldeCurrSemesterCourses()?.map((course) => (
-                <option value={course.id}>{course.code}</option>
+                <option value={course.id} key={course.id}>{course.code}</option>
               ))}
             </Select>
             {errors?.course && <Text color={red}>{errors.course.message}</Text>}
@@ -79,7 +79,7 @@ const SectionCreateForm = () => {
             <Text fontSize={fontSize}>Class Time</Text>
             <Select {...register("classtime", { valueAsNumber: true })}>
               {classtimes?.map((classtime) => (
-                <option value={classtime.id}>
+                <option value={classtime.id} key={classtime.id}>
                   {classtime.start_time} - {classtime.end_time},{" "}
                   {classtime.week_days}
                 </option>
@@ -94,7 +94,7 @@ const SectionCreateForm = () => {
             <Text fontSize={fontSize}>Class Room</Text>
             <Select {...register("classroom", { valueAsNumber: true })}>
               {classrooms?.map((classroom) => (
-                <option value={classroom.id}>{classroom.name}</option>
+                <option value={classroom.id} key={classroom.id}>{classroom.name}</option>
               ))}
             </Select>
             {errors?.classroom && (

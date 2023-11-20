@@ -35,7 +35,14 @@ export const enrollmentStatus = [
 ];
 
 export const semesterNames = [
-  {id: 1, name: "I"},
-  {id: 2, name: "II"},
-  {id: 3, name: "III"}
-]
+  { id: 1, name: "I" },
+  { id: 2, name: "II" },
+  { id: 3, name: "III" },
+];
+
+export const attendanceLetters = [
+  { id: 1, name: "P" },
+  { id: 2, name: "A" },
+  { id: 3, name: "T" },
+  { id: 4, name: "E" },
+];

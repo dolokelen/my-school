@@ -1,118 +1,201 @@
-import { Box, Button, Input, Select, Stack, Text } from "@chakra-ui/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import {
+  Button,
+  Heading,
+  Input,
+  Select,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { z } from "zod";
-import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
-import { blue, red } from "../../cacheKeysAndRoutes";
 import { hasPermission } from "../../Utilities/hasPermissions";
+import { attendanceLetters } from "../../accounts/data";
+import { blue } from "../../cacheKeysAndRoutes";
+import { useCreateAttendances } from "../../hooks/useAttendances";
+import { useSectionEnrollments } from "../../hooks/useEnrollments";
 import AccessDenyPage from "../AccessDenyPage";
-import { useCurrentSemesterCourses } from "../../hooks/useSemesters";
-import { useClasstimes } from "../../hooks/useClasstimes";
-import { useClassrooms } from "../../hooks/useClassrooms";
 
-const schema = z.object({
-  student: z.number({ invalid_type_error: "Select a student" }),
-  course: z.number({ invalid_type_error: "Course is required" }),
-  section: z.number({ invalid_type_error: "Section is required" }),
-  semester: z.number({ invalid_type_error: "Semester is required" }),
-  school_year: z.number({ invalid_type_error: "School year is required" }),
-  mark: z.string().min(1, {message: "Attendance letter is required"}),
-  comment: z.string().nullable(),
-});
+interface Props {
+  sectionId: number;
+}
 
-export type SectionCreateFormData = z.infer<typeof schema>;
+export interface AttendanceData {
+  student: number;
+  school_year: number;
+  semester: number;
+  course: number;
+  section: number;
+  mark: string;
+  comment: string;
+}
 
-const SectionCreateForm = () => {
-  const { data: currSemCourses } = useCurrentSemesterCourses();
-  const { data: classtimes } = useClasstimes();
-  const { data: classrooms } = useClassrooms();
+const AttendanceCreateForm = ({ sectionId }: Props) => {
+  const [attendances, setAttendances] = useState<AttendanceData[]>([]);
+  const { data: sectionEnrollments } = useSectionEnrollments(sectionId);
 
-  const onCreate = () => toast.success("Section Created Successfully!");
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<SectionCreateFormData>({ resolver: zodResolver(schema) });
+  const onCreate = () => toast.success("Attendance Logged Successfully!");
+  const handleCreate = useCreateAttendances(sectionId, attendances, onCreate);
 
-  const mutation = useCreateSection(onCreate, () => reset());
-  const onSubmit = (data: SectionCreateFormData) => {
-    mutation.mutate(data);
+  useEffect(() => {
+    if (sectionEnrollments) {
+      const enrollments = sectionEnrollments.map((enroll) => ({
+        student: enroll.student.user.id,
+        course: enroll.course.id,
+        section: enroll.section.id,
+        semester: enroll.semester.id,
+        school_year: enroll.school_year.id,
+        mark: "P",
+        comment: "",
+      }));
+
+      setAttendances(enrollments);
+    }
+  }, [sectionEnrollments, sectionId]);
+
+  const handleAttendanceMark = (student_id: number, letter: string) => {
+    if (letter) {
+      const attendance_record = attendances.find(
+        (attend) => attend.student === student_id
+      );
+
+      const filteredAttendances = attendances.filter(
+        (att) => att.student !== student_id
+      );
+
+      if (attendance_record) {
+        const new_record = { ...attendance_record, mark: letter };
+        setAttendances([...filteredAttendances, new_record]);
+      }
+    }
   };
 
-  if (!hasPermission("Can add section")) return <AccessDenyPage />;
+  const handleAttendanceComment = (student_id: number, comment: string) => {
+    if (comment.length >= 1 || comment.length <= 1) {
+      const attendance_record = attendances.find(
+        (attend) => attend.student === student_id
+      );
 
-  const customErrorMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
-  const my = 2;
-  const fontSize = "1rem";
+      const filteredAttendances = attendances.filter(
+        (att) => att.student !== student_id
+      );
 
-  const hanldeCurrSemesterCourses = () => {
-    if (currSemCourses) {
-      const semesterObj = currSemCourses[0];
-      const courses = semesterObj.courses;
-      return courses;
+      if (attendance_record) {
+        const new_record = { ...attendance_record, comment: comment };
+        setAttendances([...filteredAttendances, new_record]);
+      }
     }
+  };
+
+  if (!hasPermission("Can add attendance")) return <AccessDenyPage />;
+
+  const handleAttancenceTitle = () => {
+    if (sectionEnrollments) {
+      const sectionName = sectionEnrollments[0].section.name;
+      const sectionCourseName = sectionEnrollments[0].course.code;
+      const sectionSemesterName = sectionEnrollments[0].semester.name;
+      const sectionSchoolName = sectionEnrollments[0].school_year.year;
+
+      return `${sectionCourseName} Sec ${sectionName}, ${sectionSchoolName} Semester ${sectionSemesterName}`;
+    }
+    return "";
+  };
+
+  const currentDate = () => {
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    });
+    return formattedDate;
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack marginBottom={2}>
-          <Box my={my}>
-            <Text fontSize={fontSize}>Section Name</Text>
-            <Input {...register("name")} type="text" size="md" />
-            {errors?.name && <Text color={red}>{errors.name.message}</Text>}
-          </Box>
+      <Heading size="md" ml="30%" my="3rem">
+        {handleAttancenceTitle()}
+      </Heading>
+      <TableContainer>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>Student</Th>
+              <Th>Letter</Th>
+              <Th>Comment</Th>
+              <Th>Date</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {sectionEnrollments?.map((enrol) => (
+              <Tr key={enrol.id}>
+                <Td>
+                  {enrol?.student.user.first_name}{" "}
+                  {enrol?.student.user.last_name}
+                </Td>
 
-          <Box my={my}>
-            <Text fontSize={fontSize}>Course</Text>
-            <Select {...register("course", { valueAsNumber: true })}>
-              {hanldeCurrSemesterCourses()?.map((course) => (
-                <option value={course.id}>{course.code}</option>
-              ))}
-            </Select>
-            {errors?.course && <Text color={red}>{errors.course.message}</Text>}
-          </Box>
+                <Td>
+                  <Select
+                    onChange={(e) => {
+                      handleAttendanceMark(
+                        enrol.student.user.id,
+                        e.target.value
+                      );
+                    }}
+                  >
+                    {attendanceLetters.map((letter) => (
+                      <option
+                        key={letter.id}
+                        value={letter.name}
+                        style={{
+                          backgroundColor:
+                            letter.name === "P"
+                              ? "blue"
+                              : letter.name === "A"
+                              ? "red"
+                              : letter.name === "E"
+                              ? "green"
+                              : letter.name === "T"
+                              ? "gold"
+                              : "",
+                          color: "#fff",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {letter.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Td>
 
-          <Box my={my}>
-            <Text fontSize={fontSize}>Class Time</Text>
-            <Select {...register("classtime", { valueAsNumber: true })}>
-              {classtimes?.map((classtime) => (
-                <option value={classtime.id}>
-                  {classtime.start_time} - {classtime.end_time},{" "}
-                  {classtime.week_days}
-                </option>
-              ))}
-            </Select>
-            {errors?.classtime && (
-              <Text color={red}>{errors.classtime.message}</Text>
-            )}
-          </Box>
+                <Td>
+                  <Input
+                    w="12rem"
+                    onChange={(e) =>
+                      handleAttendanceComment(
+                        enrol.student.user.id,
+                        e.target.value
+                      )
+                    }
+                  />
+                </Td>
+                <Td>{currentDate()}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
 
-          <Box my={my}>
-            <Text fontSize={fontSize}>Class Room</Text>
-            <Select {...register("classroom", { valueAsNumber: true })}>
-              {classrooms?.map((classroom) => (
-                <option value={classroom.id}>{classroom.name}</option>
-              ))}
-            </Select>
-            {errors?.classroom && (
-              <Text color={red}>{errors.classroom.message}</Text>
-            )}
-          </Box>
-        </Stack>
-
-        <Button
-          type="submit"
-          colorScheme={blue}
-          onClick={() => mutation.isError && toast.error(customErrorMessage)}
-        >
-          Create Section
-        </Button>
-      </form>
+      <Button type="submit" colorScheme={blue} onClick={handleCreate}>
+        Submit
+      </Button>
     </>
   );
 };
 
-export default SectionCreateForm;
+export default AttendanceCreateForm;

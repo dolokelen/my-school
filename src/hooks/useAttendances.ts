@@ -1,12 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
 import { CACHE_KEY_ATTENDANCE } from "../cacheKeysAndRoutes";
+import { AttendanceData } from "../pages/attendances/AttendanceCreateForm";
 import apiClient from "../services/httpService";
 import { SimpleCourse } from "./useCourses";
+import { SimpleSchoolYear } from "./useSchoolYears";
 import { SimpleSection } from "./useSections";
 import { SimpleSemester } from "./useSemesters";
 import { SimpleStudent } from "./useStudents";
-import { SimpleSchoolYear } from "./useSchoolYears";
 
 export interface Attendance {
   id: number;
@@ -20,9 +21,9 @@ export interface Attendance {
   created_at: string;
 }
 
-const getApiClient = (sectionId: number) => {
-  const SECTION_URL = `/school/sections/${sectionId}/attendances/`;
-  const apiClients = apiClient<Attendance>(SECTION_URL);
+const getApiClient = <T>(sectionId: number) => {
+  const ATTENDANCE_URL = `/school/sections/${sectionId}/attendances/`;
+  const apiClients = apiClient<T>(ATTENDANCE_URL);
 
   return apiClients;
 };
@@ -30,35 +31,35 @@ const getApiClient = (sectionId: number) => {
 export const useAttendances = (sectionId: number) => {
   return useQuery<Attendance[], Error>({
     queryKey: [CACHE_KEY_ATTENDANCE],
-    queryFn: getApiClient(sectionId).getAll,
+    queryFn: getApiClient<Attendance>(sectionId).getAll,
     staleTime: ms("24h"),
   });
 };
 
 export const useAttendance = (sectionId: number, attendanceId: number) => {
   return useQuery<Attendance, Error>({
-    queryKey: [CACHE_KEY_ATTENDANCE, attendanceId],
-    queryFn: () => getApiClient(sectionId).get(attendanceId),
+    queryKey: [CACHE_KEY_ATTENDANCE, attendanceId, sectionId],
+    queryFn: () => getApiClient<Attendance>(sectionId).get(attendanceId),
   });
 };
 
-// export const useCreateAttendance = (onCreate: () => void, reset: () => void) => {
-//   const apiClients = apiClient<AttendanceCreateFormData>(SECTION_URL);
-
-//   const queryClient = useQueryClient();
-
-//   return useMutation<AttendanceCreateFormData, Error, AttendanceCreateFormData>({
-//     mutationFn: (data: AttendanceCreateFormData) => apiClients.post(data),
-
-//     onSuccess: (existingData, newData) => {
-//       onCreate();
-//       reset();
-//       return queryClient.invalidateQueries({
-//         queryKey: [CACHE_KEY_ATTENDANCE],
-//       });
-//     },
-//   });
-// };
+export const useCreateAttendances = (
+  sectionId: number,
+  attendances: AttendanceData[],
+  onCreateAll: () => void
+) => {
+  const queryClient = useQueryClient();
+  const doCreateAttendances = async () => {
+    try {
+      await getApiClient(sectionId).post(attendances);
+      onCreateAll();
+      queryClient.invalidateQueries([CACHE_KEY_ATTENDANCE]);
+    } catch (error) {
+      throw error;
+    }
+  };
+  return doCreateAttendances;
+};
 
 // export const useEditAttendance = (onUpdate: () => void) => {
 //   const queryClient = useQueryClient();

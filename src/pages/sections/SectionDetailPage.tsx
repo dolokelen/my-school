@@ -7,6 +7,7 @@ import AccessDenyPage from "../AccessDenyPage";
 import { useDeleteSection, useSection } from "../../hooks/useSections";
 import SectionEditForm from "./SectionEditForm";
 import { deletionErrorMessage } from "../../Utilities/httpErrorStatus";
+import AttendanceCreateForm from "../attendances/AttendanceCreateForm";
 
 const SectionDetailPage = () => {
   const { id } = useParams();
@@ -37,7 +38,7 @@ const SectionDetailPage = () => {
         // justifyContent="space-center"
       >
         <GridItem area="sectionDetail">
-          <Box mb={marginBottom} fontSize="2rem">
+          <Box mb={marginBottom} fontSize="2rem" color="blue.500">
             <Link to={`${AUTH_LAYOUT_ROUTE}/${ATTENDANCES_ROUTE}/${sectionId}`}>
             {section?.course.code} Section {section?.name}</Link>
           </Box>
@@ -74,6 +75,8 @@ const SectionDetailPage = () => {
           Delete Section
         </Button>
       )}
+
+      <AttendanceCreateForm sectionId={sectionId}/>
     </>
   );
 };

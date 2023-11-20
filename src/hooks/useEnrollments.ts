@@ -1,15 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
+import { CACHE_KEY_ENROLLMENT } from "../cacheKeysAndRoutes";
+import { EnrollmentCreateFormData } from "../pages/enrollments/EnrollmentCreateForm";
+import { EnrollmentEditFormData } from "../pages/enrollments/EnrollmentEditForm";
 import apiClient from "../services/httpService";
 import { SimpleCourse } from "./useCourses";
+import { SimpleSchoolYear } from "./useSchoolYears";
 import { SimpleSection } from "./useSections";
 import { SimpleSemester } from "./useSemesters";
 import { SimpleStudent } from "./useStudents";
-import { SimpleSchoolYear } from "./useSchoolYears";
-import { AUTH_LAYOUT_ROUTE, CACHE_KEY_ENROLLMENT } from "../cacheKeysAndRoutes";
-import { EnrollmentCreateFormData } from "../pages/enrollments/EnrollmentCreateForm";
-import { EnrollmentEditFormData } from "../pages/enrollments/EnrollmentEditForm";
-import { useNavigate } from "react-router-dom";
 
 interface CourseAndSection {
   id: number;
@@ -40,8 +39,18 @@ const ENROLLMENTS_URL = "enrollments";
 
 export const useEnrollments = (sectionId: number) => {
   return useQuery<Enrollment[], Error>({
-    queryKey: [CACHE_KEY_ENROLLMENT],
+    queryKey: [CACHE_KEY_ENROLLMENT, sectionId],
     queryFn: getApiClient<Enrollment>(sectionId, ENROLLMENTS_URL).getAll,
+    staleTime: ms("24h"),
+  });
+};
+
+export const useSectionEnrollments = (sectionId: number) => {
+  const endpoint = `/school/sections/${sectionId}/current-semester-section-enrollments/`;
+  const apiClients = apiClient<Enrollment>(endpoint);
+  return useQuery<Enrollment[], Error>({
+    queryKey: [CACHE_KEY_ENROLLMENT, sectionId],
+    queryFn: apiClients.getAll,
     staleTime: ms("24h"),
   });
 };
