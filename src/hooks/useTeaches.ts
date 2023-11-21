@@ -8,7 +8,8 @@ import { SimpleTeacher } from "./useTeachers";
 import { CACHE_KEY_TEACH } from "../cacheKeysAndRoutes";
 import { SimpleCourse } from "./useCourses";
 import { SimpleStudent } from "./useStudents";
-
+import { Classtime } from "./useClasstimes";
+import { Classroom } from "./useClassrooms";
 
 export interface Teach {
   id: number;
@@ -21,9 +22,12 @@ export interface Teach {
   date: string;
 }
 
-const getApiClient = <T>(teacherId: number, childEndPoint: string) => {
-  const BASE_URL = "/school/teachers";
-  const ENROLLMENT_URL = `${BASE_URL}/${teacherId}/${childEndPoint}/`;
+const getApiClient = <T>(
+  baseURL: string,
+  teacherId: number,
+  childEndPoint: string
+) => {
+  const ENROLLMENT_URL = `/school/${baseURL}/${teacherId}/${childEndPoint}/`;
   const apiClients = apiClient<T>(ENROLLMENT_URL);
 
   return apiClients;
@@ -34,7 +38,26 @@ const TEACHE_URL = "teaches";
 export const useTeacherSections = (teacherId: number) => {
   return useQuery<Teach[], Error>({
     queryKey: [CACHE_KEY_TEACH, teacherId],
-    queryFn: getApiClient<Teach>(teacherId, TEACHE_URL).getAll,
+    queryFn: getApiClient<Teach>("teachers", teacherId, TEACHE_URL).getAll,
+    staleTime: ms("24h"),
+  });
+};
+
+const SECTION_URL = "sections";
+export const useTeacherSectionClasstime = (sectionId: number) => {
+  return useQuery<Classtime[], Error>({
+    queryKey: [CACHE_KEY_TEACH, sectionId],
+    queryFn: getApiClient<Classtime>(SECTION_URL, sectionId, "classtime")
+      .getAll,
+    staleTime: ms("24h"),
+  });
+};
+
+export const useTeacherSectionClassroom = (sectionId: number) => {
+  return useQuery<Classroom[], Error>({
+    queryKey: [CACHE_KEY_TEACH],
+    queryFn: getApiClient<Classroom>(SECTION_URL, sectionId, "classroom")
+      .getAll,
     staleTime: ms("24h"),
   });
 };

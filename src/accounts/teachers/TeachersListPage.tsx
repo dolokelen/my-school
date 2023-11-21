@@ -17,17 +17,18 @@ import { AUTH_LAYOUT_ROUTE, TEACHERS_ROUTE } from "../../cacheKeysAndRoutes";
 import AccessDenyPage from "../../pages/AccessDenyPage";
 import { useTeachers } from "../../hooks/useTeachers";
 import { useDepartments } from "../../hooks/useDepartments";
-import { useTeacherStore } from "./teacherStore";
+import { useTeacherIdStore, useTeacherStore } from "./teacherStore";
 import { hasPermission } from "../../Utilities/hasPermissions";
 
 const TeacherListPage = () => {
   if (!hasPermission("Can view teacher")) return <AccessDenyPage />;
-  
+
   const { data: teachers, error, isLoading } = useTeachers();
   const { data: departments } = useDepartments();
   const setSelectedDepartmentId = useTeacherStore(
     (s) => s.setSelectedDepartmentId
   );
+  const setSelectedTeacherId = useTeacherIdStore((s) => s.setSelectedTeacherId);
 
   if (error) {
     const unAuthorized = "Request failed with status code 403";
@@ -43,7 +44,7 @@ const TeacherListPage = () => {
     const selectedDepartmentId = departments?.find(
       (d) => d.name === e.target.value
     )?.id;
-    setSelectedDepartmentId(selectedDepartmentId);
+    setSelectedDepartmentId(selectedDepartmentId!);
   };
 
   return (
@@ -76,7 +77,10 @@ const TeacherListPage = () => {
             </Thead>
             <Tbody>
               {teachers?.map((teacher) => (
-                <Tr key={teacher.user.id}>
+                <Tr
+                  key={teacher.user.id}
+                  onClick={() => setSelectedTeacherId(teacher.user.id)}
+                >
                   <Td>
                     <Link
                       key={teacher.user.id}

@@ -5,12 +5,14 @@ import getUserId from "./../Utilities/getUserId";
 import EmployeeProfilePage from "./employees/EmployeeProfilePage";
 import StudentProfilePage from "./students/StudentProfilePage";
 import TeacherProfilePage from "./teachers/TeacherProfilePage";
+import { useTeacherIdStore } from "./teachers/teacherStore";
 
 const ProfilesWrapper = () => {
   const userId = getUserId();
   const { data: employee } = useEmployeeProfile(userId!);
   const { data: teacher } = useTeacherProfile(userId!);
   const { data: student } = useStudentProfile(userId!);
+  const setSelectedTeacherId = useTeacherIdStore((s) => s.setSelectedTeacherId);
 
   const handleCurrentUserProfile = () => {
     let currentUser;
@@ -19,6 +21,7 @@ const ProfilesWrapper = () => {
       if (currentUser) return <EmployeeProfilePage />;
     } else if (teacher && userId) {
       currentUser = teacher.user.id === userId;
+      setSelectedTeacherId(teacher.user.id);
       if (currentUser) return <TeacherProfilePage />;
     } else if (student && userId) {
       currentUser = student.user.id === userId;

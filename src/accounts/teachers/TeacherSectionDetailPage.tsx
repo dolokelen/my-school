@@ -1,4 +1,6 @@
 import {
+  Box,
+  Heading,
   Spinner,
   Table,
   TableContainer,
@@ -9,80 +11,119 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import getUserId from "../../Utilities/getUserId";
 import { AUTH_LAYOUT_ROUTE, TEACHES_ROUTE } from "../../cacheKeysAndRoutes";
-import { useTeacherSections } from "../../hooks/useTeaches";
+import {
+  useTeacherSectionClassroom,
+  useTeacherSectionClasstime,
+  useTeacherSections,
+} from "../../hooks/useTeaches";
+import { useTeacherIdStore } from "./teacherStore";
+import { useTeacherSectionStore } from "./techerSectionStore";
+import { useTeacherProfile } from "../../hooks/useTeachers";
 
 const TeacherSectionDetailPage = () => {
-  const { data: teacherSections, isLoading } = useTeacherSections(getUserId()!);
+  const teacherId = useTeacherIdStore(
+    (s) => s.teacherIdQuery.selectedTeacherId
+  );
+  const { data: teacherSections, isLoading } = useTeacherSections(teacherId!);
+  const sectionId = useTeacherSectionStore(
+    (s) => s.sectionQuery.selectedSectionId
+  );
+  const { data: teacher } = useTeacherProfile(teacherId!);
+  const { data: classtimes } = useTeacherSectionClasstime(sectionId!);
+  const { data: classrooms } = useTeacherSectionClassroom(sectionId!);
+
+  const handleClasstime = () => {
+    if (classtimes) {
+      const { start_time, end_time, week_days } = classtimes[0];
+      const classtime = start_time + " - " + end_time + ", " + week_days;
+      return classtime;
+    }
+    return "";
+  };
+
+  const handleClassroom = () => {
+    if (classrooms) {
+      const { name, building } = classrooms[0];
+      const classroom = building.name + ", " + name;
+      return classroom;
+    }
+    return "";
+  };
+
   if (isLoading) return <Spinner />;
 
   return (
-    <TableContainer>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>Student Name</Th>
-            <Th>Student Email</Th>
-            <Th>Student Phone</Th>
-            <Th>Student Status</Th>
-            <Th>Course</Th>
-            <Th>Section</Th>
-            <Th>Semester</Th>
-            <Th>School Year</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {teacherSections?.map((sec) => (
-            <Tr key={sec.id}>
-              <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                  {sec?.student.user.first_name} {sec?.student.user.last_name}
-                </Link>
-              </Td>
-
-              <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                  {sec?.student.user.email}
-                </Link>
-              </Td>
-
-              <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                  {sec?.student.phone}
-                </Link>
-              </Td>
-
-              <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                  {sec?.student.level}
-                </Link>
-              </Td>
-              <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                  {sec?.course.code}
-                </Link>
-              </Td>
-              <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                  {sec?.section.name}
-                </Link>
-              </Td>
-              <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                  {sec?.semester.name}
-                </Link>
-              </Td>
-              <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                  {sec?.school_year.year}
-                </Link>
-              </Td>
+    <>
+      <Heading size="md">Prof. {teacher && teacher.user.full_name}</Heading>
+      <Box>Class Time: {handleClasstime()}</Box>
+      <Box mb={4}>Class Room: {handleClassroom()}</Box>
+      <TableContainer>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>Student Name</Th>
+              <Th>Student Email</Th>
+              <Th>Student Phone</Th>
+              <Th>Student Status</Th>
+              <Th>Course</Th>
+              <Th>Section</Th>
+              <Th>Semester</Th>
+              <Th>School Year</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+          </Thead>
+          <Tbody>
+            {teacherSections?.map((sec) => (
+              <Tr key={sec.id}>
+                <Td>
+                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                    {sec?.student.user.first_name} {sec?.student.user.last_name}
+                  </Link>
+                </Td>
+
+                <Td>
+                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                    {sec?.student.user.email}
+                  </Link>
+                </Td>
+
+                <Td>
+                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                    {sec?.student.phone}
+                  </Link>
+                </Td>
+
+                <Td>
+                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                    {sec?.student.level}
+                  </Link>
+                </Td>
+                <Td>
+                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                    {sec?.course.code}
+                  </Link>
+                </Td>
+                <Td>
+                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                    {sec?.section.name}
+                  </Link>
+                </Td>
+                <Td>
+                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                    {sec?.semester.name}
+                  </Link>
+                </Td>
+                <Td>
+                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                    {sec?.school_year.year}
+                  </Link>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </>
   );
 };
 

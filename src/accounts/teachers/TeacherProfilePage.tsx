@@ -15,7 +15,7 @@ import TeacherMenteesPage from "./TeacherMenteesPage";
 import TeacherSectionListPage from "./TeacherSectionListPage";
 
 const TeacherProfilePage = () => {
-  const teacherId = getUserId()!
+  const teacherId = getUserId()!;
   const {
     data: teacher,
     isLoading,
@@ -96,7 +96,10 @@ const TeacherProfilePage = () => {
         </GridItem>
 
         <GridItem area="teacherMentees">
-        <TeacherSectionListPage teacher_id={teacherId} full_name={teacher.user.full_name}/>
+          <Heading size="md" my={4}>
+            {teacher.user.full_name} Assigned Sections
+          </Heading>
+          <TeacherSectionListPage teacher_id={teacherId} />
         </GridItem>
       </Grid>
       {teacher?.mentees.length !== 0 ? (

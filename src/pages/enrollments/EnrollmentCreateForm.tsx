@@ -111,12 +111,12 @@ const EnrollmentCreateForm = () => {
             <Text fontSize={fontSize}>Semester</Text>
             <Select {...register("semester", { valueAsNumber: true })}>
               {semesters?.map((sem) =>
-                !sem.is_current ? (
-                  sem.id
-                ) : (
+                sem.is_current ? (
                   <option value={sem.id} key={sem.id}>
                     {sem.name}
                   </option>
+                ) : (
+                  sem.id
                 )
               )}
             </Select>

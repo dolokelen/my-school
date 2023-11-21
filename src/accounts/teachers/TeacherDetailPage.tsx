@@ -16,6 +16,8 @@ import { useTeacher } from "../../hooks/useTeachers";
 import TeacherEditForm from "./TeacherEditForm";
 import TeacherMenteesPage from "./TeacherMenteesPage";
 import AccessDenyPage from "../../pages/AccessDenyPage";
+import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
+import TeacherSectionListPage from "./TeacherSectionListPage";
 
 const TeacherDetailPage = () => {
   if (!hasPermission("Can view teacher")) return <AccessDenyPage />;
@@ -99,11 +101,20 @@ const TeacherDetailPage = () => {
               <Box ml="20%" fontWeight={500} my={4} fontSize={25} mt={20}>
                 {`Prof. ${teacher?.user.last_name}'s Mentees`}
               </Box>
-              <TeacherMenteesPage mentees={teacher?.mentees} />
+              <OverflowYContainer>
+                <TeacherMenteesPage mentees={teacher?.mentees} />
+              </OverflowYContainer>
             </>
           ) : (
-          <></>
+            <></>
           )}
+
+          <Heading size="md" my={4} ml="20%" mt={12}>
+            {teacher?.user.full_name} Assigned Sections
+          </Heading>
+          <OverflowYContainer>
+            <TeacherSectionListPage teacher_id={teacherId} />
+          </OverflowYContainer>
         </GridItem>
       </Grid>
       {canChangeTeacher && <TeacherEditForm teacher={teacher} />}
