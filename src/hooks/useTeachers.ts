@@ -13,6 +13,11 @@ export interface TeacherMentee {
   phone: string;
 }
 
+export interface SimpleTeacher {
+  id: number;
+  full_name: string;
+}
+
 export interface Teacher {
   user: UserProfile;
   teacheraddress: Address;

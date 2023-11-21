@@ -7,8 +7,12 @@ import RegistrationForm from "./accounts/RegistrationForm";
 import EmployeeDetailPage from "./accounts/employees/EmployeeDetailPage";
 import EmployeeListPage from "./accounts/employees/EmployeeListPage";
 import EmployeeRegistrationForm from "./accounts/employees/EmployeeRegistrationForm";
+import StudentDetailPage from "./accounts/students/StudentDetailPage";
+import StudentListPage from "./accounts/students/StudentListPage";
+import StudentRegistrationForm from "./accounts/students/StudentRegistrationForm";
 import TeacherDetailPage from "./accounts/teachers/TeacherDetailPage";
 import TeacherRegistrationForm from "./accounts/teachers/TeacherRegistrationForm";
+import TeacherSectionDetailPage from "./accounts/teachers/TeacherSectionDetailPage";
 import TeacherListPage from "./accounts/teachers/TeachersListPage";
 import {
   ATTENDANCES_ROUTE,
@@ -45,50 +49,48 @@ import {
   STUDENT_REGISTER_ROUTE,
   TEACHERS_ROUTE,
   TEACHER_REGISTER_ROUTE,
+  TEACHES_ROUTE,
   USER_ROUTE,
 } from "./cacheKeysAndRoutes";
 import AuthLayout from "./components/AuthLayout";
 import UnAuthHomePage from "./components/UnAuthHomePage";
 import UnAuthLayout from "./components/UnAuthLayout";
 import ErrorPage from "./pages/ErrorPage";
+import AttendanceListPage from "./pages/attendances/AttendanceListPage";
 import BuildingCreateForm from "./pages/buildings/BuildingCreateForm";
 import BuildingDetailPage from "./pages/buildings/BuildingDetailPage";
 import BuildingListPage from "./pages/buildings/BuildingListPage";
+import ClassroomCreateForm from "./pages/classrooms/ClassroomCreateForm";
+import ClassroomDetailPage from "./pages/classrooms/ClassroomDetailPage";
+import ClassroomListPage from "./pages/classrooms/ClassroomListPage";
+import ClasstimeCreateForm from "./pages/classtimes/ClasstimeCreateForm";
+import ClasstimeDetailPage from "./pages/classtimes/ClasstimeDetailPage";
+import ClasstimeListPage from "./pages/classtimes/ClasstimeListPage";
 import CourseCreateForm from "./pages/courses/CourseCreateForm";
 import CourseDetailPage from "./pages/courses/CourseDetailPage";
 import CourseListPage from "./pages/courses/CourseListPage";
 import DepartmentCreateForm from "./pages/departments/DepartmentCreateForm";
 import DepartmentDetailPage from "./pages/departments/DepartmentDetailPage";
 import DepartmentListPage from "./pages/departments/DepartmentListPage";
+import EnrollmentCreateForm from "./pages/enrollments/EnrollmentCreateForm";
+import EnrollmentDetailPage from "./pages/enrollments/EnrollmentDetailPage";
+import EnrollmentListPage from "./pages/enrollments/EnrollmentListPage";
+import MajorCreateForm from "./pages/majors/MajorCreateForm";
+import MajorDetailPage from "./pages/majors/MajorDetailPage";
+import MajorListPage from "./pages/majors/MajorListPage";
 import OfficeCreateForm from "./pages/offices/OfficeCreateForm";
 import OfficeDetailPage from "./pages/offices/OfficeDetailPage";
 import OfficeListPage from "./pages/offices/OfficeListPage";
 import SchoolYearDetailPage from "./pages/schoolYears/SchoolYearDetailPage";
 import SchoolYearList from "./pages/schoolYears/SchoolYearList";
+import SectionCreateForm from "./pages/sections/SectionCreateForm";
+import SectionDetailPage from "./pages/sections/SectionDetailPage";
+import SectionListPage from "./pages/sections/SectionListPage";
 import SemesterCreateForm from "./pages/semesters/SemesterCreateForm";
 import SemesterDetailPage from "./pages/semesters/SemesterDetailPage";
 import SemesterListPage from "./pages/semesters/SemesterListPage";
 import UserDetailPage from "./pages/users/UserDetailPage";
 import UsersListPage from "./pages/users/UsersListPage";
-import MajorListPage from "./pages/majors/MajorListPage";
-import MajorCreateForm from "./pages/majors/MajorCreateForm";
-import MajorDetailPage from "./pages/majors/MajorDetailPage";
-import StudentListPage from "./accounts/students/StudentListPage";
-import StudentDetailPage from "./accounts/students/StudentDetailPage";
-import StudentRegistrationForm from "./accounts/students/StudentRegistrationForm";
-import ClassroomListPage from "./pages/classrooms/ClassroomListPage";
-import ClassroomCreateForm from "./pages/classrooms/ClassroomCreateForm";
-import ClassroomDetailPage from "./pages/classrooms/ClassroomDetailPage";
-import ClasstimeListPage from "./pages/classtimes/ClasstimeListPage";
-import ClasstimeDetailPage from "./pages/classtimes/ClasstimeDetailPage";
-import ClasstimeCreateForm from "./pages/classtimes/ClasstimeCreateForm";
-import SectionListPage from "./pages/sections/SectionListPage";
-import SectionCreateForm from "./pages/sections/SectionCreateForm";
-import SectionDetailPage from "./pages/sections/SectionDetailPage";
-import AttendanceListPage from "./pages/attendances/AttendanceListPage";
-import EnrollmentListPage from "./pages/enrollments/EnrollmentListPage";
-import EnrollmentCreateForm from "./pages/enrollments/EnrollmentCreateForm";
-import EnrollmentDetailPage from "./pages/enrollments/EnrollmentDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -155,6 +157,10 @@ const router = createBrowserRouter([
       {
         path: `${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_ROUTE}/:enrollmentId/`,
         element: <EnrollmentDetailPage />,
+      },
+      {
+        path: `${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/:id/`,
+        element: <TeacherSectionDetailPage />,
       },
     ],
   },

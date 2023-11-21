@@ -16,6 +16,7 @@ export const CACHE_KEY_CLASSTIME = "classtime";
 export const CACHE_KEY_SECTION = "section";
 export const CACHE_KEY_ATTENDANCE = "section";
 export const CACHE_KEY_ENROLLMENT = "enrollment";
+export const CACHE_KEY_TEACH = "teach";
 
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "login";
@@ -54,6 +55,8 @@ export const ATTENDANCES_ROUTE = "attendances-list";
 export const ATTENDANCES_CREATE_ROUTE = "attendances-create-form";
 export const ENROLLMENTS_ROUTE = "enrollments-list";
 export const ENROLLMENTS_CREATE_ROUTE = "enrollments-create-form";
+export const TEACHES_ROUTE = "teaches-list";
+export const TEACHES_CREATE_ROUTE = "teaches-create-form";
 
 export const red = "red";
 export const blue = "blue";

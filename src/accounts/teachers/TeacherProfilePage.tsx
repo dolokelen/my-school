@@ -12,14 +12,16 @@ import {
 import getUserId from "../../Utilities/getUserId";
 import { useTeacherProfile } from "../../hooks/useTeachers";
 import TeacherMenteesPage from "./TeacherMenteesPage";
+import TeacherSectionListPage from "./TeacherSectionListPage";
 
 const TeacherProfilePage = () => {
+  const teacherId = getUserId()!
   const {
     data: teacher,
     isLoading,
     isError,
     error,
-  } = useTeacherProfile(getUserId()!);
+  } = useTeacherProfile(teacherId);
 
   const handleEmployeeTitle = () => {
     if (teacher) return `Prof. ${teacher.user.full_name}`;
@@ -93,7 +95,9 @@ const TeacherProfilePage = () => {
           </Card>
         </GridItem>
 
-        <GridItem area="teacherMentees"></GridItem>
+        <GridItem area="teacherMentees">
+        <TeacherSectionListPage teacher_id={teacherId} full_name={teacher.user.full_name}/>
+        </GridItem>
       </Grid>
       {teacher?.mentees.length !== 0 ? (
         <>
