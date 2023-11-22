@@ -9,14 +9,15 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import { hasPermission } from "../../Utilities/hasPermissions";
-import UserGroupsPage from "../../pages/users/UserGroupsPage";
+import { AUTH_LAYOUT_ROUTE, TEACHERS_ROUTE, TEACHES_CREATE_ROUTE } from "../../cacheKeysAndRoutes";
 import { useTeacher } from "../../hooks/useTeachers";
+import AccessDenyPage from "../../pages/AccessDenyPage";
+import UserGroupsPage from "../../pages/users/UserGroupsPage";
 import TeacherEditForm from "./TeacherEditForm";
 import TeacherMenteesPage from "./TeacherMenteesPage";
-import AccessDenyPage from "../../pages/AccessDenyPage";
-import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import TeacherSectionListPage from "./TeacherSectionListPage";
 
 const TeacherDetailPage = () => {
@@ -96,6 +97,11 @@ const TeacherDetailPage = () => {
         </GridItem>
         <GridItem area="teacherGroups">
           <UserGroupsPage userPk={teacherId} />
+          <Box my={8} ml="20%" color="blue.500" fontSize="1.5rem">
+            <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHERS_ROUTE}/${TEACHES_CREATE_ROUTE}/${teacherId}`}>
+              Assign Section
+            </Link>
+          </Box>
           {teacher?.mentees.length !== 0 ? (
             <>
               <Box ml="20%" fontWeight={500} my={4} fontSize={25} mt={20}>

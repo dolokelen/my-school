@@ -4,17 +4,11 @@ import { CACHE_KEY_ENROLLMENT } from "../cacheKeysAndRoutes";
 import { EnrollmentCreateFormData } from "../pages/enrollments/EnrollmentCreateForm";
 import { EnrollmentEditFormData } from "../pages/enrollments/EnrollmentEditForm";
 import apiClient from "../services/httpService";
-import { SimpleCourse } from "./useCourses";
+import { CourseAndSection, SimpleCourse } from "./useCourses";
 import { SimpleSchoolYear } from "./useSchoolYears";
 import { SimpleSection } from "./useSections";
 import { SimpleSemester } from "./useSemesters";
 import { SimpleStudent } from "./useStudents";
-
-interface CourseAndSection {
-  id: number;
-  code: string;
-  sections: SimpleSection[];
-}
 
 export interface Enrollment {
   id: number;

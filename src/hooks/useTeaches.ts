@@ -6,10 +6,11 @@ import { SimpleSection } from "./useSections";
 import { SimpleSemester } from "./useSemesters";
 import { SimpleTeacher } from "./useTeachers";
 import { CACHE_KEY_TEACH } from "../cacheKeysAndRoutes";
-import { SimpleCourse } from "./useCourses";
+import { CourseAndSection, SimpleCourse } from "./useCourses";
 import { SimpleStudent } from "./useStudents";
 import { Classtime } from "./useClasstimes";
 import { Classroom } from "./useClassrooms";
+import { SectionAssignmentFormData } from "../pages/teaches/SectionAssignmentForm";
 
 export interface Teach {
   id: number;
@@ -23,11 +24,11 @@ export interface Teach {
 }
 
 const getApiClient = <T>(
-  baseURL: string,
+  parentURL: string,
   teacherId: number,
   childEndPoint: string
 ) => {
-  const ENROLLMENT_URL = `/school/${baseURL}/${teacherId}/${childEndPoint}/`;
+  const ENROLLMENT_URL = `/school/${parentURL}/${teacherId}/${childEndPoint}/`;
   const apiClients = apiClient<T>(ENROLLMENT_URL);
 
   return apiClients;
@@ -44,6 +45,7 @@ export const useTeacherSections = (teacherId: number) => {
 };
 
 const SECTION_URL = "sections";
+
 export const useTeacherSectionClasstime = (sectionId: number) => {
   return useQuery<Classtime[], Error>({
     queryKey: [CACHE_KEY_TEACH, sectionId],
@@ -58,6 +60,17 @@ export const useTeacherSectionClassroom = (sectionId: number) => {
     queryKey: [CACHE_KEY_TEACH],
     queryFn: getApiClient<Classroom>(SECTION_URL, sectionId, "classroom")
       .getAll,
+    staleTime: ms("24h"),
+  });
+};
+
+export const useCurrentCoursesWithSections = () => {
+  const endpoint = "/school/only-courses-with-sections/";
+
+  const apiclients = apiClient<CourseAndSection>(endpoint);
+  return useQuery<CourseAndSection[], Error>({
+    queryKey: [CACHE_KEY_TEACH],
+    queryFn: apiclients.getAll,
     staleTime: ms("24h"),
   });
 };
@@ -89,30 +102,34 @@ export const useTeacherSectionClassroom = (sectionId: number) => {
 //   });
 // };
 
-// export const useCreateEnrollment = (
-//   studentId: number,
-//   onCreate: () => void,
-//   reset: () => void
-// ) => {
-//   const queryClient = useQueryClient();
+export const useSectionAssigment = (
+  teacherId: number,
+  onAssign: () => void,
+  reset: () => void
+) => {
+  const queryClient = useQueryClient();
 
-//   return useMutation<EnrollmentCreateFormData, Error, EnrollmentCreateFormData>(
-//     {
-//       mutationFn: (data: EnrollmentCreateFormData) =>
-//         getApiClient<EnrollmentCreateFormData>(studentId, TEACHE_URL).post(
-//           data
-//         ),
+  return useMutation<
+    SectionAssignmentFormData,
+    Error,
+    SectionAssignmentFormData
+  >({
+    mutationFn: (data: SectionAssignmentFormData) =>
+      getApiClient<SectionAssignmentFormData>(
+        "teachers",
+        teacherId,
+        TEACHE_URL
+      ).post(data),
 
-//       onSuccess: (existingData, newData) => {
-//         onCreate();
-//         reset();
-//         return queryClient.invalidateQueries({
-//           queryKey: [CACHE_KEY_ENROLLMENT],
-//         });
-//       },
-//     }
-//   );
-// };
+    onSuccess: (existingData, newData) => {
+      onAssign();
+      reset();
+      return queryClient.invalidateQueries({
+        queryKey: [CACHE_KEY_TEACH],
+      });
+    },
+  });
+};
 
 // export const useEditEnrollment = (studentId: number, onUpdate: () => void) => {
 //   const queryClient = useQueryClient();

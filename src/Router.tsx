@@ -49,6 +49,7 @@ import {
   STUDENT_REGISTER_ROUTE,
   TEACHERS_ROUTE,
   TEACHER_REGISTER_ROUTE,
+  TEACHES_CREATE_ROUTE,
   TEACHES_ROUTE,
   USER_ROUTE,
 } from "./cacheKeysAndRoutes";
@@ -91,6 +92,7 @@ import SemesterDetailPage from "./pages/semesters/SemesterDetailPage";
 import SemesterListPage from "./pages/semesters/SemesterListPage";
 import UserDetailPage from "./pages/users/UserDetailPage";
 import UsersListPage from "./pages/users/UsersListPage";
+import SectionAssignmentForm from "./pages/teaches/SectionAssignmentForm";
 
 const router = createBrowserRouter([
   {
@@ -161,6 +163,10 @@ const router = createBrowserRouter([
       {
         path: `${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/:id/`,
         element: <TeacherSectionDetailPage />,
+      },
+      {
+        path: `${AUTH_LAYOUT_ROUTE}/${TEACHERS_ROUTE}/${TEACHES_CREATE_ROUTE}/:id/`,
+        element: <SectionAssignmentForm />,
       },
     ],
   },

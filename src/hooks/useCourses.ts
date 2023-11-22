@@ -10,10 +10,17 @@ import { useCourseStore } from "../pages/courses/courseStore";
 import { CourseCreateFormData } from "../pages/courses/CourseCreateForm";
 import { CourseEditFormData } from "../pages/courses/CourseEditForm";
 import { useNavigate } from "react-router-dom";
+import { SimpleSection } from "./useSections";
 
 export interface SimpleCourse {
   id: number;
   code: string;
+}
+
+export interface CourseAndSection {
+  id: number;
+  code: string;
+  sections: SimpleSection[];
 }
 
 interface Course {
