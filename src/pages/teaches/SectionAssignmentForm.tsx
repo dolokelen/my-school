@@ -30,7 +30,6 @@ const SectionAssignmentForm = () => {
   const [selectedCourseId, setSelectedCourseId] = useState<number[]>([]);
   const { data: semesters } = useSemesters();
   const { data: courses } = useCurrentCoursesWithSections();
-
   const onCreate = () => toast.success("Section Assigned Successfully!");
   const {
     register,
@@ -82,6 +81,7 @@ const SectionAssignmentForm = () => {
                 setSelectedCourseId(id);
               }}
             >
+              <option></option>
               {courses?.map((cos) => (
                 <option value={cos.id} key={cos?.id}>
                   {cos?.code}

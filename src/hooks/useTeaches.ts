@@ -23,6 +23,16 @@ export interface Teach {
   date: string;
 }
 
+interface TeacherSection {
+  id: number;
+  teacher: SimpleTeacher;
+  course: SimpleCourse;
+  section: SimpleSection;
+  semester: SimpleSemester;
+  school_year: SimpleSchoolYear;
+  date: string;
+}
+
 const getApiClient = <T>(
   parentURL: string,
   teacherId: number,
@@ -37,6 +47,14 @@ const getApiClient = <T>(
 const TEACHE_URL = "teaches";
 
 export const useTeacherSections = (teacherId: number) => {
+  return useQuery<TeacherSection[], Error>({
+    queryKey: [teacherId],
+    queryFn: getApiClient<TeacherSection>("teachers", teacherId, "sections").getAll,
+    staleTime: ms("24h"),
+  });
+};
+
+export const useTeacherSectionEnrollments = (teacherId: number) => {
   return useQuery<Teach[], Error>({
     queryKey: [CACHE_KEY_TEACH, teacherId],
     queryFn: getApiClient<Teach>("teachers", teacherId, TEACHE_URL).getAll,

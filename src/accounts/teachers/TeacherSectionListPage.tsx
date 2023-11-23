@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AUTH_LAYOUT_ROUTE, TEACHES_ROUTE } from "../../cacheKeysAndRoutes";
+import { AUTH_LAYOUT_ROUTE, ENROLLMENTS_ROUTE, TEACHES_ROUTE } from "../../cacheKeysAndRoutes";
 import { useTeacherSections } from "../../hooks/useTeaches";
 import { useTeacherSectionStore } from "./techerSectionStore";
 
@@ -24,12 +24,6 @@ const TeacherSectionListPage = ({ teacher_id }: Props) => {
     (s) => s.setSelectedSectionId
   );
 
-  useEffect(() => {
-    if (teacherSections) {
-      const obj = teacherSections[0];
-      setSelectedSectionId(obj.section.id);
-    }
-  }, [teacherSections]);
 
   if (isLoading) return <Spinner />;
 
@@ -46,27 +40,27 @@ const TeacherSectionListPage = ({ teacher_id }: Props) => {
         </Thead>
         <Tbody>
           {teacherSections?.map((sec) => (
-            <Tr key={sec.id}>
+            <Tr key={sec.id} onClick={()=>setSelectedSectionId(sec.course.id, sec.section.id)}>
               <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${sec.id}`}>
                   {sec?.course.code}
                 </Link>
               </Td>
 
               <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${sec.id}`}>
                   {sec?.section.name}
                 </Link>
               </Td>
 
               <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${sec.id}`}>
                   {sec?.semester.name}
                 </Link>
               </Td>
 
               <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
+                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${sec.id}`}>
                   {sec?.school_year.year}
                 </Link>
               </Td>

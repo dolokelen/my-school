@@ -161,7 +161,7 @@ const router = createBrowserRouter([
         element: <EnrollmentDetailPage />,
       },
       {
-        path: `${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/:id/`,
+        path: `${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/:id/`,
         element: <TeacherSectionDetailPage />,
       },
       {

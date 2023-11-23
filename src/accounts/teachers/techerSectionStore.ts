@@ -2,17 +2,18 @@ import { create } from "zustand";
 
 interface TeacherSectionQuery {
   selectedSectionId?: number;
+  selectedCourseId?: number;
 }
 
 interface TeacherSectionQueryStore {
   sectionQuery: TeacherSectionQuery;
-  setSelectedSectionId: (sectionId: number) => void;
+  setSelectedSectionId: (courseId: number, sectionId: number) => void;
 }
 
 export const useTeacherSectionStore = create<TeacherSectionQueryStore>((set) => ({
   sectionQuery: {},
-  setSelectedSectionId: (selectedSectionId) =>
+  setSelectedSectionId: (selectedCourseId, selectedSectionId) =>
     set(() => ({
-      sectionQuery: { selectedSectionId },
+      sectionQuery: { selectedCourseId, selectedSectionId },
     })),
 }));

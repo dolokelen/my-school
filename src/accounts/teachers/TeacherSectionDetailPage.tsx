@@ -15,7 +15,7 @@ import { AUTH_LAYOUT_ROUTE, TEACHES_ROUTE } from "../../cacheKeysAndRoutes";
 import {
   useTeacherSectionClassroom,
   useTeacherSectionClasstime,
-  useTeacherSections,
+  useTeacherSectionEnrollments,
 } from "../../hooks/useTeaches";
 import { useTeacherIdStore } from "./teacherStore";
 import { useTeacherSectionStore } from "./techerSectionStore";
@@ -25,13 +25,17 @@ const TeacherSectionDetailPage = () => {
   const teacherId = useTeacherIdStore(
     (s) => s.teacherIdQuery.selectedTeacherId
   );
-  const { data: teacherSections, isLoading } = useTeacherSections(teacherId!);
-  const sectionId = useTeacherSectionStore(
+  const { data: teacherSectionStudents, isLoading } =
+    useTeacherSectionEnrollments(teacherId!);
+  const selectedSectionId = useTeacherSectionStore(
     (s) => s.sectionQuery.selectedSectionId
   );
+  const selectedCourseId = useTeacherSectionStore(
+    (s) => s.sectionQuery.selectedCourseId
+  );
   const { data: teacher } = useTeacherProfile(teacherId!);
-  const { data: classtimes } = useTeacherSectionClasstime(sectionId!);
-  const { data: classrooms } = useTeacherSectionClassroom(sectionId!);
+  const { data: classtimes } = useTeacherSectionClasstime(selectedSectionId!);
+  const { data: classrooms } = useTeacherSectionClassroom(selectedSectionId!);
 
   const handleClasstime = () => {
     if (classtimes) {
@@ -49,6 +53,18 @@ const TeacherSectionDetailPage = () => {
       return classroom;
     }
     return "";
+  };
+
+  const handleSectionStudents = () => {
+    if (teacherSectionStudents) {
+      const students = teacherSectionStudents.filter(
+        (sec) =>
+          sec.course.id === selectedCourseId &&
+          sec.section.id === selectedSectionId
+      );
+      return students;
+    }
+    return [];
   };
 
   if (isLoading) return <Spinner />;
@@ -73,7 +89,7 @@ const TeacherSectionDetailPage = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {teacherSections?.map((sec) => (
+            {handleSectionStudents()?.map((sec) => (
               <Tr key={sec.id}>
                 <Td>
                   <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
