@@ -12,14 +12,16 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { AUTH_LAYOUT_ROUTE, TEACHES_ROUTE } from "../../cacheKeysAndRoutes";
+import { useTeacherProfile } from "../../hooks/useTeachers";
 import {
   useTeacherSectionClassroom,
   useTeacherSectionClasstime,
   useTeacherSectionEnrollments,
 } from "../../hooks/useTeaches";
+import { useEnrollmentIdStore } from "../../pages/enrollments/enrollmentStore";
+import AssignedSectionEditForm from "../../pages/teaches/AssignedSectionEditFrom";
 import { useTeacherIdStore } from "./teacherStore";
 import { useTeacherSectionStore } from "./techerSectionStore";
-import { useTeacherProfile } from "../../hooks/useTeachers";
 
 const TeacherSectionDetailPage = () => {
   const teacherId = useTeacherIdStore(
@@ -32,6 +34,9 @@ const TeacherSectionDetailPage = () => {
   );
   const selectedCourseId = useTeacherSectionStore(
     (s) => s.sectionQuery.selectedCourseId
+  );
+  const enrollmentId = useEnrollmentIdStore(
+    (s) => s.enrollmentIdQuery.enrollmentId
   );
   const { data: teacher } = useTeacherProfile(teacherId!);
   const { data: classtimes } = useTeacherSectionClasstime(selectedSectionId!);
@@ -139,6 +144,7 @@ const TeacherSectionDetailPage = () => {
           </Tbody>
         </Table>
       </TableContainer>
+      <AssignedSectionEditForm enrollmentId={enrollmentId!} />
     </>
   );
 };

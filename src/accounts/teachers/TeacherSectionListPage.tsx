@@ -8,10 +8,14 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { AUTH_LAYOUT_ROUTE, ENROLLMENTS_ROUTE, TEACHES_ROUTE } from "../../cacheKeysAndRoutes";
+import {
+  AUTH_LAYOUT_ROUTE,
+  ENROLLMENTS_ROUTE,
+  TEACHES_ROUTE,
+} from "../../cacheKeysAndRoutes";
 import { useTeacherSections } from "../../hooks/useTeaches";
+import { useEnrollmentIdStore } from "../../pages/enrollments/enrollmentStore";
 import { useTeacherSectionStore } from "./techerSectionStore";
 
 interface Props {
@@ -23,7 +27,9 @@ const TeacherSectionListPage = ({ teacher_id }: Props) => {
   const setSelectedSectionId = useTeacherSectionStore(
     (s) => s.setSelectedSectionId
   );
-
+  const setSelectedEnrollmentId = useEnrollmentIdStore(
+    (s) => s.setSelectedEnrollmentId
+  );
 
   if (isLoading) return <Spinner />;
 
@@ -39,29 +45,43 @@ const TeacherSectionListPage = ({ teacher_id }: Props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {teacherSections?.map((sec) => (
-            <Tr key={sec.id} onClick={()=>setSelectedSectionId(sec.course.id, sec.section.id)}>
+          {teacherSections?.map((enroll) => (
+            <Tr
+              key={enroll.id}
+              onClick={() => {
+                setSelectedSectionId(enroll.course.id, enroll.section.id);
+                setSelectedEnrollmentId(enroll.id);
+              }}
+            >
               <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${sec.id}`}>
-                  {sec?.course.code}
+                <Link
+                  to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${enroll.id}`}
+                >
+                  {enroll?.course.code}
                 </Link>
               </Td>
 
               <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${sec.id}`}>
-                  {sec?.section.name}
+                <Link
+                  to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${enroll.id}`}
+                >
+                  {enroll?.section.name}
                 </Link>
               </Td>
 
               <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${sec.id}`}>
-                  {sec?.semester.name}
+                <Link
+                  to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${enroll.id}`}
+                >
+                  {enroll?.semester.name}
                 </Link>
               </Td>
 
               <Td>
-                <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${sec.id}`}>
-                  {sec?.school_year.year}
+                <Link
+                  to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/${enroll.id}`}
+                >
+                  {enroll?.school_year.year}
                 </Link>
               </Td>
             </Tr>

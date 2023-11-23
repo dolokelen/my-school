@@ -16,3 +16,20 @@ export const useStudentEnrollmentStore = create<StudentEnrollmentQueryStore>((se
       studentEnrollmentQuery: { selectedStudentId },
     })),
 }));
+
+interface EnrollmentIdQuery {
+  enrollmentId?: number;
+}
+
+interface EnrollmentIdQueryStore {
+  enrollmentIdQuery: EnrollmentIdQuery;
+  setSelectedEnrollmentId: (enrollmentId: number) => void;
+}
+
+export const useEnrollmentIdStore = create<EnrollmentIdQueryStore>((set) => ({
+  enrollmentIdQuery: {},
+  setSelectedEnrollmentId: (enrollmentId) =>
+    set(() => ({
+      enrollmentIdQuery: { enrollmentId },
+    })),
+}));
