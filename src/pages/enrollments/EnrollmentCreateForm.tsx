@@ -2,6 +2,7 @@ import { Box, Button, Heading, Select, Stack, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { hasPermission } from "../../Utilities/hasPermissions";
@@ -15,7 +16,6 @@ import {
 import { useSemesters } from "../../hooks/useSemesters";
 import { useStudent } from "../../hooks/useStudents";
 import AccessDenyPage from "../AccessDenyPage";
-import { useStudentEnrollmentStore } from "./enrollmentStore";
 
 const schema = z.object({
   student: z.number().optional(),
@@ -30,11 +30,11 @@ export type EnrollmentCreateFormData = z.infer<typeof schema>;
 
 const EnrollmentCreateForm = () => {
   const [selectedCourseId, setSelectedCourseId] = useState<number[]>([]);
-  const studentId = useStudentEnrollmentStore(
-    (s) => s.studentEnrollmentQuery.selectedStudentId
-  );
-  const { data: courses } = useEnrollmentCourses(studentId!);
-  const { data: student } = useStudent(studentId!);
+  const location = useLocation();
+  const studentId = parseInt(location.pathname.substring(25, 27));
+
+  const { data: courses } = useEnrollmentCourses(studentId);
+  const { data: student } = useStudent(studentId);
   const { data: semesters } = useSemesters();
 
   const onCreate = () => toast.success("Student Enrolled Successfully!");

@@ -1,5 +1,5 @@
 import { Box, Grid, GridItem, Spinner, Text } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import { useEnrollment } from "../../hooks/useEnrollments";
 import AccessDenyPage from "../AccessDenyPage";
@@ -7,16 +7,16 @@ import EnrollmentEditForm from "./EnrollmentEditForm";
 import { useStudentEnrollmentStore } from "./enrollmentStore";
 
 const EnrollmentDetailPage = () => {
-  const studentId = useStudentEnrollmentStore(
-    (s) => s.studentEnrollmentQuery.selectedStudentId
-  );
+  const location = useLocation();
+  const studentId = parseInt(location.pathname.substring(25, 27));
+
   const { enrollmentId } = useParams();
   const enrollId = parseInt(enrollmentId!);
 
-  const { data: enrollment, isLoading } = useEnrollment(studentId!, enrollId);
+  const { data: enrollment, isLoading } = useEnrollment(studentId, enrollId);
 
   const canChangeCourse = hasPermission("Can change enrollment");
-//   const canDeleteCourse = hasPermission("Can delete enrollment");
+  //   const canDeleteCourse = hasPermission("Can delete enrollment");
   if (!hasPermission("Can view enrollment")) return <AccessDenyPage />;
 
   if (isLoading) return <Spinner />;

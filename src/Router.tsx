@@ -149,15 +149,15 @@ const router = createBrowserRouter([
         element: <AttendanceListPage />,
       },
       {
-        path: `${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/:studentId/${ENROLLMENTS_ROUTE}/`,
+        path: `${STUDENTS_ROUTE}/:studentId/${ENROLLMENTS_ROUTE}/`,
         element: <EnrollmentListPage />,
       },
       {
-        path: `${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/:studentId/${ENROLLMENTS_CREATE_ROUTE}/`,
+        path: `${STUDENTS_ROUTE}/:studentId/${ENROLLMENTS_CREATE_ROUTE}/`,
         element: <EnrollmentCreateForm />,
       },
       {
-        path: `${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_ROUTE}/:enrollmentId/`,
+        path: `${STUDENTS_ROUTE}/:studentId/${ENROLLMENTS_ROUTE}/:enrollmentId/`,
         element: <EnrollmentDetailPage />,
       },
       {

@@ -9,7 +9,6 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import {
@@ -18,7 +17,6 @@ import {
 } from "../../cacheKeysAndRoutes";
 import { useStudent } from "../../hooks/useStudents";
 import AccessDenyPage from "../../pages/AccessDenyPage";
-import { useStudentEnrollmentStore } from "../../pages/enrollments/enrollmentStore";
 import UserGroupsPage from "../../pages/users/UserGroupsPage";
 import StudentEditForm from "./StudentEditForm";
 
@@ -28,11 +26,6 @@ const StudentDetailPage = () => {
   const { data: student, isLoading } = useStudent(studentId);
   const canChangeStudent = hasPermission("Can change student");
   const canEnrollStudent = hasPermission("Can add enrollment");
-  const { setSelectedStudentId } = useStudentEnrollmentStore();
-
-  useEffect(() => {
-    if (studentId) setSelectedStudentId(studentId);
-  }, [studentId]);
 
   if (!hasPermission("Can view student")) return <AccessDenyPage />;
   if (isLoading) return <Spinner />;
@@ -90,11 +83,11 @@ const StudentDetailPage = () => {
         <GridItem area="studentGroups">
           <UserGroupsPage userPk={studentId} />
           <Box mt={8} ml={20} color="blue.500">
-            <Link to={ENROLLMENTS_ROUTE}>Student Enrollments</Link>
+            <Link to={ENROLLMENTS_ROUTE}>Student Sections</Link>
           </Box>
           {canEnrollStudent && (
             <Box mt={8} ml={20} color="blue.500">
-              <Link to={ENROLLMENTS_CREATE_ROUTE}>Enroll Student</Link>
+              <Link to={ENROLLMENTS_CREATE_ROUTE}>Student Enrollment Form</Link>
             </Box>
           )}
         </GridItem>

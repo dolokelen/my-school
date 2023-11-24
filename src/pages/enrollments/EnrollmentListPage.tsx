@@ -8,18 +8,21 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { hasPermission } from "../../Utilities/hasPermissions";
-import { AUTH_LAYOUT_ROUTE, ENROLLMENTS_ROUTE } from "../../cacheKeysAndRoutes";
+import {
+  AUTH_LAYOUT_ROUTE,
+  ENROLLMENTS_ROUTE,
+  STUDENTS_ROUTE,
+} from "../../cacheKeysAndRoutes";
 import { useEnrollments } from "../../hooks/useEnrollments";
 import AccessDenyPage from "../AccessDenyPage";
-import { useStudentEnrollmentStore } from "./enrollmentStore";
 
 const EnrollmentListPage = () => {
-  const selectedStudentId = useStudentEnrollmentStore(
-    (s) => s.studentEnrollmentQuery.selectedStudentId
-  );
-  const { data: enrollments, isLoading } = useEnrollments(selectedStudentId!);
+  const location = useLocation();
+  const studentId = parseInt(location.pathname.substring(25, 27));
+
+  const { data: enrollments, isLoading } = useEnrollments(studentId);
 
   if (!hasPermission("Can view enrollment")) return <AccessDenyPage />;
   if (isLoading) return <Spinner />;
@@ -43,7 +46,7 @@ const EnrollmentListPage = () => {
             <Tr key={enrol.id}>
               <Td>
                 <Link
-                  to={`${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
+                  to={`${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/${studentId}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
                 >
                   {enrol?.student.user.first_name}{" "}
                   {enrol?.student.user.last_name}
@@ -52,7 +55,7 @@ const EnrollmentListPage = () => {
 
               <Td>
                 <Link
-                  to={`${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
+                  to={`${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/${studentId}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
                 >
                   {enrol?.course.code}
                 </Link>
@@ -60,7 +63,7 @@ const EnrollmentListPage = () => {
 
               <Td>
                 <Link
-                  to={`${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
+                  to={`${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/${studentId}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
                 >
                   {enrol?.section.name}
                 </Link>
@@ -68,7 +71,7 @@ const EnrollmentListPage = () => {
 
               <Td>
                 <Link
-                  to={`${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
+                  to={`${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/${studentId}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
                 >
                   {enrol?.semester.name}
                 </Link>
@@ -76,7 +79,7 @@ const EnrollmentListPage = () => {
 
               <Td>
                 <Link
-                  to={`${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
+                  to={`${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/${studentId}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
                 >
                   {enrol?.school_year.year}
                 </Link>
@@ -84,7 +87,7 @@ const EnrollmentListPage = () => {
 
               <Td>
                 <Link
-                  to={`${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
+                  to={`${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/${studentId}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
                 >
                   {enrol?.status}
                 </Link>
@@ -92,7 +95,7 @@ const EnrollmentListPage = () => {
 
               <Td>
                 <Link
-                  to={`${AUTH_LAYOUT_ROUTE}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
+                  to={`${AUTH_LAYOUT_ROUTE}/${STUDENTS_ROUTE}/${studentId}/${ENROLLMENTS_ROUTE}/${enrol.id}`}
                 >
                   {enrol?.date.substring(0, 10)}
                 </Link>

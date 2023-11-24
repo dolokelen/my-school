@@ -2,6 +2,7 @@ import { Box, Button, Select, Stack, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { hasPermission } from "../../Utilities/hasPermissions";
@@ -16,7 +17,6 @@ import {
 } from "../../hooks/useEnrollments";
 import { useSemesters } from "../../hooks/useSemesters";
 import AccessDenyPage from "../AccessDenyPage";
-import { useStudentEnrollmentStore } from "./enrollmentStore";
 
 const schema = z.object({
   id: z.number().optional(),
@@ -35,11 +35,10 @@ interface Props {
 }
 const EnrollmentEditForm = ({ enrollmentId }: Props) => {
   const [selectedCourseId, setSelectedCourseId] = useState<number[]>([]);
-  const studentId = useStudentEnrollmentStore(
-    (s) => s.studentEnrollmentQuery.selectedStudentId
-  );
+  const location = useLocation();
+  const studentId = parseInt(location.pathname.substring(25, 27));
 
-  const { data: enrollment } = useEnrollment(studentId!, enrollmentId);
+  const { data: enrollment } = useEnrollment(studentId, enrollmentId);
   const { data: eligibleCourses } = useEnrollmentCourses(studentId!);
   const { data: courses } = useCourses();
   const { data: semesters } = useSemesters();
@@ -117,6 +116,9 @@ const EnrollmentEditForm = ({ enrollmentId }: Props) => {
           <Box my={my}>
             <Text fontSize={fontSize}>Section</Text>
             <Select {...register("section", { valueAsNumber: true })}>
+              <option value={enrollment?.section.id}>
+                {enrollment?.section.name}
+              </option>
               {handleSelectedCourseSections()?.map((sec) => (
                 <option value={sec.id} key={sec.id}>
                   {sec.name}
@@ -182,7 +184,7 @@ const EnrollmentEditForm = ({ enrollmentId }: Props) => {
           colorScheme={teal}
           onClick={() => mutation.isError && toast.error(customErrorMessage)}
         >
-          Update Enroll
+          Update Now
         </Button>
       </form>
     </>
