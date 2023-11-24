@@ -4,7 +4,6 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import { useEnrollment } from "../../hooks/useEnrollments";
 import AccessDenyPage from "../AccessDenyPage";
 import EnrollmentEditForm from "./EnrollmentEditForm";
-import { useStudentEnrollmentStore } from "./enrollmentStore";
 
 const EnrollmentDetailPage = () => {
   const location = useLocation();
@@ -16,7 +15,7 @@ const EnrollmentDetailPage = () => {
   const { data: enrollment, isLoading } = useEnrollment(studentId, enrollId);
 
   const canChangeCourse = hasPermission("Can change enrollment");
-  //   const canDeleteCourse = hasPermission("Can delete enrollment");
+  //   const canDeleteEnrollment = hasPermission("Can delete enrollment");
   if (!hasPermission("Can view enrollment")) return <AccessDenyPage />;
 
   if (isLoading) return <Spinner />;
@@ -50,7 +49,7 @@ const EnrollmentDetailPage = () => {
           Date: {enrollment?.date.substring(0, 10)}
         </Text>
 
-        {/* {canDeleteCourse && (
+        {/* {canDeleteEnrollment && (
             <Button
               isActive
               mt="1rem"

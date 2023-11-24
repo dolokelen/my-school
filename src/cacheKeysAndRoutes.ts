@@ -57,6 +57,7 @@ export const ENROLLMENTS_ROUTE = "enrollments-list";
 export const ENROLLMENTS_CREATE_ROUTE = "enrollments-create-form";
 export const TEACHES_ROUTE = "teaches-list";
 export const TEACHES_CREATE_ROUTE = "teaches-create-form";
+export const SECTION_ASSIGNMENT_ROUTE = "section-assignment-form";
 
 export const red = "red";
 export const blue = "blue";

@@ -10,7 +10,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AUTH_LAYOUT_ROUTE, TEACHES_ROUTE } from "../../cacheKeysAndRoutes";
 import { useTeacherProfile } from "../../hooks/useTeachers";
 import {
@@ -18,29 +18,23 @@ import {
   useTeacherSectionClasstime,
   useTeacherSectionEnrollments,
 } from "../../hooks/useTeaches";
-import { useEnrollmentIdStore } from "../../pages/enrollments/enrollmentStore";
 import AssignedSectionEditForm from "../../pages/teaches/AssignedSectionEditFrom";
-import { useTeacherIdStore } from "./teacherStore";
-import { useTeacherSectionStore } from "./techerSectionStore";
 
 const TeacherSectionDetailPage = () => {
-  const teacherId = useTeacherIdStore(
-    (s) => s.teacherIdQuery.selectedTeacherId
-  );
+  const courseId = parseInt(localStorage.getItem("c")!);
+  const sectionId = parseInt(localStorage.getItem("s")!);
+
+  const { id } = useParams();
+  const enrollmentId = parseInt(id!);
+
+  const { teacherId } = useParams();
+  const teacher_id = parseInt(teacherId!);
+
+  const { data: teacher } = useTeacherProfile(teacher_id);
+  const { data: classtimes } = useTeacherSectionClasstime(sectionId);
+  const { data: classrooms } = useTeacherSectionClassroom(sectionId);
   const { data: teacherSectionStudents, isLoading } =
-    useTeacherSectionEnrollments(teacherId!);
-  const selectedSectionId = useTeacherSectionStore(
-    (s) => s.sectionQuery.selectedSectionId
-  );
-  const selectedCourseId = useTeacherSectionStore(
-    (s) => s.sectionQuery.selectedCourseId
-  );
-  const enrollmentId = useEnrollmentIdStore(
-    (s) => s.enrollmentIdQuery.enrollmentId
-  );
-  const { data: teacher } = useTeacherProfile(teacherId!);
-  const { data: classtimes } = useTeacherSectionClasstime(selectedSectionId!);
-  const { data: classrooms } = useTeacherSectionClassroom(selectedSectionId!);
+    useTeacherSectionEnrollments(teacher_id);
 
   const handleClasstime = () => {
     if (classtimes) {
@@ -63,9 +57,7 @@ const TeacherSectionDetailPage = () => {
   const handleSectionStudents = () => {
     if (teacherSectionStudents) {
       const students = teacherSectionStudents.filter(
-        (sec) =>
-          sec.course.id === selectedCourseId &&
-          sec.section.id === selectedSectionId
+        (sec) => sec.course.id === courseId && sec.section.id === sectionId
       );
       return students;
     }
@@ -144,7 +136,10 @@ const TeacherSectionDetailPage = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      <AssignedSectionEditForm enrollmentId={enrollmentId!} />
+      <AssignedSectionEditForm
+        enrollmentId={enrollmentId}
+        teacherId={teacher_id}
+      />
     </>
   );
 };

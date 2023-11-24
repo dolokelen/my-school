@@ -13,23 +13,21 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
-import { AUTH_LAYOUT_ROUTE, TEACHERS_ROUTE } from "../../cacheKeysAndRoutes";
-import AccessDenyPage from "../../pages/AccessDenyPage";
-import { useTeachers } from "../../hooks/useTeachers";
-import { useDepartments } from "../../hooks/useDepartments";
-import { useTeacherIdStore, useTeacherStore } from "./teacherStore";
 import { hasPermission } from "../../Utilities/hasPermissions";
+import { AUTH_LAYOUT_ROUTE, TEACHERS_ROUTE } from "../../cacheKeysAndRoutes";
+import { useDepartments } from "../../hooks/useDepartments";
+import { useTeachers } from "../../hooks/useTeachers";
+import AccessDenyPage from "../../pages/AccessDenyPage";
+import { useTeacherStore } from "./teacherStore";
 
 const TeacherListPage = () => {
-  if (!hasPermission("Can view teacher")) return <AccessDenyPage />;
-
   const { data: teachers, error, isLoading } = useTeachers();
   const { data: departments } = useDepartments();
   const setSelectedDepartmentId = useTeacherStore(
     (s) => s.setSelectedDepartmentId
   );
-  const setSelectedTeacherId = useTeacherIdStore((s) => s.setSelectedTeacherId);
 
+  if (!hasPermission("Can view teacher")) return <AccessDenyPage />;
   if (error) {
     const unAuthorized = "Request failed with status code 403";
     if (error.message === unAuthorized) return <AccessDenyPage />;
@@ -77,10 +75,7 @@ const TeacherListPage = () => {
             </Thead>
             <Tbody>
               {teachers?.map((teacher) => (
-                <Tr
-                  key={teacher.user.id}
-                  onClick={() => setSelectedTeacherId(teacher.user.id)}
-                >
+                <Tr key={teacher.user.id}>
                   <Td>
                     <Link
                       key={teacher.user.id}

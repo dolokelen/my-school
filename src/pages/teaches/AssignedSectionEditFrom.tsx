@@ -6,8 +6,7 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
-import { useTeacherIdStore } from "../../accounts/teachers/teacherStore";
-import { blue, red } from "../../cacheKeysAndRoutes";
+import { red, teal } from "../../cacheKeysAndRoutes";
 import { useSemesters } from "../../hooks/useSemesters";
 import { useTeacher, useTeachers } from "../../hooks/useTeachers";
 import {
@@ -30,8 +29,9 @@ export type AssignSectionEditFormData = z.infer<typeof schema>;
 
 interface Props {
   enrollmentId: number;
+  teacherId: number;
 }
-const AssignedSectionEditForm = ({ enrollmentId }: Props) => {
+const AssignedSectionEditForm = ({ enrollmentId, teacherId }: Props) => {
   const [selectedCourseId, setSelectedCourseId] = useState<number[]>([]);
   const { data: teachers } = useTeachers();
   const { data: semesters } = useSemesters();
@@ -45,10 +45,7 @@ const AssignedSectionEditForm = ({ enrollmentId }: Props) => {
     formState: { errors },
   } = useForm<AssignSectionEditFormData>({ resolver: zodResolver(schema) });
 
-  const teacherId = useTeacherIdStore(
-    (s) => s.teacherIdQuery.selectedTeacherId
-  );
-  const { data: teacher } = useTeacher(teacherId!);
+  const { data: teacher } = useTeacher(teacherId);
   const onUpdate = () => toast.success("Section Updated Successfully!");
   const mutation = useEditAssignSection(onUpdate);
 
@@ -187,8 +184,9 @@ const AssignedSectionEditForm = ({ enrollmentId }: Props) => {
           </Box>
         </Stack>
         <Button
+          isActive
           type="submit"
-          colorScheme={blue}
+          colorScheme={teal}
           onClick={() => mutation.isError && toast.error(customErrorMessage)}
         >
           Update Section

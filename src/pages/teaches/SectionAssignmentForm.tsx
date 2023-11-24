@@ -2,11 +2,11 @@ import { Box, Button, Heading, Select, Stack, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
-import { useTeacherIdStore } from "../../accounts/teachers/teacherStore";
 import { blue, red } from "../../cacheKeysAndRoutes";
 import { useSemesters } from "../../hooks/useSemesters";
 import { useTeacher } from "../../hooks/useTeachers";
@@ -37,12 +37,14 @@ const SectionAssignmentForm = () => {
     reset,
     formState: { errors },
   } = useForm<SectionAssignmentFormData>({ resolver: zodResolver(schema) });
+  const location = useLocation();
 
-  const teacherId = useTeacherIdStore(
-    (s) => s.teacherIdQuery.selectedTeacherId
-  );
-  const { data: teacher } = useTeacher(teacherId!);
-  const mutation = useSectionAssigment(teacherId!, onCreate, () => reset());
+  const teacherIdIndex = 3;
+  const stringId = location.pathname.split("/")[teacherIdIndex];
+  const teacherId = parseInt(stringId);
+
+  const { data: teacher } = useTeacher(teacherId);
+  const mutation = useSectionAssigment(teacherId, onCreate, () => reset());
   const onSubmit = (data: SectionAssignmentFormData) => {
     mutation.mutate({ ...data, teacher: teacherId });
   };

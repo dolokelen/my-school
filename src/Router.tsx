@@ -43,13 +43,13 @@ import {
   SCH_YEAR_LIST_ROUTE,
   SECTIONS_CREATE_ROUTE,
   SECTIONS_ROUTE,
+  SECTION_ASSIGNMENT_ROUTE,
   SEMESTERS_ROUTE,
   SEMESTER_CREATE_ROUTE,
   STUDENTS_ROUTE,
   STUDENT_REGISTER_ROUTE,
   TEACHERS_ROUTE,
   TEACHER_REGISTER_ROUTE,
-  TEACHES_CREATE_ROUTE,
   TEACHES_ROUTE,
   USER_ROUTE,
 } from "./cacheKeysAndRoutes";
@@ -90,9 +90,9 @@ import SectionListPage from "./pages/sections/SectionListPage";
 import SemesterCreateForm from "./pages/semesters/SemesterCreateForm";
 import SemesterDetailPage from "./pages/semesters/SemesterDetailPage";
 import SemesterListPage from "./pages/semesters/SemesterListPage";
+import SectionAssignmentForm from "./pages/teaches/SectionAssignmentForm";
 import UserDetailPage from "./pages/users/UserDetailPage";
 import UsersListPage from "./pages/users/UsersListPage";
-import SectionAssignmentForm from "./pages/teaches/SectionAssignmentForm";
 
 const router = createBrowserRouter([
   {
@@ -161,11 +161,11 @@ const router = createBrowserRouter([
         element: <EnrollmentDetailPage />,
       },
       {
-        path: `${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${ENROLLMENTS_ROUTE}/:id/`,
+        path: `${TEACHES_ROUTE}/:teacherId/${ENROLLMENTS_ROUTE}/:id/`,
         element: <TeacherSectionDetailPage />,
       },
       {
-        path: `${AUTH_LAYOUT_ROUTE}/${TEACHERS_ROUTE}/${TEACHES_CREATE_ROUTE}/:id/`,
+        path: `${TEACHERS_ROUTE}/:teacherId/${SECTION_ASSIGNMENT_ROUTE}`,
         element: <SectionAssignmentForm />,
       },
     ],

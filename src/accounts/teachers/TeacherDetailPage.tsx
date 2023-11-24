@@ -12,7 +12,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import OverflowYContainer from "../../GroupsAndPermissions/OverflowYContainer";
 import { hasPermission } from "../../Utilities/hasPermissions";
-import { AUTH_LAYOUT_ROUTE, TEACHERS_ROUTE, TEACHES_CREATE_ROUTE } from "../../cacheKeysAndRoutes";
+import { AUTH_LAYOUT_ROUTE, SECTION_ASSIGNMENT_ROUTE, TEACHERS_ROUTE, TEACHES_CREATE_ROUTE } from "../../cacheKeysAndRoutes";
 import { useTeacher } from "../../hooks/useTeachers";
 import AccessDenyPage from "../../pages/AccessDenyPage";
 import UserGroupsPage from "../../pages/users/UserGroupsPage";
@@ -21,16 +21,16 @@ import TeacherMenteesPage from "./TeacherMenteesPage";
 import TeacherSectionListPage from "./TeacherSectionListPage";
 
 const TeacherDetailPage = () => {
-  if (!hasPermission("Can view teacher")) return <AccessDenyPage />;
   const { id } = useParams();
   const teacherId = parseInt(id!);
   const { data: teacher, isLoading } = useTeacher(teacherId);
   const canChangeTeacher = hasPermission("Can change teacher");
-
+  
   const handleTeacherTitle = () => {
     if (teacher) return `Prof. ${teacher.user.full_name}`;
   };
-
+  
+  if (!hasPermission("Can view teacher")) return <AccessDenyPage />;
   if (isLoading) return <Spinner />;
   return (
     <>
@@ -98,7 +98,7 @@ const TeacherDetailPage = () => {
         <GridItem area="teacherGroups">
           <UserGroupsPage userPk={teacherId} />
           <Box my={8} ml="20%" color="blue.500" fontSize="1.5rem">
-            <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHERS_ROUTE}/${TEACHES_CREATE_ROUTE}/${teacherId}`}>
+            <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHERS_ROUTE}/${teacherId}/${SECTION_ASSIGNMENT_ROUTE}/`}>
               Assign Section
             </Link>
           </Box>

@@ -17,16 +17,3 @@ export const useTeacherStore = create<TeacherQueryStore>((set) => ({
       teacherQuery: { selectedDepartmentId },
     })),
 }));
-
-interface TeacherIdQueryStore {
-  teacherIdQuery: TeacherQuery;
-  setSelectedTeacherId: (teacherId: number) => void;
-}
-
-export const useTeacherIdStore = create<TeacherIdQueryStore>((set) => ({
-  teacherIdQuery: {},
-  setSelectedTeacherId: (selectedTeacherId) =>
-    set(() => ({
-      teacherIdQuery: { selectedTeacherId },
-    })),
-}));
