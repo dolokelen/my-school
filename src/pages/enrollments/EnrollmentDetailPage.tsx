@@ -4,10 +4,11 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import { useEnrollment } from "../../hooks/useEnrollments";
 import AccessDenyPage from "../AccessDenyPage";
 import EnrollmentEditForm from "./EnrollmentEditForm";
+import getPersonIdFromURL from "../../Utilities/getPersonIdFromURL";
 
 const EnrollmentDetailPage = () => {
   const location = useLocation();
-  const studentId = parseInt(location.pathname.substring(25, 27));
+  const studentId = getPersonIdFromURL(location.pathname);
 
   const { enrollmentId } = useParams();
   const enrollId = parseInt(enrollmentId!);

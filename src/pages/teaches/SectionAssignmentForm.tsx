@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import getPersonIdFromURL from "../../Utilities/getPersonIdFromURL";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { blue, red } from "../../cacheKeysAndRoutes";
@@ -30,6 +31,10 @@ const SectionAssignmentForm = () => {
   const [selectedCourseId, setSelectedCourseId] = useState<number[]>([]);
   const { data: semesters } = useSemesters();
   const { data: courses } = useCurrentCoursesWithSections();
+
+  const location = useLocation();
+  const teacherId = getPersonIdFromURL(location.pathname);
+
   const onCreate = () => toast.success("Section Assigned Successfully!");
   const {
     register,
@@ -37,11 +42,6 @@ const SectionAssignmentForm = () => {
     reset,
     formState: { errors },
   } = useForm<SectionAssignmentFormData>({ resolver: zodResolver(schema) });
-  const location = useLocation();
-
-  const teacherIdIndex = 3;
-  const stringId = location.pathname.split("/")[teacherIdIndex];
-  const teacherId = parseInt(stringId);
 
   const { data: teacher } = useTeacher(teacherId);
   const mutation = useSectionAssigment(teacherId, onCreate, () => reset());

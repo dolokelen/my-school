@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import getPersonIdFromURL from "../../Utilities/getPersonIdFromURL";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
 import { enrollmentStatus } from "../../accounts/data";
@@ -31,7 +32,7 @@ export type EnrollmentCreateFormData = z.infer<typeof schema>;
 const EnrollmentCreateForm = () => {
   const [selectedCourseId, setSelectedCourseId] = useState<number[]>([]);
   const location = useLocation();
-  const studentId = parseInt(location.pathname.substring(25, 27));
+  const studentId = getPersonIdFromURL(location.pathname);
 
   const { data: courses } = useEnrollmentCourses(studentId);
   const { data: student } = useStudent(studentId);

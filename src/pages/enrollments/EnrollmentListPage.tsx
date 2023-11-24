@@ -17,10 +17,11 @@ import {
 } from "../../cacheKeysAndRoutes";
 import { useEnrollments } from "../../hooks/useEnrollments";
 import AccessDenyPage from "../AccessDenyPage";
+import getPersonIdFromURL from "../../Utilities/getPersonIdFromURL";
 
 const EnrollmentListPage = () => {
   const location = useLocation();
-  const studentId = parseInt(location.pathname.substring(25, 27));
+  const studentId = getPersonIdFromURL(location.pathname);
 
   const { data: enrollments, isLoading } = useEnrollments(studentId);
 
