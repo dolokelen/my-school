@@ -19,6 +19,7 @@ import {
   useTeacherSectionEnrollments,
 } from "../../hooks/useTeaches";
 import AssignedSectionEditForm from "../../pages/teaches/AssignedSectionEditFrom";
+import GradeUploadPage from "../../pages/grades/GradeUploadPage";
 
 const TeacherSectionDetailPage = () => {
   const courseId = parseInt(localStorage.getItem("c")!);
@@ -140,6 +141,9 @@ const TeacherSectionDetailPage = () => {
         enrollmentId={enrollmentId}
         teacherId={teacher_id}
       />
+      <Box mt={12} mb={3}></Box>
+      <GradeUploadPage teacherId={teacher_id} teachId={enrollmentId}/>
+
     </>
   );
 };
