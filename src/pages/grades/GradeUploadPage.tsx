@@ -22,7 +22,7 @@ interface Props {
 const GradeUploadPage = ({ teacherId, teachId }: Props) => {
   const [gradeFile, setGradeFile] = useState<File | undefined>();
 
-  const onUpload = () => "Students Graded Successfully.";
+  const onUpload = () => toast.success("Students Graded Successfully.");
   const mutation = useUploadStudentGrade(teacherId, teachId, onUpload);
 
   const {

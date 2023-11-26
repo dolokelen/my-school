@@ -9,9 +9,14 @@ import {
   Th,
   Thead,
   Tr,
+  Text,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
-import { AUTH_LAYOUT_ROUTE, TEACHES_ROUTE } from "../../cacheKeysAndRoutes";
+import {
+  AUTH_LAYOUT_ROUTE,
+  TEACHES_ROUTE,
+  red,
+} from "../../cacheKeysAndRoutes";
 import { useTeacherProfile } from "../../hooks/useTeachers";
 import {
   useTeacherSectionClassroom,
@@ -20,6 +25,7 @@ import {
 } from "../../hooks/useTeaches";
 import AssignedSectionEditForm from "../../pages/teaches/AssignedSectionEditFrom";
 import GradeUploadPage from "../../pages/grades/GradeUploadPage";
+import { hasPermission } from "../../Utilities/hasPermissions";
 
 const TeacherSectionDetailPage = () => {
   const courseId = parseInt(localStorage.getItem("c")!);
@@ -36,6 +42,7 @@ const TeacherSectionDetailPage = () => {
   const { data: classrooms } = useTeacherSectionClassroom(sectionId);
   const { data: teacherSectionStudents, isLoading } =
     useTeacherSectionEnrollments(teacher_id);
+  const canChangeTeach = hasPermission("Can change teach");
 
   const handleClasstime = () => {
     if (classtimes) {
@@ -87,63 +94,87 @@ const TeacherSectionDetailPage = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {handleSectionStudents()?.map((sec) => (
-              <Tr key={sec.id}>
-                <Td>
-                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                    {sec?.student.user.first_name} {sec?.student.user.last_name}
-                  </Link>
-                </Td>
+            {handleSectionStudents().length ? (
+              handleSectionStudents()?.map((sec) => (
+                <Tr key={sec.id}>
+                  <Td>
+                    <Link
+                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
+                    >
+                      {sec?.student.user.first_name}{" "}
+                      {sec?.student.user.last_name}
+                    </Link>
+                  </Td>
 
-                <Td>
-                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                    {sec?.student.user.email}
-                  </Link>
-                </Td>
+                  <Td>
+                    <Link
+                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
+                    >
+                      {sec?.student.user.email}
+                    </Link>
+                  </Td>
 
-                <Td>
-                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                    {sec?.student.phone}
-                  </Link>
-                </Td>
+                  <Td>
+                    <Link
+                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
+                    >
+                      {sec?.student.phone}
+                    </Link>
+                  </Td>
 
-                <Td>
-                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                    {sec?.student.level}
-                  </Link>
-                </Td>
-                <Td>
-                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                    {sec?.course.code}
-                  </Link>
-                </Td>
-                <Td>
-                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                    {sec?.section.name}
-                  </Link>
-                </Td>
-                <Td>
-                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                    {sec?.semester.name}
-                  </Link>
-                </Td>
-                <Td>
-                  <Link to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}>
-                    {sec?.school_year.year}
-                  </Link>
-                </Td>
-              </Tr>
-            ))}
+                  <Td>
+                    <Link
+                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
+                    >
+                      {sec?.student.level}
+                    </Link>
+                  </Td>
+                  <Td>
+                    <Link
+                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
+                    >
+                      {sec?.course.code}
+                    </Link>
+                  </Td>
+                  <Td>
+                    <Link
+                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
+                    >
+                      {sec?.section.name}
+                    </Link>
+                  </Td>
+                  <Td>
+                    <Link
+                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
+                    >
+                      {sec?.semester.name}
+                    </Link>
+                  </Td>
+                  <Td>
+                    <Link
+                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
+                    >
+                      {sec?.school_year.year}
+                    </Link>
+                  </Td>
+                </Tr>
+              ))
+            ) : (
+              <Text color={red} ml={6}>
+                No enrollment yet
+              </Text>
+            )}
           </Tbody>
         </Table>
       </TableContainer>
-      <AssignedSectionEditForm
-        enrollmentId={enrollmentId}
-        teacherId={teacher_id}
-      />
+      {canChangeTeach && (
+        <AssignedSectionEditForm
+          enrollmentId={enrollmentId}
+          teacherId={teacher_id}
+        />
+      )}
       <Box mt={12} mb={3}></Box>
-      <GradeUploadPage teacherId={teacher_id} teachId={enrollmentId}/>
-
+      <GradeUploadPage teacherId={teacher_id} teachId={enrollmentId} />
     </>
   );
 };

@@ -12,7 +12,7 @@ export const http_400_BAD_REQUEST_CUSTOM_MESSAGE = <
 ) => {
   const message = "Request failed with status code 400";
   const customErrMessage =
-    "This record already exists. Please provide valid data.";
+    "This record might exist or the provided data is not valid.";
   const disPlayedMessage =
     mutation.error?.message === message
       ? customErrMessage
