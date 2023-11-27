@@ -6,26 +6,23 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
-  Text,
 } from "@chakra-ui/react";
-import { Link, useParams } from "react-router-dom";
-import {
-  AUTH_LAYOUT_ROUTE,
-  TEACHES_ROUTE,
-  red,
-} from "../../cacheKeysAndRoutes";
+import { useParams } from "react-router-dom";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import { red } from "../../cacheKeysAndRoutes";
 import { useTeacherProfile } from "../../hooks/useTeachers";
 import {
   useTeacherSectionClassroom,
   useTeacherSectionClasstime,
   useTeacherSectionEnrollments,
 } from "../../hooks/useTeaches";
-import AssignedSectionEditForm from "../../pages/teaches/AssignedSectionEditFrom";
 import GradeUploadPage from "../../pages/grades/GradeUploadPage";
-import { hasPermission } from "../../Utilities/hasPermissions";
+import TeacherSectionGradeListPage from "../../pages/grades/TeacherSectionGradeListPage";
+import AssignedSectionEditForm from "../../pages/teaches/AssignedSectionEditFrom";
 
 const TeacherSectionDetailPage = () => {
   const courseId = parseInt(localStorage.getItem("c")!);
@@ -98,71 +95,23 @@ const TeacherSectionDetailPage = () => {
               handleSectionStudents()?.map((sec) => (
                 <Tr key={sec.id}>
                   <Td>
-                    <Link
-                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
-                    >
-                      {sec?.student.user.first_name}{" "}
-                      {sec?.student.user.last_name}
-                    </Link>
+                    {sec?.student.user.first_name} {sec?.student.user.last_name}
                   </Td>
-
-                  <Td>
-                    <Link
-                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
-                    >
-                      {sec?.student.user.email}
-                    </Link>
-                  </Td>
-
-                  <Td>
-                    <Link
-                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
-                    >
-                      {sec?.student.phone}
-                    </Link>
-                  </Td>
-
-                  <Td>
-                    <Link
-                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
-                    >
-                      {sec?.student.level}
-                    </Link>
-                  </Td>
-                  <Td>
-                    <Link
-                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
-                    >
-                      {sec?.course.code}
-                    </Link>
-                  </Td>
-                  <Td>
-                    <Link
-                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
-                    >
-                      {sec?.section.name}
-                    </Link>
-                  </Td>
-                  <Td>
-                    <Link
-                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
-                    >
-                      {sec?.semester.name}
-                    </Link>
-                  </Td>
-                  <Td>
-                    <Link
-                      to={`${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${sec.id}`}
-                    >
-                      {sec?.school_year.year}
-                    </Link>
-                  </Td>
+                  <Td>{sec?.student.user.email}</Td>
+                  <Td>{sec?.student.phone}</Td>
+                  <Td>{sec?.student.level}</Td>
+                  <Td>{sec?.course.code}</Td>
+                  <Td>{sec?.section.name}</Td>
+                  <Td>{sec?.semester.name}</Td>
+                  <Td>{sec?.school_year.year}</Td>
                 </Tr>
               ))
             ) : (
-              <Text color={red} ml={6}>
-                No enrollment yet
-              </Text>
+              <Tr>
+                <Td color={red} ml={6}>
+                  No enrollment yet.
+                </Td>
+              </Tr>
             )}
           </Tbody>
         </Table>
@@ -175,6 +124,15 @@ const TeacherSectionDetailPage = () => {
       )}
       <Box mt={12} mb={3}></Box>
       <GradeUploadPage teacherId={teacher_id} teachId={enrollmentId} />
+      <Box mt={20}>
+        <Heading size="md" ml="40%" mb={3}>
+          Students Grades
+        </Heading>
+        <TeacherSectionGradeListPage
+          teacherId={teacher_id}
+          teachId={enrollmentId}
+        />
+      </Box>
     </>
   );
 };

@@ -14,6 +14,7 @@ import {
   AUTH_LAYOUT_ROUTE,
   ENROLLMENTS_ROUTE,
   TEACHES_ROUTE,
+  red,
 } from "../../cacheKeysAndRoutes";
 import { useTeacherSections } from "../../hooks/useTeaches";
 
@@ -39,31 +40,37 @@ const TeacherSectionListPage = ({ teacher_id }: Props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {teacherSections?.map((enroll) => (
-            <Tr
-              key={enroll.id}
-              onClick={() => {
-                navigate(
-                  `${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${teacher_id}/${ENROLLMENTS_ROUTE}/${enroll.id}/`
-                );
-                localStorage.setItem("c", enroll.course.id.toString());
-                localStorage.setItem("s", enroll.section.id.toString());
-              }}
-            >
-              <Td>
-                <Link>{enroll?.course.code}</Link>
-              </Td>
-              <Td>
-                <Link>{enroll?.section.name}</Link>
-              </Td>
-              <Td>
-                <Link>{enroll?.semester.name}</Link>
-              </Td>
-              <Td>
-                <Link>{enroll?.school_year.year}</Link>
-              </Td>
+          {teacherSections?.length ? (
+            teacherSections?.map((enroll) => (
+              <Tr
+                key={enroll.id}
+                onClick={() => {
+                  navigate(
+                    `${AUTH_LAYOUT_ROUTE}/${TEACHES_ROUTE}/${teacher_id}/${ENROLLMENTS_ROUTE}/${enroll.id}/`
+                  );
+                  localStorage.setItem("c", enroll.course.id.toString());
+                  localStorage.setItem("s", enroll.section.id.toString());
+                }}
+              >
+                <Td>
+                  <Link>{enroll?.course.code}</Link>
+                </Td>
+                <Td>
+                  <Link>{enroll?.section.name}</Link>
+                </Td>
+                <Td>
+                  <Link>{enroll?.semester.name}</Link>
+                </Td>
+                <Td>
+                  <Link>{enroll?.school_year.year}</Link>
+                </Td>
+              </Tr>
+            ))
+          ) : (
+            <Tr>
+              <Td color={red}>There is no assign section yet.</Td>
             </Tr>
-          ))}
+          )}
         </Tbody>
       </Table>
     </TableContainer>
