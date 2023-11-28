@@ -5,6 +5,7 @@ import authRouteToHomeRoute from "../Utilities/getHomeRoute";
 import logoutUser from "../Utilities/logoutUser";
 import { AUTH_LAYOUT_ROUTE } from "../cacheKeysAndRoutes";
 import { useUserProfile } from "../hooks/useUsers";
+import ColorModeSwitch from "./ColorModeSwitch";
 
 const AuthNavBar = () => {
   const { data: userProfile } = useUserProfile();
@@ -18,6 +19,7 @@ const AuthNavBar = () => {
           Logout
         </Link>
         <Link to="#">Welcome {userProfile?.last_name}</Link>
+        <ColorModeSwitch />
       </HStack>
       <ToastContainer />
     </>
