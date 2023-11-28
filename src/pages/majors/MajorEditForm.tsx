@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { hasPermission } from "../../Utilities/hasPermissions";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
-import { blue } from "../../cacheKeysAndRoutes";
+import { teal } from "../../cacheKeysAndRoutes";
 import { useDepartments } from "../../hooks/useDepartments";
 import { Major, useEditMajor } from "../../hooks/useMajors";
-import { hasPermission } from "../../Utilities/hasPermissions";
 import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
@@ -86,8 +86,8 @@ const MajorEditForm = ({ major }: Props) => {
             )}
           </Box>
         </Stack>
-        <Button type="submit" colorScheme={blue}>
-          Create Major
+        <Button isActive type="submit" colorScheme={teal}>
+          Update Major
         </Button>
       </form>
     </>

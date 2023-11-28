@@ -1,6 +1,4 @@
-import { Avatar, Flex } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import { HOME_ROUTE } from "../cacheKeysAndRoutes";
+import { Flex } from "@chakra-ui/react";
 import DashBoard from "./DashBoard";
 
 const AuthSideBar = () => {
@@ -15,15 +13,6 @@ const AuthSideBar = () => {
     >
       <Flex>
         <DashBoard />
-      </Flex>
-
-      <Flex p="5%" flexDir="column" w="100%" alignItems="flex-start" mb={4}>
-        <Flex>
-          <Avatar />
-        </Flex>
-        <Flex>
-          <Link to={HOME_ROUTE}>Home</Link>
-        </Flex>
       </Flex>
     </Flex>
   );

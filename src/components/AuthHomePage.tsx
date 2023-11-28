@@ -1,7 +1,8 @@
-
+import { Image } from "@chakra-ui/react"
+import city_a from "../assets/city_a.jpg"
 const AuthHomePage = () => {
   return (
-    <div>This is the AuthHomePage</div>
+    <Image h="147vh" src={city_a}/>
   )
 }
 

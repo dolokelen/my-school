@@ -100,7 +100,7 @@ const AttendanceCreateForm = ({ sectionId }: Props) => {
       const sectionSemesterName = sectionEnrollments[0].semester.name;
       const sectionSchoolName = sectionEnrollments[0].school_year.year;
 
-      return `${sectionCourseName} Sec ${sectionName}, ${sectionSchoolName} Semester ${sectionSemesterName}`;
+      return `${sectionCourseName} Sec ${sectionName}, ${sectionSchoolName} Semester ${sectionSemesterName} Attendance Log`;
     }
     return "";
   };

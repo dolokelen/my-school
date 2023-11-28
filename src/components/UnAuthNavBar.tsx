@@ -8,6 +8,7 @@ import {
 import getUserId from "../Utilities/getUserId";
 import logoutUser from "../Utilities/logoutUser";
 import { useEffect, useState } from "react";
+import ColorModeSwitch from "./ColorModeSwitch";
 
 const UnAuthNavBar = () => {
   const [userId, setUserId] = useState<number | undefined>();
@@ -38,6 +39,7 @@ const UnAuthNavBar = () => {
       ) : (
         <Link to={LOGIN_ROUTE}>Login</Link>
       )}
+      <ColorModeSwitch />
     </Flex>
   );
 };

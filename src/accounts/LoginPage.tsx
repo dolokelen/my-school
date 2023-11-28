@@ -40,7 +40,7 @@ const LoginPage = () => {
   const HTTP_401_RESPONSE =
     "No active account found with the given credentials";
   return (
-    <>
+    <Box w={500} mx={300}>
       <Heading mb={5}>Login Form</Heading>
       {error === HTTP_401_UNAUTHORIZED ? (
         <Heading mb={5} color="red">
@@ -86,7 +86,7 @@ const LoginPage = () => {
           Login
         </Button>
       </form>
-    </>
+    </Box>
   );
 };
 

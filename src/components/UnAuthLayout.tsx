@@ -16,19 +16,19 @@ const UnAuthLayout = ({ children }: Props) => {
         sm: `"nav" "main" "footer"`,
       }}
       templateColumns={{
-        base: `1fr`,
+        base: `1fr 3fr 1fr`,
         sm: `1fr`,
       }}
     >
-      <GridItem area="nav" bg="gray.500">
+      <GridItem area="nav" h="8vh">
         <UnAuthNavBar />
       </GridItem>
 
-      <GridItem area="main" bg="tomato">
+      <GridItem area="main">
         {children ? children : <Outlet />}
       </GridItem>
 
-      <GridItem area="footer" bg="gray" py={10}>
+      <GridItem area="footer" mt={2}>
         <UnAuthFooter />
       </GridItem>
     </Grid>
