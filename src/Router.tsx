@@ -102,8 +102,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     element: <AuthLayout />,
     children: [
-      { path: USER_ROUTE, element: <UsersListPage /> },
-      { path: `${USER_ROUTE}/:pk`, element: <UserDetailPage /> },
+      // { path: USER_ROUTE, element: <UsersListPage /> },
+      // { path: `${USER_ROUTE}/:pk`, element: <UserDetailPage /> },
       { path: PROFILE_ROUTE, element: <ProfilesWrapper /> },
       { path: EMPLOYEE_REGISTER_ROUTE, element: <EmployeeRegistrationForm /> },
       { path: EMPLOYEES_ROUTE, element: <EmployeeListPage /> },

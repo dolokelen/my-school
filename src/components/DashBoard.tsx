@@ -1,4 +1,4 @@
-import { MenuItem, Stack } from "@chakra-ui/react";
+import { Stack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { hasPermission } from "../Utilities/hasPermissions";
 import {
@@ -30,141 +30,92 @@ import {
   STUDENT_REGISTER_ROUTE,
   TEACHERS_ROUTE,
   TEACHER_REGISTER_ROUTE,
-  USER_ROUTE,
 } from "../cacheKeysAndRoutes";
-import DashBoardMenu from "./DashBoardMenu";
 
 const DashBoard = () => {
   return (
-    <Stack w="auto">
-      <DashBoardMenu label="Dashboards">
-        {hasPermission("Can view user") && (
-          <MenuItem>{<Link to={USER_ROUTE}>Users</Link>}</MenuItem>
-        )}
-        {hasPermission("Can view employee") && (
-          <MenuItem>{<Link to={EMPLOYEES_ROUTE}>Employees</Link>}</MenuItem>
-        )}
-        {hasPermission("Can add employee") && (
-          <MenuItem>
-            {
-              <Link to={EMPLOYEE_REGISTER_ROUTE}>
-                Employee Registration Form
-              </Link>
-            }
-          </MenuItem>
-        )}
-        {hasPermission("Can view teacher") && (
-          <MenuItem>{<Link to={TEACHERS_ROUTE}>Teachers</Link>}</MenuItem>
-        )}
-        {hasPermission("Can add teacher") && (
-          <MenuItem>
-            {<Link to={TEACHER_REGISTER_ROUTE}>Teacher Registration Form</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view student") && (
-          <MenuItem>{<Link to={STUDENTS_ROUTE}>Students</Link>}</MenuItem>
-        )}
-        {hasPermission("Can add student") && (
-          <MenuItem>
-            {<Link to={STUDENT_REGISTER_ROUTE}>Student Registration Form</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view group") && (
-          <MenuItem>{<Link to={GROUP_ROUTE}>Group</Link>}</MenuItem>
-        )}
-        <MenuItem>
-          <Link to={PROFILE_ROUTE}>Your Profile</Link>
-        </MenuItem>
-      </DashBoardMenu>
+    <Stack border="1px solid #fff">
+      {/* {hasPermission("Can view user") && <Link to={USER_ROUTE}>Users</Link>} */}
+      {hasPermission("Can view employee") && (
+        <Link to={EMPLOYEES_ROUTE}>Employees</Link>
+      )}
+      {hasPermission("Can add employee") && (
+        <Link to={EMPLOYEE_REGISTER_ROUTE}>Employee Registration Form</Link>
+      )}
+      {hasPermission("Can view teacher") && (
+        <Link to={TEACHERS_ROUTE}>Teachers</Link>
+      )}
+      {hasPermission("Can add teacher") && (
+        <Link to={TEACHER_REGISTER_ROUTE}>Teacher Registration Form</Link>
+      )}
+      {hasPermission("Can view student") && (
+        <Link to={STUDENTS_ROUTE}>Students</Link>
+      )}
+      {hasPermission("Can add student") && (
+        <Link to={STUDENT_REGISTER_ROUTE}>Student Registration Form</Link>
+      )}
+      {hasPermission("Can view group") && <Link to={GROUP_ROUTE}>Groups</Link>}
 
-      <DashBoardMenu label="All Pages">
-        {hasPermission("Can view school year") && (
-          <MenuItem>
-            {<Link to={SCH_YEAR_LIST_ROUTE}>School years</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can add user") && (
-          <MenuItem>
-            {<Link to={REGISTER_ROUTE}>Registration Form</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view course") && (
-          <MenuItem>
-            {<Link to={COURSES_LIST_ROUTE}>All courses</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can add course") && (
-          <MenuItem>
-            {<Link to={COURSES_CREATE_ROUTE}>Course Create From</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view department") && (
-          <MenuItem>
-            {<Link to={DEPARTMENTS_ROUTE}>All Departments</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can add department") && (
-          <MenuItem>
-            {<Link to={DEPARTMENT_CREATE_ROUTE}>Department Create Form</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view semester") && (
-          <MenuItem>{<Link to={SEMESTERS_ROUTE}>All Semesters</Link>}</MenuItem>
-        )}
-        {hasPermission("Can add semester") && (
-          <MenuItem>
-            {<Link to={SEMESTER_CREATE_ROUTE}>Semester Create Form</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view building") && (
-          <MenuItem>{<Link to={BUILDINGS_ROUTE}>Buildings</Link>}</MenuItem>
-        )}
-        {hasPermission("Can add building") && (
-          <MenuItem>
-            {<Link to={BUILDINGS_CREATE_ROUTE}>Building Create Form</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view office") && (
-          <MenuItem>{<Link to={OFFICES_ROUTE}>Offices</Link>}</MenuItem>
-        )}
-        {hasPermission("Can add office") && (
-          <MenuItem>
-            {<Link to={OFFICES_CREATE_ROUTE}>Office Create Form</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view major") && (
-          <MenuItem>{<Link to={MAJORS_ROUTE}>Majors</Link>}</MenuItem>
-        )}
-        {hasPermission("Can add major") && (
-          <MenuItem>
-            {<Link to={MAJORS_CREATE_ROUTE}>Major Create Form</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view class room") && (
-          <MenuItem>{<Link to={CLASSROOMS_ROUTE}>Classrooms</Link>}</MenuItem>
-        )}
-        {hasPermission("Can add class room") && (
-          <MenuItem>
-            {<Link to={CLASSROOMS_CREATE_ROUTE}>Classroom Create Form</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view class time") && (
-          <MenuItem>{<Link to={CLASSTIMES_ROUTE}>Classtimes</Link>}</MenuItem>
-        )}
-        {hasPermission("Can add class time") && (
-          <MenuItem>
-            {<Link to={CLASSTIMES_CREATE_ROUTE}>Classtime Create Form</Link>}
-          </MenuItem>
-        )}
-        {hasPermission("Can view section") && (
-          <MenuItem>{<Link to={SECTIONS_ROUTE}>Sections</Link>}</MenuItem>
-        )}
-        {hasPermission("Can add section") && (
-          <MenuItem>
-            {<Link to={SECTIONS_CREATE_ROUTE}>Section Create Form</Link>}
-          </MenuItem>
-        )}
-      </DashBoardMenu>
+      <Link to={PROFILE_ROUTE}>Profile</Link>
+
+      {hasPermission("Can view school year") && (
+        <Link to={SCH_YEAR_LIST_ROUTE}>School years</Link>
+      )}
+      {hasPermission("Can add user") && (
+        <Link to={REGISTER_ROUTE}>Registration Form</Link>
+      )}
+      {hasPermission("Can view course") && (
+        <Link to={COURSES_LIST_ROUTE}>Courses</Link>
+      )}
+      {hasPermission("Can add course") && (
+        <Link to={COURSES_CREATE_ROUTE}>Course Create From</Link>
+      )}
+      {hasPermission("Can view department") && (
+        <Link to={DEPARTMENTS_ROUTE}>Departments</Link>
+      )}
+      {hasPermission("Can add department") && (
+        <Link to={DEPARTMENT_CREATE_ROUTE}>Department Create Form</Link>
+      )}
+      {hasPermission("Can view semester") && (
+        <Link to={SEMESTERS_ROUTE}>Semesters</Link>
+      )}
+      {hasPermission("Can add semester") && (
+        <Link to={SEMESTER_CREATE_ROUTE}>Semester Create Form</Link>
+      )}
+      {hasPermission("Can view building") && (
+        <Link to={BUILDINGS_ROUTE}>Buildings</Link>
+      )}
+      {hasPermission("Can add building") && (
+        <Link to={BUILDINGS_CREATE_ROUTE}>Building Create Form</Link>
+      )}
+      {hasPermission("Can view office") && (
+        <Link to={OFFICES_ROUTE}>Offices</Link>
+      )}
+      {hasPermission("Can add office") && (
+        <Link to={OFFICES_CREATE_ROUTE}>Office Create Form</Link>
+      )}
+      {hasPermission("Can view major") && <Link to={MAJORS_ROUTE}>Majors</Link>}
+      {hasPermission("Can add major") && (
+        <Link to={MAJORS_CREATE_ROUTE}>Major Create Form</Link>
+      )}
+      {hasPermission("Can view class room") && (
+        <Link to={CLASSROOMS_ROUTE}>Classrooms</Link>
+      )}
+      {hasPermission("Can add class room") && (
+        <Link to={CLASSROOMS_CREATE_ROUTE}>Classroom Create Form</Link>
+      )}
+      {hasPermission("Can view class time") && (
+        <Link to={CLASSTIMES_ROUTE}>Classtimes</Link>
+      )}
+      {hasPermission("Can add class time") && (
+        <Link to={CLASSTIMES_CREATE_ROUTE}>Classtime Create Form</Link>
+      )}
+      {hasPermission("Can view section") && (
+        <Link to={SECTIONS_ROUTE}>Sections</Link>
+      )}
+      {hasPermission("Can add section") && (
+        <Link to={SECTIONS_CREATE_ROUTE}>Section Create Form</Link>
+      )}
     </Stack>
   );
 };

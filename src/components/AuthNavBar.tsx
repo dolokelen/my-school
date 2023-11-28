@@ -12,7 +12,7 @@ const AuthNavBar = () => {
   
   return (
     <>
-      <HStack bg="gray.200" h={9} mb={1} justifyContent="space-evenly">
+      <HStack bg="dark" h={9} mb={1} justifyContent="space-evenly">
         <Link to={authRouteToHomeRoute()}>Website</Link>
         <Link to={AUTH_LAYOUT_ROUTE}>Dashboard</Link>
         <Link to={authRouteToHomeRoute()} onClick={logoutUser}>

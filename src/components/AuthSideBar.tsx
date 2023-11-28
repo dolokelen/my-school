@@ -6,7 +6,7 @@ import DashBoard from "./DashBoard";
 const AuthSideBar = () => {
   return (
     <Flex
-      bg="gray.200"
+      bg="dark"
       pos="sticky"
       h="95vh"
       marginTop="-0.8vh"
