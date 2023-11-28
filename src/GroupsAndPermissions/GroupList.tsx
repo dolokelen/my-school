@@ -21,8 +21,6 @@ import { hasPermission } from "../Utilities/hasPermissions";
 import AccessDenyPage from "../pages/AccessDenyPage";
 
 const GroupListPage = () => {
-  if (!hasPermission("Can view group")) return <AccessDenyPage />;
-  
   const { data: groups, isLoading, error } = useGroups();
 
   const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
@@ -37,6 +35,7 @@ const GroupListPage = () => {
   const canAddGroup = hasPermission("Can add group");
   const canDeleteGroup = hasPermission("Can delete group");
 
+  if (!hasPermission("Can view group")) return <AccessDenyPage />;
   if (error) throw error;
   if (isLoading) return <Spinner />;
 
