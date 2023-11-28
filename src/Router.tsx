@@ -46,6 +46,7 @@ import {
   SECTION_ASSIGNMENT_ROUTE,
   SEMESTERS_ROUTE,
   SEMESTER_CREATE_ROUTE,
+  SEMESTER_GRADE_ROUTE,
   STUDENTS_ROUTE,
   STUDENT_REGISTER_ROUTE,
   TEACHERS_ROUTE,
@@ -93,6 +94,7 @@ import SemesterListPage from "./pages/semesters/SemesterListPage";
 import SectionAssignmentForm from "./pages/teaches/SectionAssignmentForm";
 import UserDetailPage from "./pages/users/UserDetailPage";
 import UsersListPage from "./pages/users/UsersListPage";
+import StudentSemesterGradePage from "./pages/grades/StudentSemesterGradePage";
 
 const router = createBrowserRouter([
   {
@@ -168,6 +170,7 @@ const router = createBrowserRouter([
         path: `${TEACHERS_ROUTE}/:teacherId/${SECTION_ASSIGNMENT_ROUTE}`,
         element: <SectionAssignmentForm />,
       },
+      {path: `${PROFILE_ROUTE}/${SEMESTER_GRADE_ROUTE}`, element: <StudentSemesterGradePage />}
     ],
   },
 

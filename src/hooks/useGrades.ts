@@ -62,3 +62,18 @@ export const useUploadStudentGrade = (
     },
   });
 };
+
+export const useStudentSemesterGrade = (
+  studentId: number,
+  schYearId: number,
+  semesterId: number
+) => {
+  const endPoint = `/school/students/${studentId}/schoolyears/${schYearId}/semesters/${semesterId}/grades/`;
+  const apiClients = apiClient<Grade>(endPoint);
+
+  return useQuery<Grade[], Error>({
+    queryKey: [CACHE_KEY_GRADE, studentId, schYearId, semesterId],
+    queryFn: apiClients.getAll,
+    staleTime: ms("24h"),
+  });
+};

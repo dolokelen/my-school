@@ -1,10 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ms from "ms";
-import { CACHE_KEY_STUDENT } from "../cacheKeysAndRoutes";
+import { useStudentStore } from "../accounts/students/studentStore";
+import {
+  CACHE_KEY_STUDENT,
+  CACHE_KEY_STUDENT_SCH_YRDS,
+} from "../cacheKeysAndRoutes";
 import apiClient, { formDataConfig } from "../services/httpService";
 import { Address } from "./useAddress";
+import { SimpleSemester } from "./useSemesters";
 import { UserProfile } from "./useUsers";
-import { useStudentStore } from "../accounts/students/studentStore";
 
 export interface SimpleStudent {
   user: UserProfile;
@@ -99,5 +103,23 @@ export const useEditStudent = (onUpdate: () => void, studentId: number) => {
         queryKey: [CACHE_KEY_STUDENT],
       });
     },
+  });
+};
+
+interface SchoolYearSemester {
+  id: number;
+  year: string;
+  semesters: SimpleSemester[];
+}
+
+export const useStudentSchoolYears = (studentId: number) => {
+  const apiClients = apiClient<SchoolYearSemester>(
+    `/school/students/${studentId}/school-years/`
+  );
+
+  return useQuery<SchoolYearSemester[], Error>({
+    queryKey: [CACHE_KEY_STUDENT_SCH_YRDS, studentId],
+    queryFn: apiClients.getAll,
+    staleTime: ms("24h"),
   });
 };

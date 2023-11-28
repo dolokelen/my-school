@@ -18,6 +18,7 @@ export const CACHE_KEY_ATTENDANCE = "section";
 export const CACHE_KEY_ENROLLMENT = "enrollment";
 export const CACHE_KEY_TEACH = "teach";
 export const CACHE_KEY_GRADE = "grade";
+export const CACHE_KEY_STUDENT_SCH_YRDS = "studentSchYears";
 
 export const HOME_ROUTE = "/";
 export const LOGIN_ROUTE = "login";
@@ -60,6 +61,7 @@ export const TEACHES_ROUTE = "teaches-list";
 export const TEACHES_CREATE_ROUTE = "teaches-create-form";
 export const SECTION_ASSIGNMENT_ROUTE = "section-assignment-form";
 export const GRADES_ROUTE = "grades-list"
+export const SEMESTER_GRADE_ROUTE = "student-semester-grade"
 
 export const red = "red";
 export const blue = "blue";

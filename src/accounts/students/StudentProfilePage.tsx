@@ -1,23 +1,25 @@
 import {
-    Card,
-    CardBody,
-    Grid,
-    GridItem,
-    Heading,
-    Image,
-    Spinner,
-    Text,
+  Card,
+  CardBody,
+  Grid,
+  GridItem,
+  Heading,
+  Image,
+  Spinner,
+  Text,
 } from "@chakra-ui/react";
 import getUserId from "../../Utilities/getUserId";
 import { useStudentProfile } from "../../hooks/useStudents";
+import SchYearAndSemesterSelectionForm from "../../pages/grades/SchYearAndSemesterSelectionForm";
 
 const StudentProfilePage = () => {
+  const studentId = getUserId()!;
   const {
     data: student,
     isLoading,
     isError,
     error,
-  } = useStudentProfile(getUserId()!);
+  } = useStudentProfile(studentId);
 
   if (isLoading) return <Spinner />;
   if (isError) throw error;
@@ -73,10 +75,9 @@ const StudentProfilePage = () => {
           </Card>
         </GridItem>
         <GridItem area="studentGroups">
-          {/* <UserGroupsPage userPk={studentId} /> */}
+          <SchYearAndSemesterSelectionForm studentId={studentId} />
         </GridItem>
       </Grid>
-      {/* {canChangeStudent && <StudentEditForm student={student} />} */}
     </>
   );
 };
