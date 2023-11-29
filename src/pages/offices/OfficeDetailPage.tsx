@@ -6,10 +6,9 @@ import OfficeEditForm from "./OfficeEditForm";
 import { red } from "../../cacheKeysAndRoutes";
 import { toast } from "react-toastify";
 import AccessDenyPage from "../AccessDenyPage";
+import { deletionErrorMessage } from "../../Utilities/httpErrorStatus";
 
 const OfficeDetailPage = () => {
-  if (!hasPermission("Can view office")) return <AccessDenyPage />;
-
   const { id } = useParams();
   const officeId = parseInt(id!);
   const { data: office, isLoading } = useOffice(officeId);
@@ -20,6 +19,7 @@ const OfficeDetailPage = () => {
 
   const canDeleteOffice = hasPermission("Can delete office");
   const canChangeOffice = hasPermission("Can change office");
+  if (!hasPermission("Can view office")) return <AccessDenyPage />;
 
   const fontSize = "1rem";
   const marginBottom = "1rem";
@@ -49,7 +49,11 @@ const OfficeDetailPage = () => {
               mt="8rem"
               ml="9rem"
               colorScheme={red}
-              onClick={() => mutation.mutate(officeId)}
+              onClick={() => {
+                mutation.mutate(officeId);
+                mutation.isError &&
+                  toast.error(deletionErrorMessage("Office"));
+              }}
             >
               Delete Office
             </Button>
