@@ -98,12 +98,11 @@ const schema = z.object({
 export type EmployeeRegistrationFormData = z.infer<typeof schema>;
 
 const EmployeeRegistrationForm = () => {
-  if (!hasPermission("Can add employee")) return <AccessDenyPage />;
   
   const { data: departments } = useDepartments();
   const { data: employees } = useEmployees();
   const { data: offices } = useOffices();
-
+  
   const {
     register,
     handleSubmit,
@@ -112,35 +111,35 @@ const EmployeeRegistrationForm = () => {
   } = useForm<EmployeeRegistrationFormData>({
     resolver: zodResolver(schema),
   });
-
+  
   const [imageFile, setImageFile] = useState<File | undefined>();
   const [pdfFile, setPdfFile] = useState<File | undefined>();
-
+  
   const onCreate = () => toast.success("Registration Done Successfully!");
   const registration = useRegisterEmployee(onCreate, () => reset());
-
+  
   function handleImageChange(e: React.FormEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
     const selectedFile = target.files[0];
-
+    
     if (selectedFile) setImageFile(selectedFile);
   }
-
+  
   function handlePdfChange(e: React.FormEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
     const selectedFile = target.files[0];
-
+    
     if (selectedFile) setPdfFile(selectedFile);
   }
-
+  
   const onSubmit = (data: EmployeeRegistrationFormData) => {
     const formData = new FormData();
     const user = data.user;
-
+    
     formData.append("user.username", user.username);
     formData.append("user.email", user.email);
     formData.append("user.first_name", user.first_name);
@@ -155,7 +154,7 @@ const EmployeeRegistrationForm = () => {
     formData.append("employeeaddress.city", address.city);
     formData.append("employeeaddress.district", address.district);
     formData.append("employeeaddress.community", address.community);
-
+    
     formData.append("gender", data.gender);
     formData.append("marital_status", data.marital_status);
     formData.append("employment_status", data.employment_status);
@@ -167,17 +166,18 @@ const EmployeeRegistrationForm = () => {
     formData.append("office", data.office.toString());
     formData.append("department", data.department.toString());
     formData.append("supervisor", data.supervisor.toString());
-
+    
     imageFile && formData.append("image", imageFile);
     pdfFile && formData.append("term_of_reference", pdfFile);
-
+    
     if (!formData.get("image") && !formData.get("term_of_reference"))
-      return toast.error("Employee image and TOR are required!");
+    return toast.error("Employee image and TOR are required!");
+  
+  registration.mutate(formData);
+};
 
-    registration.mutate(formData);
-  };
-
-  const marginButton = 3;
+if (!hasPermission("Can add employee")) return <AccessDenyPage />;
+const marginButton = 3;
 
   return (
     <>

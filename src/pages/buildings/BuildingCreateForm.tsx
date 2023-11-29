@@ -53,23 +53,23 @@ const schema = z.object({
 export type BuildingCreateFormData = z.infer<typeof schema>;
 
 const BuildingCreateForm = () => {
-  if (!hasPermission("Can add building")) return <AccessDenyPage />;
   
   const onCreate = () => toast.success("Building Added Successfully!");
-
+  
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<BuildingCreateFormData>({ resolver: zodResolver(schema) });
-
+  
   const mutation = useCreateBuilding(onCreate, () => reset());
   const onSubmit = (data: BuildingCreateFormData) => {
     mutation.mutate(data);
   };
-
+  
   const customErrorMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
+  if (!hasPermission("Can add building")) return <AccessDenyPage />;
   const my = 2;
   const fontSize = "1rem";
 

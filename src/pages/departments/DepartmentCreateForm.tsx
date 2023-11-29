@@ -54,7 +54,6 @@ const schema = z.object({
 export type DepartmentCreateFormData = z.infer<typeof schema>;
 
 const DepartmentCreateForm = () => {
-  if (!hasPermission("Can add department")) return <AccessDenyPage />;
   
   const onCreate = () => toast.success("Department Created Successfully!");
   const {
@@ -64,18 +63,19 @@ const DepartmentCreateForm = () => {
     control,
     formState: { errors },
   } = useForm<DepartmentCreateFormData>({ resolver: zodResolver(schema) });
-
+  
   const { fields, append, remove } = useFieldArray({
     control,
     name: "departmentcontact",
   });
-
+  
   const mutation = useCreateDepartment(onCreate, () => reset());
   const onSubmit = (data: DepartmentCreateFormData) => {
     mutation.mutate(data);
   };
-
+  
   const customErrorMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
+  if (!hasPermission("Can add department")) return <AccessDenyPage />;
   const my = 2;
   const fontSize = "1rem";
 

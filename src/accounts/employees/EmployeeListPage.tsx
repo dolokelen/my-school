@@ -21,14 +21,13 @@ import { useEmployeeStore } from "./employeeStore";
 import { hasPermission } from "../../Utilities/hasPermissions";
 
 const EmployeeListPage = () => {
-  if (!hasPermission("Can view employee")) return <AccessDenyPage />;
-  
   const { data: employees, error, isLoading } = useEmployees();
   const { data: departments } = useDepartments();
   const setSelectedDepartmentId = useEmployeeStore(
     (s) => s.setSelectedDepartmentId
   );
 
+  if (!hasPermission("Can view employee")) return <AccessDenyPage />;
   if (error) {
     const unAuthorized = "Request failed with status code 403";
     if (error.message === unAuthorized) return <AccessDenyPage />;

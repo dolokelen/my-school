@@ -21,30 +21,30 @@ const schema = z.object({
 export type GroupEditFormData = z.infer<typeof schema>;
 
 const GroupEditForm = () => {
-  if (!hasPermission("Can change group")) return <AccessDenyPage />;
-
+  
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
   } = useForm<GroupEditFormData>({ resolver: zodResolver(schema) });
-
+  
   const { id } = useParams();
   const { data } = useGroup(parseInt(id!));
-
+  
   const mutation = useEditGroup(() => toast.success("Updated successfully."));
   const onSubmit = (name: GroupEditFormData) => {
     mutation.mutate({ ...name, id: data?.id });
   };
-
+  
   useEffect(() => {
     if (data) {
       setValue("name", data.name);
     }
   }, [data, setValue]);
-
+  
   const customerErrMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
+  if (!hasPermission("Can change group")) return <AccessDenyPage />;
 
   return (
     <>

@@ -22,23 +22,23 @@ const schema = z.object({
 export type OfficeCreateFormData = z.infer<typeof schema>;
 
 const OfficeCreateForm = () => {
-  if (!hasPermission("Can add office")) return <AccessDenyPage />;
-
-    const { data: buildings } = useBuildings();
+  
+  const { data: buildings } = useBuildings();
   const onCreate = () => toast.success("Office created Successfully!");
-
+  
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<OfficeCreateFormData>({ resolver: zodResolver(schema) });
-
+  
   const mutation = useCreateOffice(onCreate, () => reset());
   const onSubmit = (data: OfficeCreateFormData) => {
     mutation.mutate(data);
   };
-
+  
+  if (!hasPermission("Can add office")) return <AccessDenyPage />;
   const my = 2;
   const fontSize = "1rem";
 

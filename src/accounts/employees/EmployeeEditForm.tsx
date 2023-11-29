@@ -92,12 +92,10 @@ interface Props {
 }
 
 const EmployeeEditForm = ({ employee }: Props) => {
-  if (!hasPermission("Can change employee")) return <AccessDenyPage />;
-
   const { data: departments } = useDepartments();
   const { data: employees } = useEmployees();
   const { data: offices } = useOffices();
-
+  
   const {
     register,
     handleSubmit,
@@ -106,48 +104,48 @@ const EmployeeEditForm = ({ employee }: Props) => {
   } = useForm<EmployeeEditFormData>({
     resolver: zodResolver(schema),
   });
-
+  
   const [imageFile, setImageFile] = useState<File | undefined>();
   const [pdfFile, setPdfFile] = useState<File | undefined>();
-
+  
   const onUpdate = () => toast.success("Update Done Successfully!");
   const mutation = useEditEmployee(onUpdate, employee?.user.id!);
-
+  
   function handleImageChange(e: React.FormEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
     const selectedFile = target.files[0];
-
+    
     if (selectedFile) setImageFile(selectedFile);
   }
-
+  
   function handlePdfChange(e: React.FormEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
     const selectedFile = target.files[0];
-
+    
     if (selectedFile) setPdfFile(selectedFile);
   }
-
+  
   const onSubmit = (data: EmployeeEditFormData) => {
     const formData = new FormData();
     const user = data.user;
-
+    
     formData.append("user.username", user.username);
     formData.append("user.email", user.email);
     formData.append("user.first_name", user.first_name);
     formData.append("user.last_name", user.last_name);
     formData.append("user.is_active", user.is_active.toString());
-
+    
     const address = data.employeeaddress;
     formData.append("employeeaddress.country", address.country);
     formData.append("employeeaddress.county", address.county);
     formData.append("employeeaddress.city", address.city);
     formData.append("employeeaddress.district", address.district);
     formData.append("employeeaddress.community", address.community);
-
+    
     formData.append("gender", data.gender);
     formData.append("marital_status", data.marital_status);
     formData.append("employment_status", data.employment_status);
@@ -159,34 +157,34 @@ const EmployeeEditForm = ({ employee }: Props) => {
     formData.append("office", data.office.toString());
     formData.append("department", data.department.toString());
     if (data.supervisor)
-      formData.append("supervisor", data.supervisor?.toString());
-    else formData.append("supervisor", "0");
+    formData.append("supervisor", data.supervisor?.toString());
+  else formData.append("supervisor", "0");
+  
+  imageFile && formData.append("image", imageFile);
+  pdfFile && formData.append("term_of_reference", pdfFile);
+  
+  mutation.mutate(formData);
+};
 
-    imageFile && formData.append("image", imageFile);
-    pdfFile && formData.append("term_of_reference", pdfFile);
+const marginButton = 3;
 
-    mutation.mutate(formData);
-  };
-
-  const marginButton = 3;
-
-  useEffect(() => {
-    if (employee) {
-      setValue("user.username", employee.user.username);
-      setValue("user.email", employee.user.email);
-      setValue("user.first_name", employee.user.first_name);
-      setValue("user.last_name", employee.user.last_name);
-      setValue("user.is_active", employee.user.is_active);
-
-      setValue("employeeaddress.country", employee.employeeaddress?.country);
-      setValue("employeeaddress.county", employee.employeeaddress?.county);
-      setValue("employeeaddress.city", employee.employeeaddress?.city);
-      setValue("employeeaddress.district", employee.employeeaddress?.district);
-      setValue(
-        "employeeaddress.community",
-        employee.employeeaddress?.community
+useEffect(() => {
+  if (employee) {
+    setValue("user.username", employee.user.username);
+    setValue("user.email", employee.user.email);
+    setValue("user.first_name", employee.user.first_name);
+    setValue("user.last_name", employee.user.last_name);
+    setValue("user.is_active", employee.user.is_active);
+    
+    setValue("employeeaddress.country", employee.employeeaddress?.country);
+    setValue("employeeaddress.county", employee.employeeaddress?.county);
+    setValue("employeeaddress.city", employee.employeeaddress?.city);
+    setValue("employeeaddress.district", employee.employeeaddress?.district);
+    setValue(
+      "employeeaddress.community",
+      employee.employeeaddress?.community
       );
-
+      
       setValue("gender", employee.gender);
       setValue("marital_status", employee.marital_status);
       setValue("employment_status", employee.employment_status);
@@ -201,7 +199,8 @@ const EmployeeEditForm = ({ employee }: Props) => {
       else setValue("supervisor", "0");
     }
   }, [setValue, employee]);
-
+  
+  if (!hasPermission("Can change employee")) return <AccessDenyPage />;
   return (
     <>
       <Heading my={6}>Employee Update Form</Heading>

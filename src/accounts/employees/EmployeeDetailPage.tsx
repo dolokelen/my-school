@@ -16,13 +16,14 @@ import EmployeeEditForm from "./EmployeeEditForm";
 import AccessDenyPage from "../../pages/AccessDenyPage";
 
 const EmployeeDetailPage = () => {
-  if (!hasPermission("Can view employee")) return <AccessDenyPage />;
   
   const { id } = useParams();
   const employeeId = parseInt(id!);
   const { data: employee, isLoading } = useEmployee(employeeId);
   const canChangeEmployee = hasPermission("Can change employee");
-
+  
+  if (!hasPermission("Can view employee")) return <AccessDenyPage />;
+  
   const handleEmployeeTitle = () => {
     if (employee) {
       const female = "Female";

@@ -17,23 +17,24 @@ const schema = z.object({
 
 export type GroupCreateFormData = z.infer<typeof schema>;
 const GroupCreateForm = () => {
-  if (!hasPermission("Can add group")) return <AccessDenyPage />;
   
   const onCreate = () => toast.success("Group Created Successfully!");
-
+  
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<GroupCreateFormData>({ resolver: zodResolver(schema) });
-
+  
   const mutation = useCreateGroup(onCreate, () => reset());
   const onSubmit = (data: GroupCreateFormData) => {
     mutation.mutate(data);
   };
-
+  
   const customErrorMessage = http_400_BAD_REQUEST_CUSTOM_MESSAGE(mutation);
+  
+  if (!hasPermission("Can add group")) return <AccessDenyPage />;
 
   return (
     <>
