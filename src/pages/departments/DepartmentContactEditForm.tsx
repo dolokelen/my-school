@@ -39,9 +39,9 @@ const DepartmentContactEditForm = ({
   } = useForm<DepartmentContactEditFormData>({ resolver: zodResolver(schema) });
 
   const mutation = useEditDepartmentContact(() =>
-    toast.success("Department Contact Updated Successfully!")
+    toast.success("Department Contact Updated Successfully!"),
+    departmentId
   );
-
   const onSubmit = (FormData: DepartmentContactEditFormData) => {
     mutation.mutate({ ...FormData, id: departmentId });
   };

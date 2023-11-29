@@ -96,7 +96,7 @@ const DepartmentDetailPage = () => {
           departmentContacts={department?.departmentcontact}
         />
         <DepartmentContactEditForm
-          selectedDepartmentContact={selectedDepartmentContact}
+          selectedDepartmentContact={department?.departmentcontact[0]}
           departmentId={departmentPk}
         />
 

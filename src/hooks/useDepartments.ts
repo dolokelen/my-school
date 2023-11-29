@@ -123,12 +123,8 @@ export const useEditDepartmentAddress = (onUpdate: () => void) => {
   });
 };
 
-export const useEditDepartmentContact = (onUpdate: () => void) => {
+export const useEditDepartmentContact = (onUpdate: () => void, deptContactId: number) => {
   const queryClient = useQueryClient();
-
-  const departmentContactId = useDepartmentContactStore(
-    (s) => s.departmentContactQuery.departmentContactId
-  );
 
   return useMutation<
     DepartmentContactEditFormData,
@@ -139,7 +135,7 @@ export const useEditDepartmentContact = (onUpdate: () => void) => {
       apiClients.patchNested<DepartmentContactEditFormData>(
         data,
         "contacts",
-        departmentContactId
+        deptContactId
       ),
 
     onSuccess: (existingData, newData) => {

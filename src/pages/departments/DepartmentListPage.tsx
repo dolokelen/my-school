@@ -14,9 +14,9 @@ import { hasPermission } from "../../Utilities/hasPermissions";
 import AccessDenyPage from "../AccessDenyPage";
 
 const DepartmentListPage = () => {
+  const { data: departments } = useDepartments();
   if (!hasPermission("Can view department")) return <AccessDenyPage />;
   
-  const { data: departments } = useDepartments();
   return (
     <TableContainer>
       <Table variant="simple">
