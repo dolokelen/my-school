@@ -140,6 +140,7 @@ const UserGroupsPage = ({ userPk }: Props) => {
         </GridItem>
         <GridItem area="addUserGroup">
           <Button
+            mt={30}
             w="100%"
             colorScheme={teal}
             onClick={handleRemoveGroupsFromUser}
@@ -149,14 +150,19 @@ const UserGroupsPage = ({ userPk }: Props) => {
         </GridItem>
 
         <GridItem area="removeUserGroup">
-          <Button w="100%" colorScheme={blue} onClick={handleAddUserToGroups}>
+          <Button
+            w="100%"
+            mt={30}
+            colorScheme={blue}
+            onClick={handleAddUserToGroups}
+          >
             Add To Group
           </Button>
         </GridItem>
       </Grid>
     );
-    
-  return <></>
+
+  return <></>;
 };
 
 export default UserGroupsPage;

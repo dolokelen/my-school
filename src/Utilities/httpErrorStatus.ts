@@ -25,3 +25,7 @@ export const http_400_BAD_REQUEST_CUSTOM_MESSAGE = <
 export const deletionErrorMessage = (objectName?: string) => {
   return `${objectName} cannot be deleted because it might be associated with other records, consider deleting those records first!`;
 };
+
+export const userRegistraErrMessage = () => {
+  return "Ensure that the image is not larger than 300KB and the file size also. All fields must be valid as well.";
+};

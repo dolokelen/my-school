@@ -26,6 +26,7 @@ import {
 } from "../data";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import AccessDenyPage from "../../pages/AccessDenyPage";
+import { userRegistraErrMessage } from "../../Utilities/httpErrorStatus";
 
 const userSchema = z
   .object({
@@ -465,7 +466,13 @@ const EmployeeRegistrationForm = () => {
             <Text color={red}>{errors.user.confirm_password.message}</Text>
           )}
         </Box>
-        <Button type="submit" colorScheme={blue}>
+        <Button
+          onClick={() =>
+            registration.isError && toast.error(userRegistraErrMessage())
+          }
+          type="submit"
+          colorScheme={blue}
+        >
           Register Employee
         </Button>
       </form>

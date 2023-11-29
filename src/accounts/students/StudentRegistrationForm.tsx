@@ -21,6 +21,7 @@ import { useTeachers } from "../../hooks/useTeachers";
 import { genders, levels, religions } from "../data";
 import { hasPermission } from "../../Utilities/hasPermissions";
 import AccessDenyPage from "../../pages/AccessDenyPage";
+import { userRegistraErrMessage } from "../../Utilities/httpErrorStatus";
 
 const userSchema = z
   .object({
@@ -157,9 +158,7 @@ const StudentRegistrationForm = () => {
   };
 
   const marginButton = 3;
-  const handleMutationError = () => {
-    if (registration.isError) toast.error(registration.error.message);
-  };
+  
   return (
     <>
       <Heading mb={5}>Student Registration Form</Heading>
@@ -410,7 +409,13 @@ const StudentRegistrationForm = () => {
             <Text color={red}>{errors.user.confirm_password.message}</Text>
           )}
         </Box>
-        <Button type="submit" colorScheme={blue} onClick={handleMutationError}>
+        <Button
+          type="submit"
+          colorScheme={blue}
+          onClick={() =>
+            registration.isError && toast.error(userRegistraErrMessage())
+          }
+        >
           Register Student
         </Button>
       </form>
