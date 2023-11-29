@@ -36,7 +36,7 @@ const schema = z.object({
   }),
   office_counts: z
     .number({ invalid_type_error: "The number of offices" })
-    .min(1, { message: "Enter 0 if not available" }),
+    .min(0, { message: "Enter 0 if not available" }),
   classroom_counts: z
     .number({ invalid_type_error: "The number of classrooms" })
     .min(1, { message: "Enter 0 if not available" }),
