@@ -39,10 +39,10 @@ const schema = z.object({
     .min(0, { message: "Enter 0 if not available" }),
   classroom_counts: z
     .number({ invalid_type_error: "The number of classrooms" })
-    .min(1, { message: "Enter 0 if not available" }),
+    .min(0, { message: "Enter 0 if not available" }),
   toilet_counts: z
     .number({ invalid_type_error: "The number of toilet" })
-    .min(1, { message: "Enter 0 if not available" }),
+    .min(0, { message: "Enter 0 if not available" }),
   date_constructed: z.string().min(10, {
     message:
       "Building constructed data is required and must be like: 2023-11-22",
