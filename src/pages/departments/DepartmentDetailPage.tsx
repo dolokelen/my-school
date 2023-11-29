@@ -95,10 +95,12 @@ const DepartmentDetailPage = () => {
         <DepartmentContactListPage
           departmentContacts={department?.departmentcontact}
         />
-        <DepartmentContactEditForm
-          selectedDepartmentContact={department?.departmentcontact[0]}
-          departmentId={departmentPk}
-        />
+        <Box w={500}>
+          <DepartmentContactEditForm
+            selectedDepartmentContact={department?.departmentcontact[0]}
+            departmentId={departmentPk}
+          />
+        </Box>
 
         {canDeleteDepartment && (
           <>
@@ -115,12 +117,6 @@ const DepartmentDetailPage = () => {
             >
               Delete Department
             </Button>
-            {mutation.isError && (
-              <Text w="50ch" color={red}>
-                Department cannot be deleted because it might be associated with
-                other records, consider deleting those records first.
-              </Text>
-            )}
           </>
         )}
       </GridItem>
