@@ -31,10 +31,10 @@ const getApiClient = <T>(studentId: number, childEndPoint: string) => {
 
 const ENROLLMENTS_URL = "enrollments";
 
-export const useEnrollments = (sectionId: number) => {
+export const useEnrollments = (studentId: number) => {
   return useQuery<Enrollment[], Error>({
-    queryKey: [CACHE_KEY_ENROLLMENT, sectionId],
-    queryFn: getApiClient<Enrollment>(sectionId, ENROLLMENTS_URL).getAll,
+    queryKey: [CACHE_KEY_ENROLLMENT, studentId],
+    queryFn: getApiClient<Enrollment>(studentId, ENROLLMENTS_URL).getAll,
     staleTime: ms("24h"),
   });
 };
@@ -49,10 +49,10 @@ export const useSectionEnrollments = (sectionId: number) => {
   });
 };
 
-export const useEnrollmentCourses = (sectionId: number) => {
+export const useEnrollmentCourses = (studentId: number) => {
   return useQuery<CourseAndSection[], Error>({
-    queryKey: [CACHE_KEY_ENROLLMENT, sectionId],
-    queryFn: getApiClient<CourseAndSection>(sectionId, "eligible-courses")
+    queryKey: [studentId],
+    queryFn: getApiClient<CourseAndSection>(studentId, "eligible-courses")
       .getAll,
     staleTime: ms("24h"),
   });
@@ -84,7 +84,7 @@ export const useCreateEnrollment = (
         onCreate();
         reset();
         return queryClient.invalidateQueries({
-          queryKey: [CACHE_KEY_ENROLLMENT],
+          queryKey: [CACHE_KEY_ENROLLMENT, studentId],
         });
       },
     }
@@ -104,7 +104,7 @@ export const useEditEnrollment = (studentId: number, onUpdate: () => void) => {
       onUpdate();
 
       return queryClient.invalidateQueries({
-        queryKey: [CACHE_KEY_ENROLLMENT],
+        queryKey: [CACHE_KEY_ENROLLMENT, studentId],
       });
     },
   });

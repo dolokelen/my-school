@@ -21,7 +21,7 @@ const EnrollmentDetailPage = () => {
 
   if (isLoading) return <Spinner />;
 
-  const fontSize = "1.3rem";
+  const fontSize = "1rem";
   const marginBottom = "1rem";
 
   return (
@@ -35,11 +35,11 @@ const EnrollmentDetailPage = () => {
       justifyContent="space-center"
     >
       <GridItem area="enrollDetail">
-        <Box mb={marginBottom} fontSize="2rem">
+        <Box mb={marginBottom} fontSize="1.5rem">
           {enrollment?.student.user.first_name}{" "}
-          {enrollment?.student.user.first_name} Enrollment
+          {enrollment?.student.user.last_name} Enrollment
         </Box>
-        <Text fontSize="1.5rem">Course Code: {enrollment?.course.code}</Text>
+        <Text>Course Code: {enrollment?.course.code}</Text>
         <Text fontSize={fontSize}>Section: {enrollment?.section.name}</Text>
         <Text fontSize={fontSize}>Semester: {enrollment?.semester.name}</Text>
         <Text fontSize={fontSize}>
@@ -69,7 +69,7 @@ const EnrollmentDetailPage = () => {
       <GridItem area="enrollEditForm">
         {canChangeCourse && (
           <>
-            <Box mb={marginBottom} fontSize="2rem">
+            <Box mb={marginBottom} fontSize="1.5rem">
               Update Form
             </Box>
             <EnrollmentEditForm enrollmentId={enrollId} />

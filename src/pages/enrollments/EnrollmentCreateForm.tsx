@@ -37,7 +37,6 @@ const EnrollmentCreateForm = () => {
   const { data: courses } = useEnrollmentCourses(studentId);
   const { data: student } = useStudent(studentId);
   const { data: semesters } = useSemesters();
-
   const onCreate = () => toast.success("Student Enrolled Successfully!");
   const {
     register,
@@ -71,7 +70,7 @@ const EnrollmentCreateForm = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack marginBottom={2}>
-          <Heading size="md">
+          <Heading size="md" mt={5}>
             {student && student.user.full_name} Enrollment Form
           </Heading>
           <Box my={my}>
@@ -85,6 +84,7 @@ const EnrollmentCreateForm = () => {
                 setSelectedCourseId(id);
               }}
             >
+              <option></option>
               {courses?.map((cos) => (
                 <option value={cos.id} key={cos?.id}>
                   {cos?.code}

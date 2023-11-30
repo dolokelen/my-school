@@ -104,11 +104,11 @@ const EnrollmentEditForm = ({ enrollmentId }: Props) => {
               <option value={enrollment?.course.id}>
                 {enrollment?.course.code}
               </option>
-              {eligibleCourses?.map((cos) => (
+              {eligibleCourses?.map((cos) => ( cos.id !== enrollment?.course.id ?
                 <option value={cos.id} key={cos?.id}>
                   {cos?.code}
                 </option>
-              ))}
+              : cos.id))}
             </Select>
             {errors?.course && <Text color={red}>{errors.course.message}</Text>}
           </Box>
@@ -119,11 +119,11 @@ const EnrollmentEditForm = ({ enrollmentId }: Props) => {
               <option value={enrollment?.section.id}>
                 {enrollment?.section.name}
               </option>
-              {handleSelectedCourseSections()?.map((sec) => (
+              {handleSelectedCourseSections()?.map((sec) => (sec.id !== enrollment?.section.id ?
                 <option value={sec.id} key={sec.id}>
                   {sec.name}
                 </option>
-              ))}
+              : sec.id))}
             </Select>
             {errors?.section && (
               <Text color={red}>{errors.section.message}</Text>

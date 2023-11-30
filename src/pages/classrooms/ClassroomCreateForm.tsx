@@ -62,7 +62,7 @@ const ClassroomCreateForm = () => {
           </Box>
 
           <Box my={my}>
-            <Text fontSize={fontSize}>Number of offices</Text>
+            <Text fontSize={fontSize}>Building</Text>
             <Select {...register("building", { valueAsNumber: true })}>
               {buildings?.map((b) => (
                 <option value={b.id}>{b.name}</option>
