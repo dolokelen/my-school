@@ -93,6 +93,9 @@ const CourseListPage = () => {
                     </Td>
                   </Tr>
                 ))}
+                <Tr>
+                  <Td>Total: {courses?.length}</Td>
+                </Tr>
               </Tbody>
             </Table>
           </OverflowYContainer>

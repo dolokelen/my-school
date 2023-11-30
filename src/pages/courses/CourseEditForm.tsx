@@ -89,24 +89,13 @@ const CourseEditForm = () => {
   if (!hasPermission("Can change course")) return <AccessDenyPage />;
 
   function handleCourseDepartments() {
-    if (course?.departments.length !== 0) {
-      const existingDepartIds = course?.departments.map((dep) => dep.id);
-      const combineDepartmentsIds = existingDepartIds
-        ? [...existingDepartIds, ...selectedDepsIds]
-        : selectedDepsIds;
-      //If user mistakenly adds a department to a course they won't be
-      //able to remove that department from the course IF you return the
-      //combineDepartmentsIds as I was previously doing!
-      //Therefore, you might opt to delete this func and get the selectedDepsIds directly for the state.
-
-      // return combineDepartmentsIds;
-      return selectedDepsIds;
-    }
-    return selectedDepsIds;
+    return selectedDepsIds.length
+      ? selectedDepsIds
+      : course?.departments.map((d) => d.id);
   }
 
   const my = 2;
-  const fontSize = "1.3rem";
+  const fontSize = "1rem";
 
   if (isLoading) return <Spinner />;
 
@@ -118,14 +107,12 @@ const CourseEditForm = () => {
             <Text fontSize={fontSize}>Course code</Text>
             <Input {...register("code")} type="text" size="md" />
             {errors?.code && <Text color="red">{errors.code.message}</Text>}
-            {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
 
           <Box my={my}>
             <Text fontSize={fontSize}>Title</Text>
             <Input {...register("title")} type="text" size="md" />
             {errors?.title && <Text color="red">{errors.title.message}</Text>}
-            {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
 
           <Box my={my}>
@@ -219,7 +206,11 @@ const CourseEditForm = () => {
             </Select>
           </Box>
         </Stack>
-        <Button type="submit" colorScheme={teal}>
+        <Button
+          onClick={() => mutation.isError && toast.error(customErrorMessage)}
+          type="submit"
+          colorScheme={teal}
+        >
           Update Course
         </Button>
       </form>

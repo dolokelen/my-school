@@ -33,7 +33,7 @@ const CourseDetailPage = () => {
 
   if (isLoading) return <Spinner />;
 
-  const fontSize = "1.3rem";
+  const fontSize = "1rem";
   const marginBottom = "1rem";
 
   return (

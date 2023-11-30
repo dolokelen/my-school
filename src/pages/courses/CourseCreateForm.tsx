@@ -75,14 +75,12 @@ const CourseCreateForm = () => {
             <Text fontSize={fontSize}>Course code</Text>
             <Input {...register("code")} type="text" size="md" />
             {errors?.code && <Text color="red">{errors.code.message}</Text>}
-            {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
 
           <Box my={my}>
             <Text fontSize={fontSize}>Title</Text>
             <Input {...register("title")} type="text" size="md" />
             {errors?.title && <Text color="red">{errors.title.message}</Text>}
-            {mutation.isError && <Text color="red">{customErrorMessage}</Text>}
           </Box>
 
           <Box my={my}>
@@ -164,7 +162,9 @@ const CourseCreateForm = () => {
             </Select>
           </Box>
         </Stack>
-        <Button type="submit" colorScheme={blue}>
+        <Button
+        onClick={()=> mutation.isError && toast.error(customErrorMessage)} 
+        type="submit" colorScheme={blue}>
           Create Course
         </Button>
       </form>
