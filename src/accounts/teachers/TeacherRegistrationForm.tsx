@@ -182,9 +182,6 @@ const TeacherRegistrationForm = () => {
   return (
     <>
       <Heading mb={5}>Teacher Registration Form</Heading>
-      {registration.isError && (
-        <Text color="red">{registration.error.message}</Text>
-      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box mb={marginButton}>
           <FormLabel htmlFor="username">Username</FormLabel>

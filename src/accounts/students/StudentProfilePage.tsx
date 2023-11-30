@@ -58,11 +58,11 @@ const StudentProfilePage = () => {
               </Text>
               <Text>Status: {student?.level}</Text>
               <Text>
-                Is Transfer Student: {student?.is_transfer ? "Yes" : "No"}
+                Transfer Student?: {student?.is_transfer ? "Yes" : "No"}
               </Text>
-              <Text>
+              {/* <Text>
                 Account Active? {student?.user.is_active ? "Yes" : "No"}
-              </Text>
+              </Text> */}
               <Text>Department Name: {student?.department.name}</Text>
               <Text>Major: {student?.major.name}</Text>
               <Text>Supervisor: {student?.supervisor.full_name}</Text>

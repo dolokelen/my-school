@@ -1,25 +1,16 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Input,
-  Select,
-  Stack,
-  Text,
-  Textarea,
-} from "@chakra-ui/react";
+import { Box, Button, Input, Select, Stack, Text } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import { hasPermission } from "../../Utilities/hasPermissions";
 import { http_400_BAD_REQUEST_CUSTOM_MESSAGE } from "../../Utilities/httpErrorStatus";
+import { levels } from "../../accounts/data";
 import { blue } from "../../cacheKeysAndRoutes";
 import { useCourses, useCreateCourse } from "../../hooks/useCourses";
 import { useDepartments } from "../../hooks/useDepartments";
-import { levels } from "../../accounts/data";
 import AccessDenyPage from "../AccessDenyPage";
-import { hasPermission } from "../../Utilities/hasPermissions";
-import { useEffect, useState } from "react";
 
 const justToSatisfyTypescript = z.object({});
 const schema = z.object({
@@ -34,13 +25,16 @@ const schema = z.object({
   }),
   price_per_credit: z
     .number({ invalid_type_error: "Price is required." })
-    .max(999, { message: "Course price cannot exceed $999" }).positive(),
-  credit: z.number({ invalid_type_error: "Credit hour is required." }).positive(),
+    .max(999, { message: "Course price cannot exceed $999" })
+    .positive(),
+  credit: z
+    .number({ invalid_type_error: "Credit hour is required." })
+    .positive(),
   additional_fee: z
     .number({
       invalid_type_error: "Enter 0 if no additional fee for this course",
     })
-    .positive(),
+    .min(0),
   departments: z.array(justToSatisfyTypescript).optional(),
   prerequisite: z.string(),
   level: z.string(),

@@ -88,14 +88,11 @@ const schema = z.object({
 });
 
 export type StudentRegistrationFormData = z.infer<typeof schema>;
-
 const StudentRegistrationForm = () => {
-  if (!hasPermission("Can add student")) return <AccessDenyPage />;
-
   const { data: departments } = useDepartments();
   const { data: majors } = useMajors();
   const { data: teachers } = useTeachers();
-
+  
   const {
     register,
     handleSubmit,
@@ -104,25 +101,25 @@ const StudentRegistrationForm = () => {
   } = useForm<StudentRegistrationFormData>({
     resolver: zodResolver(schema),
   });
-
+  
   const [imageFile, setImageFile] = useState<File | undefined>();
-
+  
   const onCreate = () => toast.success("Registration Done Successfully!");
   const registration = useRegisterStudent(onCreate, () => reset());
-
+  
   function handleImageChange(e: React.FormEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement & {
       files: FileList;
     };
     const selectedFile = target.files[0];
-
+    
     if (selectedFile) setImageFile(selectedFile);
   }
-
+  
   const onSubmit = (data: StudentRegistrationFormData) => {
     const formData = new FormData();
     const user = data.user;
-
+    
     formData.append("user.username", user.username);
     formData.append("user.email", user.email);
     formData.append("user.first_name", user.first_name);
@@ -137,7 +134,7 @@ const StudentRegistrationForm = () => {
     formData.append("studentaddress.city", address.city);
     formData.append("studentaddress.district", address.district);
     formData.append("studentaddress.community", address.community);
-
+    
     formData.append("gender", data.gender);
     formData.append("major", data.major.toString());
     formData.append("level", data.level);
@@ -148,15 +145,16 @@ const StudentRegistrationForm = () => {
     formData.append("registration_fee", data.registration_fee.toString());
     formData.append("department", data.department.toString());
     formData.append("supervisor", data.supervisor.toString());
-
+    
     imageFile && formData.append("image", imageFile);
-
+    
     if (!formData.get("image"))
-      return toast.error("Student photo is required!");
+    return toast.error("Student photo is required!");
 
     registration.mutate(formData);
   };
-
+  
+  if (!hasPermission("Can add student")) return <AccessDenyPage />;
   const marginButton = 3;
   
   return (

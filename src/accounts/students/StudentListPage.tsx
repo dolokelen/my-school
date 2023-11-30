@@ -23,24 +23,16 @@ import studentFilters from "./studentFilters";
 import { hasPermission } from "../../Utilities/hasPermissions";
 
 const StudentListPage = () => {
-  if (!hasPermission("Can view student")) return <AccessDenyPage />;
-  
   const { data: students, error, isLoading } = useStudents();
   const { data: departments } = useDepartments();
   const { data: majors } = useMajors();
-
   const { handleDepartmentChange, handleMajorChange, setSearchText } =
-    studentFilters(departments, majors);
-
-  if (error) {
-    const unAuthorized = "Request failed with status code 403";
-    if (error.message === unAuthorized) return <AccessDenyPage />;
-    else throw error;
-  }
-
+  studentFilters(departments, majors);
+  
+  if (!hasPermission("Can view student")) return <AccessDenyPage />;
   if (isLoading)
-    return (
-      <Spinner ml="50%" color="blue.500" thickness="10px" my={60} size="xl" />
+  return (
+<Spinner ml="50%" color="blue.500" thickness="10px" my={60} size="xl" />
     );
 
   return (
@@ -127,6 +119,9 @@ const StudentListPage = () => {
                   </Td>
                 </Tr>
               ))}
+              <Tr>
+                <Td fontWeight="bold">Total: {students?.length}</Td>
+              </Tr>
             </Tbody>
           </Table>
         </OverflowYContainer>

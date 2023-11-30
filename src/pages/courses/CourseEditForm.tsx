@@ -94,8 +94,13 @@ const CourseEditForm = () => {
       const combineDepartmentsIds = existingDepartIds
         ? [...existingDepartIds, ...selectedDepsIds]
         : selectedDepsIds;
+      //If user mistakenly adds a department to a course they won't be
+      //able to remove that department from the course IF you return the
+      //combineDepartmentsIds as I was previously doing!
+      //Therefore, you might opt to delete this func and get the selectedDepsIds directly for the state.
 
-      return combineDepartmentsIds;
+      // return combineDepartmentsIds;
+      return selectedDepsIds;
     }
     return selectedDepsIds;
   }
