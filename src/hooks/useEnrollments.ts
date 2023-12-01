@@ -18,6 +18,8 @@ export interface Enrollment {
   section: SimpleSection;
   school_year: SimpleSchoolYear;
   status: string;
+  price_per_credit: number;
+  credit: number;
   date: string;
 }
 
