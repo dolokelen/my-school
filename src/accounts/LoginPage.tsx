@@ -2,10 +2,12 @@ import {
   Box,
   Button,
   Checkbox,
+  Flex,
   FormLabel,
   Heading,
   Input,
   Text,
+  Link
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -80,11 +82,14 @@ const LoginPage = () => {
         </Box>
 
         <Box mb={marginButton}>
-          <Checkbox defaultChecked>Remeber me</Checkbox>
+          <Checkbox>Remeber me</Checkbox>
         </Box>
+          <Flex>
         <Button type="submit" colorScheme={blue}>
           Login
         </Button>
+       <Link ml={3} mt={2}>Reset Password?</Link> 
+        </Flex>
       </form>
     </Box>
   );

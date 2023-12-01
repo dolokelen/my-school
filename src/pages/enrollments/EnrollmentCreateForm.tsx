@@ -20,10 +20,10 @@ import AccessDenyPage from "../AccessDenyPage";
 
 const schema = z.object({
   student: z.number().optional(),
-  course: z.number({ invalid_type_error: "Course is required" }),
-  section: z.number({ invalid_type_error: "Section is required" }),
-  semester: z.number({ invalid_type_error: "Semester is required" }),
-  school_year: z.number({ invalid_type_error: "School year is required" }),
+  course: z.number({invalid_type_error: "Course is required."}),
+  section: z.number({invalid_type_error: "Section is required."}),
+  semester: z.number({invalid_type_error: "Semester is required."}),
+  school_year: z.number({invalid_type_error: "School year is required."}),
   status: z.string().min(1, { message: "Status is required" }),
 });
 
@@ -60,7 +60,6 @@ const EnrollmentCreateForm = () => {
       const courseSections = courses?.find(
         (cos) => cos.id === selectedCourseId[0]
       )?.sections;
-
       return courseSections;
     }
     return [{ id: 0, name: "" }];
@@ -84,7 +83,7 @@ const EnrollmentCreateForm = () => {
                 setSelectedCourseId(id);
               }}
             >
-              <option></option>
+              <option>Select</option>
               {courses?.map((cos) => (
                 <option value={cos.id} key={cos?.id}>
                   {cos?.code}
@@ -97,6 +96,7 @@ const EnrollmentCreateForm = () => {
           <Box my={my}>
             <Text fontSize={fontSize}>Section</Text>
             <Select {...register("section", { valueAsNumber: true })}>
+            <option>Select</option>
               {handleSelectedCourseSections()?.map((sec) => (
                 <option value={sec.id} key={sec.id}>
                   {sec.name}
@@ -111,6 +111,7 @@ const EnrollmentCreateForm = () => {
           <Box my={my}>
             <Text fontSize={fontSize}>Semester</Text>
             <Select {...register("semester", { valueAsNumber: true })}>
+            <option>Select</option>
               {semesters?.map((sem) =>
                 sem.is_current ? (
                   <option value={sem.id} key={sem.id}>
@@ -129,6 +130,7 @@ const EnrollmentCreateForm = () => {
           <Box my={my}>
             <Text fontSize={fontSize}>School Year</Text>
             <Select {...register("school_year", { valueAsNumber: true })}>
+            <option>Select</option>
               {semesters?.map((sem) =>
                 !sem.is_current ? (
                   sem.id

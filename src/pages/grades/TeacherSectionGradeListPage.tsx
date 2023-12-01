@@ -29,7 +29,8 @@ const TeacherSectionGradeListPage = ({ teacherId, teachId }: Props) => {
       return { sch_yrd, semester, course, section, date };
     }
   };
-
+  
+if (grades?.length)
   return (
     <>
       <Text>School Year: {handleCommonAttr()?.sch_yrd}</Text>
@@ -76,6 +77,7 @@ const TeacherSectionGradeListPage = ({ teacherId, teachId }: Props) => {
       </TableContainer>
     </>
   );
+  return <></>
 };
 
 export default TeacherSectionGradeListPage;

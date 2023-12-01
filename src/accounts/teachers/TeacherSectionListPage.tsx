@@ -25,7 +25,6 @@ interface Props {
 const TeacherSectionListPage = ({ teacher_id }: Props) => {
   const navigate = useNavigate();
   const { data: teacherSections, isLoading } = useTeacherSections(teacher_id);
-
   if (isLoading) return <Spinner />;
 
   return (

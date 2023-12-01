@@ -81,7 +81,7 @@ const TeacherSectionDetailPage = () => {
           <Thead>
             <Tr>
               <Th>Student Name</Th>
-              <Th>Student Email</Th>
+              {/* <Th>Student Email</Th> */}
               <Th>Student Phone</Th>
               <Th>Student Status</Th>
               <Th>Course</Th>
@@ -97,7 +97,7 @@ const TeacherSectionDetailPage = () => {
                   <Td>
                     {sec?.student.user.first_name} {sec?.student.user.last_name}
                   </Td>
-                  <Td>{sec?.student.user.email}</Td>
+                  {/* <Td>{sec?.student.user.email}</Td> */}
                   <Td>{sec?.student.phone}</Td>
                   <Td>{sec?.student.level}</Td>
                   <Td>{sec?.course.code}</Td>
@@ -113,6 +113,9 @@ const TeacherSectionDetailPage = () => {
                 </Td>
               </Tr>
             )}
+            <Tr>
+              <Td fontWeight="bold">Students: {handleSectionStudents()?.length}</Td>
+            </Tr>
           </Tbody>
         </Table>
       </TableContainer>
