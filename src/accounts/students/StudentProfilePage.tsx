@@ -1,4 +1,5 @@
 import {
+  Box,
   Card,
   CardBody,
   Grid,
@@ -11,6 +12,7 @@ import {
 import getUserId from "../../Utilities/getUserId";
 import { useStudentProfile } from "../../hooks/useStudents";
 import SchYearAndSemesterSelectionForm from "../../pages/grades/SchYearAndSemesterSelectionForm";
+import StudentEnrollmentListPage from "./StudentEnrollmentListPage";
 
 const StudentProfilePage = () => {
   const studentId = getUserId()!;
@@ -30,11 +32,11 @@ const StudentProfilePage = () => {
           base: `"studentDetail studentGroups"`,
         }}
         templateColumns={{
-          base: `1fr 1.8fr`,
+          base: `1.2fr 1fr`,
         }}
       >
         <GridItem area="studentDetail">
-          <Card maxW="sm">
+          <Card maxW="sm" mt={12}>
             <CardBody>
               <Image
                 width="100%"
@@ -60,9 +62,6 @@ const StudentProfilePage = () => {
               <Text>
                 Transfer Student?: {student?.is_transfer ? "Yes" : "No"}
               </Text>
-              {/* <Text>
-                Account Active? {student?.user.is_active ? "Yes" : "No"}
-              </Text> */}
               <Text>Department Name: {student?.department.name}</Text>
               <Text>Major: {student?.major.name}</Text>
               <Text>Supervisor: {student?.supervisor.full_name}</Text>
@@ -75,9 +74,12 @@ const StudentProfilePage = () => {
           </Card>
         </GridItem>
         <GridItem area="studentGroups">
-          <SchYearAndSemesterSelectionForm studentId={studentId} />
+          <Box w={300} mt={12}>
+            <SchYearAndSemesterSelectionForm studentId={studentId} />
+          </Box>
         </GridItem>
       </Grid>
+        <StudentEnrollmentListPage />
     </>
   );
 };

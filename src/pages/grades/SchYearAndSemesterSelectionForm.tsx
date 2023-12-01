@@ -24,10 +24,10 @@ const SchYearAndSemesterSelectionForm = ({ studentId }: Props) => {
 
   return (
     <form>
-      <Box my={12}>
+      <Box mb={12}>
         <Text>Select the school year </Text>
         <Select onChange={(e) => setSchYrdId(parseInt(e.target.value))}>
-          <option value={0}>---select---</option>
+          <option value={0}>Select</option>
           {schYearsSemesters?.map((year) => (
             <option key={year.id} value={year.id}>
               {year.year}
@@ -39,7 +39,7 @@ const SchYearAndSemesterSelectionForm = ({ studentId }: Props) => {
       <Box mb={12}>
         <Text>Select the semester </Text>
         <Select onChange={(e) => setSemester(parseInt(e.target.value))}>
-          <option value={0}>---select---</option>
+          <option value={0}>Select</option>
           {schYearsSemesters?.map((year) =>
             year.semesters.map((sem) => (
               <option key={sem.id} value={sem.id}>
