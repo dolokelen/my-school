@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import router from "./Router";
 import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import theme from "./theme";
 
 const client = new QueryClient();
@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <QueryClientProvider client={client}>
         <RouterProvider router={router} />
-        <ReactQueryDevtools />
+        {/* <ReactQueryDevtools /> */}
       </QueryClientProvider>
     </ChakraProvider>
   </React.StrictMode>
