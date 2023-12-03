@@ -13,14 +13,14 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { blue, red } from "../../cacheKeysAndRoutes";
+import { hasPermission } from "../../Utilities/hasPermissions";
+import { red, teal } from "../../cacheKeysAndRoutes";
 import { useDepartments } from "../../hooks/useDepartments";
 import { useMajors } from "../../hooks/useMajors";
 import { Student, useEditStudent } from "../../hooks/useStudents";
 import { useTeachers } from "../../hooks/useTeachers";
-import { genders, levels, religions } from "../data";
-import { hasPermission } from "../../Utilities/hasPermissions";
 import AccessDenyPage from "../../pages/AccessDenyPage";
+import { genders, levels, religions } from "../data";
 
 const userSchema = z.object({
   username: z.string().min(1, { message: "Username is required." }),
@@ -430,8 +430,8 @@ const StudentEditForm = ({ student }: Props) => {
           </Checkbox>
         </Box>
 
-        <Button type="submit" colorScheme={blue} onClick={handleMutationError}>
-          Register Student
+        <Button type="submit" colorScheme={teal} onClick={handleMutationError}>
+          Update Student
         </Button>
       </form>
     </>

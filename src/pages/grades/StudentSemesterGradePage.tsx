@@ -31,13 +31,16 @@ const StudentSemesterGradePage = () => {
       const semester = grade.semester.name;
       const course = grade.course.code;
       const section = grade.section.name;
+      const fullName =
+        grade.student.user.first_name + " " + grade.student.user.first_name;
 
-      return { sch_yrd, semester, course, section };
+      return { sch_yrd, semester, course, section, fullName };
     }
   };
 
   return (
     <>
+      <Text>Student Name: {handleCommonAttr()?.fullName}</Text>
       <Text>School Year: {handleCommonAttr()?.sch_yrd}</Text>
       <Text>Semester: {handleCommonAttr()?.semester}</Text>
       <Text>Course: {handleCommonAttr()?.course}</Text>
@@ -47,7 +50,7 @@ const StudentSemesterGradePage = () => {
         <Table variant="simple">
           <Thead>
             <Tr>
-              <Th>Student</Th>
+              <Th>Course</Th>
               <Th>Attent.</Th>
               <Th>Assign.</Th>
               <Th>Quiz</Th>
@@ -62,9 +65,7 @@ const StudentSemesterGradePage = () => {
           <Tbody>
             {grades?.map((grade) => (
               <Tr key={grade.id}>
-                <Td>
-                  {grade.student.user.first_name} {grade.student.user.last_name}
-                </Td>
+                <Td>{grade.course.code}</Td>
                 <Td>{grade.attendance}</Td>
                 <Td>{grade.assignment}</Td>
                 <Td>{grade.quiz}</Td>

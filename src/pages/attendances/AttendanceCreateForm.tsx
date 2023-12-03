@@ -42,7 +42,7 @@ const AttendanceCreateForm = ({ sectionId }: Props) => {
   const handleCreate = useCreateAttendances(sectionId, attendances, onCreate);
 
   useEffect(() => {
-    if (sectionEnrollments) {
+    if (sectionEnrollments?.length) {
       const enrollments = sectionEnrollments.map((enroll) => ({
         student: enroll.student.user.id,
         course: enroll.course.id,
@@ -94,7 +94,7 @@ const AttendanceCreateForm = ({ sectionId }: Props) => {
   if (!hasPermission("Can add attendance")) return <AccessDenyPage />;
 
   const handleAttancenceTitle = () => {
-    if (sectionEnrollments) {
+    if (sectionEnrollments?.length) {
       const sectionName = sectionEnrollments[0].section.name;
       const sectionCourseName = sectionEnrollments[0].course.code;
       const sectionSemesterName = sectionEnrollments[0].semester.name;
