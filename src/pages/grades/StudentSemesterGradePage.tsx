@@ -10,7 +10,9 @@ import {
   Thead,
   Tr,
   Text,
+  Box,
 } from "@chakra-ui/react";
+import { red } from "../../cacheKeysAndRoutes";
 
 const StudentSemesterGradePage = () => {
   const location = useLocation();
@@ -37,51 +39,52 @@ const StudentSemesterGradePage = () => {
       return { sch_yrd, semester, course, section, fullName };
     }
   };
-
-  return (
-    <>
-      <Text>Student Name: {handleCommonAttr()?.fullName}</Text>
-      <Text>School Year: {handleCommonAttr()?.sch_yrd}</Text>
-      <Text>Semester: {handleCommonAttr()?.semester}</Text>
-      <Text>Course: {handleCommonAttr()?.course}</Text>
-      <Text>Section: {handleCommonAttr()?.section}</Text>
-      <Text>Total Records: {grades?.length}</Text>
-      <TableContainer>
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>Course</Th>
-              <Th>Attent.</Th>
-              <Th>Assign.</Th>
-              <Th>Quiz</Th>
-              <Th>Midterm</Th>
-              <Th>Proj.</Th>
-              <Th>Final</Th>
-              <Th>Total</Th>
-              <Th>Grade Point</Th>
-              <Th>Letter</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {grades?.map((grade) => (
-              <Tr key={grade.id}>
-                <Td>{grade.course.code}</Td>
-                <Td>{grade.attendance}</Td>
-                <Td>{grade.assignment}</Td>
-                <Td>{grade.quiz}</Td>
-                <Td>{grade.midterm}</Td>
-                <Td>{grade.project}</Td>
-                <Td>{grade.final}</Td>
-                <Td>{grade.total_score}</Td>
-                <Td>{grade.grade_point}</Td>
-                <Td>{grade.letter}</Td>
+  if (grades?.length)
+    return (
+      <>
+        <Text>Student Name: {handleCommonAttr()?.fullName}</Text>
+        <Text>School Year: {handleCommonAttr()?.sch_yrd}</Text>
+        <Text>Semester: {handleCommonAttr()?.semester}</Text>
+        <Text>Course: {handleCommonAttr()?.course}</Text>
+        <Text>Section: {handleCommonAttr()?.section}</Text>
+        <Text>Total Records: {grades?.length}</Text>
+        <TableContainer>
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th>Course</Th>
+                <Th>Attent.</Th>
+                <Th>Assign.</Th>
+                <Th>Quiz</Th>
+                <Th>Midterm</Th>
+                <Th>Proj.</Th>
+                <Th>Final</Th>
+                <Th>Total</Th>
+                <Th>Grade Point</Th>
+                <Th>Letter</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </>
-  );
+            </Thead>
+            <Tbody>
+              {grades?.map((grade) => (
+                <Tr key={grade.id}>
+                  <Td>{grade.course.code}</Td>
+                  <Td>{grade.attendance}</Td>
+                  <Td>{grade.assignment}</Td>
+                  <Td>{grade.quiz}</Td>
+                  <Td>{grade.midterm}</Td>
+                  <Td>{grade.project}</Td>
+                  <Td>{grade.final}</Td>
+                  <Td>{grade.total_score}</Td>
+                  <Td>{grade.grade_point}</Td>
+                  <Td>{grade.letter}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </>
+    );
+  return <Box color={red}>There was no record found for your selections</Box>;
 };
 
 export default StudentSemesterGradePage;
